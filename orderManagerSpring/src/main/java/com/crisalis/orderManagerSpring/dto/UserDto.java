@@ -1,20 +1,28 @@
 package com.crisalis.orderManagerSpring.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserDto {
 
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String userName;
+
+    @Size(min=8)
     private String password;
-    private int id_roles;
+
+    private Integer id_roles;
 }
