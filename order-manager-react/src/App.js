@@ -1,12 +1,16 @@
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
-import Login from './components/Login';
+import Navbar from './components/Navbar';
+import RoutesApp from './routes/RoutesApp';
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+      <BrowserRouter>    
+          <div className="App">  
+            <Navbar />
+            <RoutesApp />
+          </div>
+      </BrowserRouter>
   );
 }
 
