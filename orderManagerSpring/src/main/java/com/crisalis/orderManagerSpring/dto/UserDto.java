@@ -14,15 +14,15 @@ import javax.validation.constraints.Size;
 @Builder
 public class UserDto {
 
-    @Email
+    //@Email
     @NotBlank
     private String email;
 
     @NotBlank
-    private String userName;
+    private String username;
 
     @Size(min=8)
     private String password;
 
-    private Integer id_roles;
+    //private Integer id_roles;
 }
