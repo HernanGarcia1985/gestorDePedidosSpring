@@ -1,20 +1,18 @@
 package com.crisalis.orderManagerSpring.model;
 
-
-
 import lombok.*;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Builder
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email"),@UniqueConstraint(columnNames = "userName")})
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -24,35 +22,30 @@ public class User {
     private Integer id;
 
     @Column(name = "email", nullable = false)
-    @Email
+    //@Email(
     @NotBlank
     private String email;
 
     @Column(name = "userName", nullable = false)
     @NotBlank
-    private String userName;
+    private String username;
 
     @Column(name = "password", nullable = false)
     @Size(min=8)
     private String password;
 
-    // Agregar relacion
-    @ManyToOne
-    @JoinColumn(name = "id_roles", nullable = false)
-    // @Column(name = "id_roles")
-    private Role role;
 
+    //@ManyToOne
+    //@JoinColumn(name = "id_roles", nullable = false)
+    @ManyToMany
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
+    private Set<Role> roles = new HashSet<>();
 
-    /*public User() {
-    }
-
-    public User(int id, String email, String userName, String password) {
-        super();
-        this.id = id;
+    public User(String email, String username, String password) {
         this.email = email;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
-        this.role = new Role();
-    }*/
-
+    }
 }
