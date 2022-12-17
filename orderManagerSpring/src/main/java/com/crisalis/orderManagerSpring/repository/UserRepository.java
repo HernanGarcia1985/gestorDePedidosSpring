@@ -7,15 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User findByEmail(String email);
+    public User findByEmail(String email); //Optional
 
-    Boolean existsByEmail(String email);
+    public Optional<User> findByUsername(String username);
+    public Boolean existsByEmail(String email);
 
-    List<User> findAll();
+    public Boolean existsByUsername(String userName);
+
+    public List<User> findAll();
 
     //User saveUser(User user);
 }
