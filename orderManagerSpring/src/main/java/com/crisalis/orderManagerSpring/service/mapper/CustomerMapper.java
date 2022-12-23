@@ -12,9 +12,9 @@ public class CustomerMapper {
                 .businessName(company.getBusinessName())
                 .startOfActivities(company.getStartOfActivities())
                 .cuit(company.getCuit())
-                //.address(company.getAdress())
-                //.phone(company.getPhone())
-                //.email(company.getEmail())
+                .address(company.getAddress())
+                .phone(company.getPhone())
+                .email(company.getEmail())
                 .build();
     }
 
@@ -23,9 +23,9 @@ public class CustomerMapper {
                 .businessName(customerDto.getBusinessName())
                 .startOfActivities(customerDto.getStartOfActivities())
                 .cuit(customerDto.getCuit())
-                //.address(customerDto.getAddress())
-                //.phone(customerDto.getPhone())
-                //.email(customerDto.getEmail())
+                .address(customerDto.getAddress())
+                .phone(customerDto.getPhone())
+                .email(customerDto.getEmail())
                 .build();
     }
 }
