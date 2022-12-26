@@ -2,8 +2,7 @@ package com.crisalis.orderManagerSpring.model;
 
 import lombok.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

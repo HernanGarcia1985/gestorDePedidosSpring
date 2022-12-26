@@ -40,7 +40,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto createCustomer (CustomerDto customerDto){
         String customerType = customerDto.getCustomerType().toLowerCase();
         if (customerType.equals("company")){
-            Company company = customerMapper.companyDtoToEntity(customerDto);
+            Person personInCharge = new Person(customerDto.getName(), customerDto.getLastName(), customerDto.getDni());
+            Person newPersonInCharge = personRepository.save(personInCharge);
+            Company company = customerMapper.companyDtoToEntity(customerDto, newPersonInCharge);
             Company newCompany = companyRepository.save(company);
             return customerMapper.companyToDto(newCompany);
         } else if (customerType.equals("person")) {

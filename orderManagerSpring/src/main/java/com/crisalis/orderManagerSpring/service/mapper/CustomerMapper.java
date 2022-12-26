@@ -17,10 +17,13 @@ public class CustomerMapper {
                 .phone(company.getPhone())
                 .email(company.getEmail())
                 .customerType("company")
+                .name(company.getPerson().getName())
+                .lastName(company.getPerson().getLastName())
+                .dni(company.getPerson().getDni())
                 .build();
     }
 
-    public Company companyDtoToEntity (CustomerDto customerDto){
+    public Company companyDtoToEntity (CustomerDto customerDto, Person person){
         return Company.builder()
                 .businessName(customerDto.getBusinessName())
                 .startOfActivities(customerDto.getStartOfActivities())
@@ -28,6 +31,7 @@ public class CustomerMapper {
                 .address(customerDto.getAddress())
                 .phone(customerDto.getPhone())
                 .email(customerDto.getEmail())
+                .person(person)
                 .build();
     }
 
