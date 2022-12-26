@@ -3,7 +3,9 @@ package com.crisalis.orderManagerSpring.service.impl;
 import com.crisalis.orderManagerSpring.dto.CustomerDto;
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
 import com.crisalis.orderManagerSpring.model.Company;
+import com.crisalis.orderManagerSpring.model.Person;
 import com.crisalis.orderManagerSpring.repository.CompanyRepository;
+import com.crisalis.orderManagerSpring.repository.PersonRepository;
 import com.crisalis.orderManagerSpring.service.CustomerService;
 import com.crisalis.orderManagerSpring.service.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CompanyRepository companyRepository;
+
+    @Autowired
+    PersonRepository personRepository;
 
     @Autowired
     CustomerMapper customerMapper;
@@ -33,8 +38,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto createCustomer (CustomerDto customerDto){
-        Company company = customerMapper.companyDtoToEntity(customerDto);
-        Company newCompany = companyRepository.save(company);
-        return customerMapper.companyToDto(newCompany);
+        String customerType = customerDto.getCustomerType().toLowerCase();
+        if (customerType.equals("company")){
+            Company company = customerMapper.companyDtoToEntity(customerDto);
+            Company newCompany = companyRepository.save(company);
+            return customerMapper.companyToDto(newCompany);
+        } else if (customerType.equals("person")) {
+            Person person = customerMapper.personDtoToEntity(customerDto);
+            Person newPerson = personRepository.save(person);
+            return customerMapper.personToDto(newPerson);
+        }
+        throw new EmptyElementException("Customer type is not specified");
     }
 }

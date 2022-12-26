@@ -25,4 +25,10 @@ public class CustomerDto {
 
     private String customerType;
 
+    private String name;
+
+    private String lastName;
+
+    private String dni;
+
 }
