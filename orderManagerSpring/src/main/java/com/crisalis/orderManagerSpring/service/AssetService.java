@@ -11,4 +11,6 @@ public interface AssetService {
     List<AssetDto> getAllAssets ();
 
     AssetDto getAssetById(Integer id);
+
+    void destroyAsset(Integer id);
 }

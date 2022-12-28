@@ -46,4 +46,11 @@ public class AssetController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(asset);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> destroyAsset(@PathVariable(value = "id") Integer id){
+
+        assetServiceImpl.destroyAsset(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Asset with id "+id+" was deleted successfully");
+    }
 }
