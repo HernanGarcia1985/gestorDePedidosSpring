@@ -74,7 +74,7 @@ public class AssetServiceImpl implements AssetService {
         if(ownService.isPresent()){
             return assetMapper.serviceToDto(ownService.get());
         }
-        return null;
+        throw new NotFoundException("Asset not found");
     }
 
     @Override
