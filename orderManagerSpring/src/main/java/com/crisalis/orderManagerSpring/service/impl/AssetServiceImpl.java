@@ -11,6 +11,10 @@ import com.crisalis.orderManagerSpring.service.mapper.AssetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AssetServiceImpl implements AssetService {
 
@@ -36,5 +40,25 @@ public class AssetServiceImpl implements AssetService {
             return assetMapper.productToDto(newProduct);
         }
         throw new EmptyElementException("Asset type is not specified");
+    }
+
+    @Override
+    public List<AssetDto> getAllAssets(){
+        List<AssetDto> allProducts = productRepository.findAll()
+                .stream()
+                .map(assetMapper::productToDto)
+                .collect(Collectors.toList());
+
+        List<AssetDto> allServices = serviceRepository.findAll()
+                .stream()
+                .map(assetMapper::serviceToDto)
+                .collect(Collectors.toList());
+
+        List<AssetDto> allAssets = new ArrayList<>();
+
+        allAssets.addAll(allProducts);
+        allAssets.addAll(allServices);
+
+        return allAssets;
     }
 }
