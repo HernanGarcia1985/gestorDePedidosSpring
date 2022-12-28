@@ -21,13 +21,9 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> customerById(@PathVariable(value="id") Integer id){
-        try{
-            return ResponseEntity.ok()
-                    .body(customerServiceImpl.find(id));
-        } catch (Exception exception){
-            throw new RuntimeException();
-        }
+    public ResponseEntity<?> getCustomerById(@PathVariable(value="id") Integer id){
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(customerServiceImpl.getCustomerById(id));
     }
 
     @PostMapping(value = "" , consumes = MediaType.APPLICATION_JSON_VALUE)

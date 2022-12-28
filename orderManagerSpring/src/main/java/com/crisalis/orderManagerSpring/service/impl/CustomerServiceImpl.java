@@ -2,6 +2,7 @@ package com.crisalis.orderManagerSpring.service.impl;
 
 import com.crisalis.orderManagerSpring.dto.CustomerDto;
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
+import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
 import com.crisalis.orderManagerSpring.model.Company;
 import com.crisalis.orderManagerSpring.model.Person;
 import com.crisalis.orderManagerSpring.repository.CompanyRepository;
@@ -29,14 +30,16 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerMapper customerMapper;
 
     @Override
-    public CustomerDto find(Integer id) {
-        Optional<Company> result = companyRepository.findById(id);
-        if(result.isPresent()){
-            Company company = result.get();
-            return customerMapper.companyToDto(company);
-        } else {
-            throw new EmptyElementException("Customer not found");
+    public CustomerDto getCustomerById(Integer id) {
+        Optional<Company> company = companyRepository.findById(id);
+        if(company.isPresent()){
+            return customerMapper.companyToDto(company.get());
         }
+        Optional<Person> person = personRepository.findById(id);
+        if(person.isPresent()){
+            return customerMapper.personToDto(person.get());
+        }
+        throw new NotFoundException("Customer not found");
     }
 
     @Override
