@@ -2,6 +2,7 @@ package com.crisalis.orderManagerSpring.exception;
 
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
 import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
+import com.crisalis.orderManagerSpring.exception.custom.NotPosibleDeleteException;
 import com.crisalis.orderManagerSpring.exception.custom.UnauthorizatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,7 +17,8 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-            EmptyElementException.class
+            EmptyElementException.class,
+            NotPosibleDeleteException.class
     })
     @ResponseBody
     public ErrorMessage badRequest(HttpServletRequest request, Exception exception){
