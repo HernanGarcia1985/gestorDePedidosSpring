@@ -36,4 +36,14 @@ public class AssetController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(assetList);
     }
+
+    @GetMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAssetById(@PathVariable(value = "id") Integer id){
+        AssetDto asset = assetServiceImpl.getAssetById(id);
+        if (asset == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No asset found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(asset);
+    }
 }

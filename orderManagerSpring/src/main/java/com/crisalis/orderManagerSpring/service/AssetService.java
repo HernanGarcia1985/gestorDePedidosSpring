@@ -9,4 +9,6 @@ public interface AssetService {
     AssetDto createAsset (AssetDto assetDto);
 
     List<AssetDto> getAllAssets ();
+
+    AssetDto getAssetById(Integer id);
 }

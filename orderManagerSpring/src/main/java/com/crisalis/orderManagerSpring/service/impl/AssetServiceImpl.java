@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +61,18 @@ public class AssetServiceImpl implements AssetService {
         allAssets.addAll(allServices);
 
         return allAssets;
+    }
+
+    @Override
+    public AssetDto getAssetById(Integer id) {
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isPresent()){
+            return assetMapper.productToDto(product.get());
+            }
+        Optional<OwnService> ownService = serviceRepository.findById(id);
+        if(ownService.isPresent()){
+            return assetMapper.serviceToDto(ownService.get());
+        }
+        return null;
     }
 }
