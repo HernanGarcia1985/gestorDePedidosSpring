@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -36,5 +38,15 @@ public class CustomerController {
         } catch (Exception exception){
             throw new RuntimeException();
         }
+    }
+
+    @GetMapping(value = "" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllCustomers(){
+        List<CustomerDto> customerList = customerServiceImpl.getAllCustomers();
+        if (customerList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No customers found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(customerList);
     }
 }

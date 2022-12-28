@@ -11,7 +11,10 @@ import com.crisalis.orderManagerSpring.service.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -51,5 +54,25 @@ public class CustomerServiceImpl implements CustomerService {
             return customerMapper.personToDto(newPerson);
         }
         throw new EmptyElementException("Customer type is not specified");
+    }
+
+    @Override
+    public List<CustomerDto> getAllCustomers() {
+        List<CustomerDto> allCompanies = companyRepository.findAll()
+                .stream()
+                .map(customerMapper::companyToDto)
+                .collect(Collectors.toList());
+
+        List<CustomerDto> allPersons = personRepository.findAll()
+                .stream()
+                .map(customerMapper::personToDto)
+                .collect(Collectors.toList());
+
+        List<CustomerDto> allCustomers = new ArrayList<>();
+
+        allCustomers.addAll(allCompanies);
+        allCustomers.addAll(allPersons);
+
+        return allCustomers;
     }
 }
