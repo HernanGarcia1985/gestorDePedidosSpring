@@ -3,6 +3,7 @@ package com.crisalis.orderManagerSpring.service.impl;
 import com.crisalis.orderManagerSpring.dto.CustomerDto;
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
 import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
+import com.crisalis.orderManagerSpring.exception.custom.NotPosibleDeleteException;
 import com.crisalis.orderManagerSpring.model.Company;
 import com.crisalis.orderManagerSpring.model.Person;
 import com.crisalis.orderManagerSpring.repository.CompanyRepository;
@@ -77,5 +78,39 @@ public class CustomerServiceImpl implements CustomerService {
         allCustomers.addAll(allPersons);
 
         return allCustomers;
+    }
+
+    @Override
+    public void destroyCustomer(Integer id) {
+        if(companyRepository.existsById(id)){
+            companyRepository.deleteById(id);
+            //delete personInCharge if Person does not have service active or address empty
+            //because it not a customer itself
+        } else if (personRepository.existsById(id)) {
+            List<Integer> companiesIds = findCompaniesWithPersonInCharge(id);
+            if(companiesIds.isEmpty()){
+                personRepository.deleteById(id);
+            }
+            //is personInCharge ? Not posible : delete
+            throw new NotPosibleDeleteException("It is not possible to delete Person with id "+id+" because it is the person responsible for the companies "+companiesIds);
+        } else {
+            throw new NotFoundException("Customer with id "+id+" does not exist");
+        }
+    }
+
+    @Override
+    public List<Integer> findCompaniesWithPersonInCharge(Integer id) {
+        List<Company> companies = companyRepository.findAll()
+                .stream()
+                .filter(company -> company.getPerson().getId().equals(id))
+                .collect(Collectors.toList());
+        if(companies.isEmpty()){
+            return null;
+        }
+        List<Integer> companiesIds = companies.stream()
+                .map(company -> company.getId())
+                .collect(Collectors.toList());
+
+        return companiesIds;
     }
 }

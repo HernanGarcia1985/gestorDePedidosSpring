@@ -10,4 +10,8 @@ public interface CustomerService {
     CustomerDto createCustomer (CustomerDto customerDto);
 
     List<CustomerDto> getAllCustomers ();
+
+    void destroyCustomer(Integer id);
+
+    List<Integer> findCompaniesWithPersonInCharge(Integer id);
 }

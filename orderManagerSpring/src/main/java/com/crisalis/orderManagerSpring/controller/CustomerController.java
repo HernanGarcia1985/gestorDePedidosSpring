@@ -45,4 +45,11 @@ public class CustomerController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(customerList);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> destroyCustomer(@PathVariable(value = "id") Integer id){
+
+        customerServiceImpl.destroyCustomer(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Customer with id "+id+" was deleted successfully!");
+    }
 }
