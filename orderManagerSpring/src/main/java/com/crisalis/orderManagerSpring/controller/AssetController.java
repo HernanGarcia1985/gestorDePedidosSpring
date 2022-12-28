@@ -51,6 +51,13 @@ public class AssetController {
     public ResponseEntity<?> destroyAsset(@PathVariable(value = "id") Integer id){
 
         assetServiceImpl.destroyAsset(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Asset with id "+id+" was deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("Asset with id "+id+" was deleted successfully!");
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateAsset(@PathVariable(value = "id") Integer id, @RequestBody AssetDto assetModified){
+
+        assetServiceImpl.updateAssetById(id, assetModified);
+        return ResponseEntity.status(HttpStatus.OK).body("Asset with id "+id+" was updated successfully!");
     }
 }

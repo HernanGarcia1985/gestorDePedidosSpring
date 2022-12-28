@@ -13,4 +13,6 @@ public interface AssetService {
     AssetDto getAssetById(Integer id);
 
     void destroyAsset(Integer id);
+
+    AssetDto updateAssetById(Integer id, AssetDto assetModified);
 }

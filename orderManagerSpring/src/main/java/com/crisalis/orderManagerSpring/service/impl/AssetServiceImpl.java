@@ -1,7 +1,6 @@
 package com.crisalis.orderManagerSpring.service.impl;
 
 import com.crisalis.orderManagerSpring.dto.AssetDto;
-import com.crisalis.orderManagerSpring.exception.custom.CrudException;
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
 import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
 import com.crisalis.orderManagerSpring.model.OwnService;
@@ -11,7 +10,6 @@ import com.crisalis.orderManagerSpring.repository.ServiceRepository;
 import com.crisalis.orderManagerSpring.service.AssetService;
 import com.crisalis.orderManagerSpring.service.mapper.AssetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,6 +83,23 @@ public class AssetServiceImpl implements AssetService {
             productRepository.deleteById(id);
         } else if (serviceRepository.existsById(id)) {
             serviceRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Asset with id "+id+" does not exist");
+        }
+    }
+
+    @Override
+    public AssetDto updateAssetById(Integer id, AssetDto assetModified) {
+        if(productRepository.existsById(id)){
+            Product assetUpdated = assetMapper.productDtoToEntity(assetModified);
+            assetUpdated.setId(id);
+            productRepository.save(assetUpdated);
+            return assetMapper.productToDto(assetUpdated);
+        } else if (serviceRepository.existsById(id)) {
+            OwnService assetUpdated = assetMapper.serviceDtoToEntity(assetModified);
+            assetUpdated.setId(id);
+            serviceRepository.save(assetUpdated);
+            return assetMapper.serviceToDto(assetUpdated);
         } else {
             throw new NotFoundException("Asset with id "+id+" does not exist");
         }
