@@ -23,10 +23,7 @@ const loginUser = async (loginUsername, loginPassword, setShowModal) => {
         setShowModal(true)
 
     } catch (error) {
-        alert("Bad credentials");                 
-      
-
-    console.log(data)
+        alert("Bad credentials");                        
     }
 }
 
