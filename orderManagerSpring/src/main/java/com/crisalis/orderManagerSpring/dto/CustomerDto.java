@@ -25,6 +25,8 @@ public class CustomerDto {
 
     private String customerType;
 
+    private Boolean updatePersonInCharge;
+
     private String name;
 
     private String lastName;

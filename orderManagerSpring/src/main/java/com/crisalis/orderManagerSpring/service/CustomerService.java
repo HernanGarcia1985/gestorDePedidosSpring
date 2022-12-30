@@ -14,4 +14,8 @@ public interface CustomerService {
     void destroyCustomer(Integer id);
 
     List<Integer> findCompaniesWithPersonInCharge(Integer id);
+
+    CustomerDto updateCustomerById(Integer id, CustomerDto customerModified);
+
+    CustomerDto updatePerson(Integer id, CustomerDto personModified);
 }

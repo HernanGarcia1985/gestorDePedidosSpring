@@ -52,4 +52,10 @@ public class CustomerController {
         customerServiceImpl.destroyCustomer(id);
         return ResponseEntity.status(HttpStatus.OK).body("Customer with id "+id+" was deleted successfully!");
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCustomer(@PathVariable(value = "id") Integer id, @RequestBody CustomerDto customerModified){
+        customerServiceImpl.updateCustomerById(id, customerModified);
+        return ResponseEntity.status(HttpStatus.OK).body("Customer with id "+id+" was updated successfully!");
+    }
 }

@@ -113,4 +113,43 @@ public class CustomerServiceImpl implements CustomerService {
 
         return companiesIds;
     }
+
+    @Override
+    public CustomerDto updateCustomerById(Integer id, CustomerDto customerModified) {
+        if(customerModified.getCustomerType().toLowerCase().equals("company")){
+            if(companyRepository.existsById(id)){
+                Person personInCharge = null;
+                if(customerModified.getUpdatePersonInCharge()){
+                    Person personModified = new Person(customerModified.getName(), customerModified.getLastName(), customerModified.getDni());
+                    personInCharge = personRepository.save(personModified);
+                } else {
+                    Optional<Company> company = companyRepository.findById(id);
+                    if (company.isPresent()){
+                        Integer idPerson = company.get().getPerson().getId();
+                        personInCharge = customerMapper.personDtoToEntity(updatePerson(idPerson, customerModified));
+                        //Borrar address. mail y phone
+                        personInCharge.setId(idPerson);
+                    }
+                }
+                Company customerUpdated = customerMapper.companyDtoToEntity(customerModified, personInCharge);
+                customerUpdated.setId(id);
+                companyRepository.save(customerUpdated);
+                return customerMapper.companyToDto(customerUpdated);
+            }
+        } else if (customerModified.getCustomerType().toLowerCase().equals("person")){
+            return updatePerson(id, customerModified);
+        }
+        throw new NotFoundException("Customer with id "+id+" does not exist");
+    }
+
+    @Override
+    public CustomerDto updatePerson(Integer id, CustomerDto personModified) {
+        if (personRepository.existsById(id)) {
+            Person customerUpdated = customerMapper.personDtoToEntity(personModified);
+            customerUpdated.setId(id);
+            personRepository.save(customerUpdated);
+            return customerMapper.personToDto(customerUpdated);
+        }
+        throw new NotFoundException("Person with id "+id+" does not exist");
+    }
 }
