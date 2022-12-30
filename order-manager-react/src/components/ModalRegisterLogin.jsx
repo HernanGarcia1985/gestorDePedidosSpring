@@ -9,7 +9,7 @@ const ModalRegisterLogin = (props) => {
         <div>
             <Modal {...props} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Bienvenido/a</Modal.Title>
+                    <Modal.Title>Welcome</Modal.Title>
                 </Modal.Header>
                 <Modal.Body
                     className="text-success fs-5 bg-dark">
