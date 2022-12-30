@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #49505B;
+  background: linear-gradient(90deg,rgba(154,119,255,1)0%, rgba(2,199,255,1)100%);
 }
 
 code {
@@ -19,7 +21,7 @@ code {
   background-size: 200px auto;
   display: inline-block;
   width: 200px;
-  height: 90px;
+  height: 50px;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
