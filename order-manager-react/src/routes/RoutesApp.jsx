@@ -1,16 +1,21 @@
 import React from 'react'
 import { Route, Routes } from "react-router-dom";
+import CustomerCreate from '../views/CustomerCreate';
 
 import Login from '../views/Login';
 import Register from '../views/Register'
-import Error404 from '../views/Error404'
+import Report from '../views/Report'
+import ReportCreate from '../views/ReportCreate';
 
 const RoutesApp = () => {
     return (
         <Routes>
-            <Route path="/" element={<Register />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/auth/signup" element={<Register />} />
             <Route path="/auth/signin" element={<Login />} />
-            <Route  element={<Error404 />} />                      
+            <Route path='/customers/create' element={<CustomerCreate />} />
+            <Route path='/reports' element={<ReportCreate />} />
+            <Route path='/reports/historicalOrders' element={<Report />} />
         </Routes>    
     )
 }
