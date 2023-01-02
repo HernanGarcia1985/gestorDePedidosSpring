@@ -52,7 +52,7 @@ const Login = () => {
                 </div>
                 <button type="submit"
                     className="btn btn-primary mt-3"
-                    disabled={noValidate}
+                    disabled={noValidate.toString()}
                     onClick={login}>
                     Submit
                 </button>
