@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ModalRegisterLogin from '../components/ModalRegisterLogin'
+import ModalRegister from '../components/ModalRegister'
 
 import createUser from "../utils/createUser"
 
@@ -69,7 +69,7 @@ const Register = () => {
                 </button>
                 <h6 className="mx-3  mt-3 text-center">If you have problems creating a new account please send an email to hernang1985@gmail.com</h6>
             </form>
-            <ModalRegisterLogin
+            <ModalRegister
                 show={showModal}
                 onHide={handleHide}
                 message="Successful registration please log in with your username and password"
