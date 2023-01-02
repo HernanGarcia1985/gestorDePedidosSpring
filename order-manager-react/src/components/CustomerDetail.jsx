@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import updateCustomer from '../utils/updateCustomer'
+import deleteCustomer from '../utils/deleteCustomer'
 
 const CustomerDetail = ({customer}) => {
 
@@ -30,6 +31,12 @@ const CustomerDetail = ({customer}) => {
             alert("Please check the data entered and complete all necessary fields");
         }
         
+    }
+
+    const destroy = (e) => {
+        e.preventDefault()
+        
+        deleteCustomer(id)
     }
 
     const noValidate = (/*customerType, businessName*/) =>{
@@ -125,7 +132,7 @@ const CustomerDetail = ({customer}) => {
                 <Button onClick={update}>Update</Button>
             </Col>
             <Col>
-                <Button >Delete</Button>
+                <Button onClick={destroy}>Delete</Button>
             </Col>
         </Row>
         </Form.Group>
