@@ -19,8 +19,21 @@ const loginUser = async (loginUsername, loginPassword, setShowModal) => {
     try {
         const response = await fetch(url, data)
             .then(response => response.json())
-            .then(data => console.log(data));
-        setShowModal(true)
+            .then(data => {
+                if(data.token){
+                    localStorage.setItem('userLogged',JSON.stringify({
+                        id: data.id,
+                        username: data.username,
+                        roles: data.roles,
+                        token: data.type + ' ' + data.token 
+                    }))
+                    setShowModal(true)
+                } else if (data.exception){
+                    alert(data.message)
+                }
+                console.log(data)        
+            });
+        
 
     } catch (error) {
         alert("Bad credentials");                        
