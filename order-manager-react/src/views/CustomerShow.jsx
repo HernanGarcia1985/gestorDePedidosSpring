@@ -13,7 +13,6 @@ const CustomerShow = () => {
 
     useEffect(() =>{
         obtainCustomer(id, setCustomer, setLoading)
-        console.log('aCustomer: ', customer)
     },[])
 
     return(
