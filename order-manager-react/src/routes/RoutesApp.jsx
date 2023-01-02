@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from "react-router-dom";
 import CustomerCreate from '../views/CustomerCreate';
 import CustomerShow from '../views/CustomerShow';
+import CustomerViewAll from '../views/CustomerViewAll';
 import Login from '../views/Login';
 import Register from '../views/Register'
 import Report from '../views/Report'
@@ -13,6 +14,7 @@ const RoutesApp = () => {
             <Route path="/" element={<Login />} />
             <Route path="/auth/signup" element={<Register />} />
             <Route path="/auth/signin" element={<Login />} />
+            <Route path='/customers/' element={<CustomerViewAll />} />
             <Route path='/customers/create' element={<CustomerCreate />} />
             <Route path='/customers/:id' element={<CustomerShow />} />
             <Route path='/reports' element={<ReportCreate />} />

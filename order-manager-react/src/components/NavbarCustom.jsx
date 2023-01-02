@@ -25,6 +25,7 @@ const NavbarCustom = () => {
                     <NavDropdown.Item href="/customers/create">Create new Customer</NavDropdown.Item>
                     <NavDropdown.Item href="/customers/update">Update a Customer</NavDropdown.Item>
                     <NavDropdown.Item href="/customers/show">View a Customer</NavDropdown.Item>
+                    <NavDropdown.Item href="/customers/">View all Customers</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/customers/delete">Delete a Customer</NavDropdown.Item>
                     </NavDropdown>
