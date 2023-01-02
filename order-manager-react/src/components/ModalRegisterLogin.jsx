@@ -16,7 +16,7 @@ const ModalRegisterLogin = (props) => {
                     {props.message}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/'}>
+                    <Link to='/home'>
                         <Button variant="secondary" onClick={props.onHide}>Close</Button>
                     </Link>
                 </Modal.Footer>
