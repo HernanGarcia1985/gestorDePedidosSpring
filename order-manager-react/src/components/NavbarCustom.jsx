@@ -7,6 +7,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const NavbarCustom = () => {
+
+    const signoff = () => {
+        localStorage.removeItem('userLogged')
+        alert('Logged out successfully.')
+    }
+
     return(
         <Navbar bg="light" expand="lg">
             <Container fluid>
@@ -44,7 +50,7 @@ const NavbarCustom = () => {
                     <NavDropdown title="Users" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/auth/signin">SignIn</NavDropdown.Item>
                     <NavDropdown.Item href="/auth/signup">SignUp</NavDropdown.Item>
-                    <NavDropdown.Item href="/auth/signoff">LogOut</NavDropdown.Item>
+                    <NavDropdown.Item onClick={signoff}>LogOut</NavDropdown.Item>
                     </NavDropdown>    
                 </Nav>
                 <Form className="d-flex">
