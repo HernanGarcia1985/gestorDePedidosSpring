@@ -25,7 +25,14 @@ const Login = () => {
 
     const handleHide = () => {
         setShowModal(false)
+    }
 
+    let userLogged = () => {
+        if(localStorage.getItem('userLogged')){
+            return JSON.parse(localStorage.getItem('userLogged')).username +" with role: "+ JSON.parse(localStorage.getItem('userLogged')).roles
+        } else {
+            return "usuario"
+        }
     }
 
     return (
@@ -37,7 +44,7 @@ const Login = () => {
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
-                        placeholder="Enter your username"
+                        
                         onChange={(e) => { setLoginUsername(e.target.value) }}
                     />
                 </div>
@@ -46,7 +53,7 @@ const Login = () => {
                     <input type="password"
                         className="form-control"
                         id="password"
-                        placeholder="Enter your password"
+                        
                         onChange={(e) => { setLoginPassword(e.target.value) }}
                     />
                 </div>
@@ -65,7 +72,7 @@ const Login = () => {
             <ModalRegisterLogin
                 show={showModal}
                 onHide={handleHide}
-                message="Thank you" />
+                message={userLogged()}/>
 
 
 
