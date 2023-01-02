@@ -90,9 +90,10 @@ public class CustomerServiceImpl implements CustomerService {
             List<Integer> companiesIds = findCompaniesWithPersonInCharge(id);
             if(companiesIds.isEmpty()){
                 personRepository.deleteById(id);
+            } else {
+                throw new NotPosibleDeleteException("It is not possible to delete Person with id "+id+" because it is the person responsible for the companies with ids: "+companiesIds);
             }
             //is personInCharge ? Not posible : delete
-            throw new NotPosibleDeleteException("It is not possible to delete Person with id "+id+" because it is the person responsible for the companies "+companiesIds);
         } else {
             throw new NotFoundException("Customer with id "+id+" does not exist");
         }
@@ -104,9 +105,6 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .filter(company -> company.getPerson().getId().equals(id))
                 .collect(Collectors.toList());
-        if(companies.isEmpty()){
-            return null;
-        }
         List<Integer> companiesIds = companies.stream()
                 .map(company -> company.getId())
                 .collect(Collectors.toList());
