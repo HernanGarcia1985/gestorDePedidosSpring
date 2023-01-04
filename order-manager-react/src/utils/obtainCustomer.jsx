@@ -7,7 +7,7 @@ const obtainCustomer = async (id, setCustomer, setLoading) => {
         //mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
-          }
+        }
     }
 
     try {
@@ -24,7 +24,7 @@ const obtainCustomer = async (id, setCustomer, setLoading) => {
         alert("Customer with id " + id + " not found");                        
     } finally {
         setLoading(false)
-    }
+    } 
 }
 
 export default obtainCustomer
