@@ -10,6 +10,7 @@ public class CustomerMapper {
 
     public CustomerDto companyToDto (Company company){
         return CustomerDto.builder()
+                .id(company.getId())
                 .businessName(company.getBusinessName())
                 .startOfActivities(company.getStartOfActivities())
                 .cuit(company.getCuit())
@@ -25,6 +26,7 @@ public class CustomerMapper {
 
     public Company companyDtoToEntity (CustomerDto customerDto, Person person){
         return Company.builder()
+                .id(customerDto.getId())
                 .businessName(customerDto.getBusinessName())
                 .startOfActivities(customerDto.getStartOfActivities())
                 .cuit(customerDto.getCuit())
@@ -38,6 +40,7 @@ public class CustomerMapper {
 
     public CustomerDto personToDto (Person person){
         return CustomerDto.builder()
+                .id(person.getId())
                 .name(person.getName())
                 .lastName(person.getLastName())
                 .dni(person.getDni())
@@ -50,6 +53,7 @@ public class CustomerMapper {
 
     public Person personDtoToEntity (CustomerDto customerDto){
         return Person.builder()
+                .id(customerDto.getId())
                 .name(customerDto.getName())
                 .lastName(customerDto.getLastName())
                 .dni(customerDto.getDni())

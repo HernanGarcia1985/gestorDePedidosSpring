@@ -25,7 +25,8 @@ public class Company extends Customer {
     private Person person;
 
     @Builder
-    public Company(String address, String phone, String email, String businessName, LocalDate startOfActivities, String cuit, Person person ){
+    public Company(Integer id, String address, String phone, String email, String businessName, LocalDate startOfActivities, String cuit, Person person ){
+        this.id = id;
         this.address = address;
         this.phone = phone;
         this.email = email;
