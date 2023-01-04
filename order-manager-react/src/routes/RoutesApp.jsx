@@ -7,6 +7,7 @@ import Login from '../views/Login';
 import Register from '../views/Register'
 import Report from '../views/Report'
 import ReportCreate from '../views/ReportCreate';
+import CustomerSearch from '../components/CustomerSearch';
 
 const RoutesApp = () => {
     return (
@@ -16,6 +17,7 @@ const RoutesApp = () => {
             <Route path="/auth/signin" element={<Login />} />
             <Route path='/customers/' element={<CustomerViewAll />} />
             <Route path='/customers/create' element={<CustomerCreate />} />
+            <Route path='/customers/show' element={<CustomerSearch />} />
             <Route path='/customers/:id' element={<CustomerShow />} />
             <Route path='/reports' element={<ReportCreate />} />
             <Route path='/reports/historicalOrders' element={<Report />} />
