@@ -17,9 +17,9 @@ const obtainAllCustomer = async (setAllCustomers, setLoading) => {
                 if(data.exception) {
                     alert("Customer with id "  + " not found");
                 } else {
-                    setAllCustomers(data)
+                    let sortedData = data.sort((x,y) => x.id - y.id)
+                    setAllCustomers(sortedData)
                 }    
-            //console.log(data)
         });        
     } catch (error) {
         alert("Customer with id "  + " not found");                        
