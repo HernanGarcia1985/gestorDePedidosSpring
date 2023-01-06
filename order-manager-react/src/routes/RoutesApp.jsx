@@ -9,6 +9,7 @@ import Report from '../views/Report'
 import ReportCreate from '../views/ReportCreate';
 import CustomerSearch from '../components/CustomerSearch';
 import AssetCreate from '../views/AssetCreate';
+import AssetShow from '../views/AssetShow';
 
 const RoutesApp = () => {
     return (
@@ -21,6 +22,7 @@ const RoutesApp = () => {
             <Route path='/customers/show' element={<CustomerSearch />} />
             <Route path='/customers/:id' element={<CustomerShow />} />
             <Route path='/assets/create' element={<AssetCreate />} />
+            <Route path='/assets/:id' element={<AssetShow />} />
             <Route path='/reports' element={<ReportCreate />} />
             <Route path='/reports/historicalOrders' element={<Report />} />
         </Routes>    
