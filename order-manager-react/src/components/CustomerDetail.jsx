@@ -26,7 +26,11 @@ const CustomerDetail = ({customer}) => {
     const update = (e) => {
         e.preventDefault()
         if (!noValidate()){
-            updateCustomer(id, customerType, businessName, startOfActivities, cuit, name, lastName, dni, email, phone, address, updatePersonInCharge)
+            if(window.confirm("Are you sure to update the client? This operation is not reversible.")){
+                updateCustomer(id, customerType, businessName, startOfActivities, cuit, name, lastName, dni, email, phone, address, updatePersonInCharge)
+            } else {
+                console.log("Operation cancelled")
+            }
         } else {
             alert("Please check the data entered and complete all necessary fields");
         }
@@ -35,8 +39,11 @@ const CustomerDetail = ({customer}) => {
 
     const destroy = (e) => {
         e.preventDefault()
-        
-        deleteCustomer(id)
+        if(window.confirm("Are you sure to delete the client? This operation is not reversible.")){
+            deleteCustomer(id)
+        } else {
+            console.log("Operation cancelled")
+        }
     }
 
     const noValidate = (/*customerType, businessName*/) =>{

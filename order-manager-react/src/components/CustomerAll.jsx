@@ -6,10 +6,13 @@ import deleteCustomer from '../utils/deleteCustomer'
 
 function CustomerAll({allCustomers}) {
 
-  const destroy = (e) => {
-    e.preventDefault()
-    console.log(e)
-    //deleteCostumer()
+  const destroy = (id) => {
+    
+    if(window.confirm("Are you sure to delete the client? This operation is not reversible.")){
+      deleteCustomer(id)
+    } else {
+      console.log("Operation cancelled")
+    }
   }
 
     console.log(allCustomers)
@@ -31,7 +34,7 @@ function CustomerAll({allCustomers}) {
       <tbody>
             {allCustomers.map((customer, index) => (
                 <tr key={index}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{customer.customerType.toUpperCase()}</td>
                     <td>{customer.businessName}</td>
                     <td>{customer.cuit}</td>
@@ -39,7 +42,7 @@ function CustomerAll({allCustomers}) {
                     <td>{customer.lastName}</td>
                     <td>{customer.dni}</td>
                     <td><Link to={`/customers/${customer.id}`}><Button className="btn-light"><Pencil></Pencil></Button></Link></td>
-                    <td ><Button key={customer.id} className="btn-danger" onClick={destroy}><Trash3></Trash3></Button></td>
+                    <td ><Button key={customer.id} className="btn-danger" onClick={() => destroy(customer.id)}><Trash3></Trash3></Button></td>
                 </tr>
             ))}
       </tbody>
