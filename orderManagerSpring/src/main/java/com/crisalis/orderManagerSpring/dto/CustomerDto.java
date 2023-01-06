@@ -2,6 +2,7 @@ package com.crisalis.orderManagerSpring.dto;
 
 import lombok.*;
 
+
 import java.time.LocalDate;
 
 @Builder
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
+
+    private Integer id;
 
     private String businessName;
 

@@ -19,7 +19,8 @@ public class Person extends Customer{
     private String dni;
 
     @Builder
-    public Person(String address, String phone, String email, String name, String lastName, String dni) {
+    public Person(Integer id, String address, String phone, String email, String name, String lastName, String dni) {
+        this.id = id;
         this.address = address;
         this.phone = phone;
         this.email = email;
