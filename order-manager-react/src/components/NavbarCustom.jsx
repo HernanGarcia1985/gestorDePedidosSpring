@@ -39,6 +39,7 @@ const NavbarCustom = () => {
                     <NavDropdown.Item href="/assets/create">Create new Asset</NavDropdown.Item>
                     <NavDropdown.Item href="/assets/update">Update an Asset</NavDropdown.Item>
                     <NavDropdown.Item href="/assets/show">View an Asset</NavDropdown.Item>
+                    <NavDropdown.Item href="/assets/">View all Assets</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/assets/delete">Delete an Asset</NavDropdown.Item>
                     </NavDropdown>
