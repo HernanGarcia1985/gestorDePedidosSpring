@@ -17,7 +17,8 @@ public class Product extends Asset{
     private BigDecimal warrantyPercentage;
 
     @Builder
-    public Product(String name, BigDecimal basePrice, BigDecimal warrantyPercentage) {
+    public Product(Integer id, String name, BigDecimal basePrice, BigDecimal warrantyPercentage) {
+        this.id = id;
         this.name = name;
         this.basePrice = basePrice;
         this.warrantyPercentage = warrantyPercentage;

@@ -19,7 +19,8 @@ public class OwnService extends Asset{
     private BigDecimal supportCharge;
 
     @Builder
-    public OwnService(String name, BigDecimal basePrice, Boolean special, BigDecimal supportCharge) {
+    public OwnService(Integer id, String name, BigDecimal basePrice, Boolean special, BigDecimal supportCharge) {
+        this.id = id;
         this.name = name;
         this.basePrice = basePrice;
         this.special = special;
