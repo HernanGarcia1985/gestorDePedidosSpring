@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 @Builder
 public class AssetDto {
 
+    private Integer id;
+
     private String name;
 
     private BigDecimal basePrice;

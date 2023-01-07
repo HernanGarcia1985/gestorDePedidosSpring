@@ -10,6 +10,7 @@ public class AssetMapper {
 
     public AssetDto serviceToDto (OwnService ownService){
         return AssetDto.builder()
+                .id(ownService.getId())
                 .name(ownService.getName())
                 .basePrice(ownService.getBasePrice())
                 .special(ownService.getSpecial())
@@ -20,6 +21,7 @@ public class AssetMapper {
 
     public OwnService serviceDtoToEntity (AssetDto assetDto){
         return OwnService.builder()
+                .id(assetDto.getId())
                 .name(assetDto.getName())
                 .basePrice(assetDto.getBasePrice())
                 .special(assetDto.getSpecial())
@@ -29,6 +31,7 @@ public class AssetMapper {
 
     public AssetDto productToDto (Product product){
         return AssetDto.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .basePrice(product.getBasePrice())
                 .warrantyPercentage(product.getWarrantyPercentage())
@@ -38,6 +41,7 @@ public class AssetMapper {
 
     public Product productDtoToEntity (AssetDto assetDto){
         return Product.builder()
+                .id(assetDto.getId())
                 .name(assetDto.getName())
                 .basePrice(assetDto.getBasePrice())
                 .warrantyPercentage(assetDto.getWarrantyPercentage())
