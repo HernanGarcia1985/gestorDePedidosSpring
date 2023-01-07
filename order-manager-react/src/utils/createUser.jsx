@@ -18,7 +18,7 @@ const createUser = async (registerEmail, registerUsername, registerPassword, set
     }
 
     try {
-        const response = await fetch(url, data)
+        await fetch(url, data)
             .then(response => {console.log(response);
                 response.json()})
             .then(data2 => console.log(data2));

@@ -17,7 +17,7 @@ const loginUser = async (loginUsername, loginPassword, setShowModal) => {
     }
     
     try {
-        const response = await fetch(url, data)
+        await fetch(url, data)
             .then(response => response.json())
             .then(data => {
                 if(data.token){

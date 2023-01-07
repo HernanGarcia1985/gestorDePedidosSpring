@@ -27,7 +27,7 @@ const createCustomer = async (customerType, businessName, startOfActivities, cui
     }
     
     try {
-        const result = await fetch(url, data)
+        await fetch(url, data)
             .then(response => {
                 if(response.ok){
                     return response.json()

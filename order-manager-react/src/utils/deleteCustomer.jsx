@@ -13,11 +13,11 @@ const deleteCustomer = async (id) => {
     }
     
     try {
-        const result = await fetch(url, data)
+        await fetch(url, data)
             .then(response => {
                 if(response.ok){
                     alert("Customer with id "+id+" was deleted successfully!");
-                } else if(response.status==400 || response.status==404){
+                } else if(response.status===400 || response.status===404){
                     return response.json()
                 } 
                 })

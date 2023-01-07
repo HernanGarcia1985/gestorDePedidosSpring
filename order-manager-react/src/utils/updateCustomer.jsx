@@ -28,7 +28,7 @@ const updateCustomer = async (id, customerType, businessName, startOfActivities,
     }
     
     try {
-        const result = await fetch(url, data)
+        await fetch(url, data)
             .then(response => {
                 if(response.ok){
                     return response.json()

@@ -11,7 +11,7 @@ const obtainCustomer = async (id, setCustomer, setLoading) => {
     }
 
     try {
-        const result = await fetch(url, data)
+        await fetch(url, data)
             .then(response => response.json())
             .then(data => {
                 if(data.exception) {
