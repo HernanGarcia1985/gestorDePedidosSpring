@@ -26,7 +26,7 @@ function AssetAll({allAssets}) {
             <th>Base Price</th>
             <th>Special</th>
             <th>Support Charge</th>
-            <th>Warranty Percentage</th>
+            <th>Warranty %</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -38,9 +38,9 @@ function AssetAll({allAssets}) {
                     <td>{asset.assetType.toUpperCase()}</td>
                     <td>{asset.name}</td>
                     <td>{asset.basePrice}</td>
-                    <td>{asset.special}</td>
-                    <td>{asset.supportCharge}</td>
-                    <td>{asset.warrantyPercentage}</td>
+                    <td>{asset.special===true ? 'YES': ''}</td>
+                    <td>{asset.special===true ? asset.supportCharge : ''}</td>
+                    <td>{asset.assetType.toLowerCase() ==='product' ? asset.warrantyPercentage*100 : '' }</td>
                     <td><Link to={`/assets/${asset.id}`}><Button className="btn-light"><Pencil></Pencil></Button></Link></td>
                     <td ><Button key={asset.id} className="btn-danger" onClick={() => destroy(asset.id)}><Trash3></Trash3></Button></td>
                 </tr>
