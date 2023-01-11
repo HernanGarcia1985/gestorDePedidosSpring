@@ -46,19 +46,22 @@ const CustomerForm = () => {
                 </Form.Group>
         <Form.Group className="mb-3">
             <Form.Label>Base Price</Form.Label>
-            <Form.Control placeholder="Base Price" onChange={(e) => { setBasePrice(e.target.value)}}/>
+            <Form.Control type="number" placeholder="Base Price" onChange={(e) => { setBasePrice(e.target.value)}}/>
         </Form.Group>
         <Row>
             <Col md-auto>
                 <Form.Group className="mb-3">
-                    <Form.Label>Special</Form.Label>
-                    <Form.Control placeholder="If this special service?" onChange={(e) => { setSpecial(e.target.value)}}/>
+                    <Form.Label>If this SPECIAL service?</Form.Label>
+                    <Form.Select placeholder="If this special service?" onChange={(e) => { setSpecial(e.target.value)}}>
+                        <option value={true} >YES</option>
+                        <option value={false} >NO</option>
+                    </Form.Select>
                 </Form.Group>
             </Col>
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Support Charge</Form.Label>
-                    <Form.Control placeholder="Support Charge" onChange={(e) => { setSupportCharge(e.target.value)}}/>
+                    <Form.Control type="number" placeholder="Support Charge" onChange={(e) => { setSupportCharge(e.target.value)}}/>
                 </Form.Group>
             </Col>
         </Row>
@@ -66,7 +69,7 @@ const CustomerForm = () => {
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Warranty Percentage</Form.Label>
-                    <Form.Control placeholder="Warranty Percentage" onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
+                    <Form.Control type="number" placeholder="Enter Warranty Percentage in 0.10 format" onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
                 </Form.Group>
             </Col>
         </Row>    

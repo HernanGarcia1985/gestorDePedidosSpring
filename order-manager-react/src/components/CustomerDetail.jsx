@@ -58,7 +58,68 @@ const CustomerDetail = ({customer}) => {
         }
     }
         
-        
+    if(customerType.toLowerCase() ==='person') {
+        return (
+            <>
+            <Container>
+            <Form >
+                <Form.Group className="mb-3">
+                    <Form.Label>Customer Type</Form.Label>
+                    <Form.Control type='text' defaultValue={customerType.toUpperCase()} disabled onLoad={(e) => { setCustomerType(e.target.value)}}></Form.Control>
+                </Form.Group>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control defaultValue={name} onChange={(e) => { setName(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control defaultValue={lastName} onChange={(e) => { setLastName(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>DNI</Form.Label>
+                            <Form.Control type="number" defaultValue={dni} onChange={(e) => { setDni(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control defaultValue={email} onChange={(e) => { setEmail(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control defaultValue={phone} onChange={(e) => { setPhone(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control defaultValue={address} onChange={(e) => { setAddress(e.target.value)}}/>
+                    </Form.Group>
+                <Form.Group className="mb-3">
+                <Row>
+                    <Col>            
+                        <Button onClick={update}>Update</Button>
+                    </Col>
+                    <Col>
+                        <Button onClick={destroy}>Delete</Button>
+                    </Col>
+                </Row>
+                </Form.Group>
+            </Form>
+            </Container>
+            </>
+          );
+    }     
     
   return (
     <>
