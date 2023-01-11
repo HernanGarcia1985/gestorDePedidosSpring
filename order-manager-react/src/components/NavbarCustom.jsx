@@ -9,8 +9,10 @@ import Button from "react-bootstrap/Button";
 const NavbarCustom = () => {
 
     const signoff = () => {
-        localStorage.removeItem('userLogged')
-        alert('Logged out successfully.')
+        if(localStorage.getItem('userLogged')){
+            localStorage.removeItem('userLogged')
+            alert('Logged out successfully.')
+        }    
     }
 
     return(
@@ -49,12 +51,15 @@ const NavbarCustom = () => {
                     <NavDropdown.Item href="/reports/totalDiscount">Total Discount</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Users" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="/auth/signin">SignIn</NavDropdown.Item>
+                    {localStorage.getItem('userLogged') ? null : <NavDropdown.Item href="/auth/signin">SignIn</NavDropdown.Item>}
                     <NavDropdown.Item href="/auth/signup">SignUp</NavDropdown.Item>
-                    <NavDropdown.Item onClick={signoff}>LogOut</NavDropdown.Item>
+                    {localStorage.getItem('userLogged') ? <NavDropdown.Item onClick={signoff}>LogOut</NavDropdown.Item> : null }
                     </NavDropdown>    
                 </Nav>
                 <Form className="d-flex">
+                    <Container>
+                        {localStorage.getItem('userLogged') ? <Form.Label >Welcome {JSON.parse(localStorage.getItem('userLogged')).username}</Form.Label> : null}
+                    </Container>
                 <Form.Control
                     type="search"
                     placeholder="Search"
