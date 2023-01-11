@@ -11,6 +11,7 @@ import CustomerSearch from '../components/CustomerSearch';
 import AssetCreate from '../views/AssetCreate';
 import AssetShow from '../views/AssetShow';
 import AssetViewAll from '../views/AssetViewAll';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const RoutesApp = () => {
     return (
@@ -23,8 +24,16 @@ const RoutesApp = () => {
             <Route path='/customers/show' element={<CustomerSearch />} />
             <Route path='/customers/:id' element={<CustomerShow />} />
             <Route path='/assets/' element={<AssetViewAll />} />
-            <Route path='/assets/create' element={<AssetCreate />} />
-            <Route path='/assets/:id' element={<AssetShow />} />
+            <Route
+                path='/assets/create'
+                element= {
+                    <ProtectedRoute 
+                        user={localStorage.getItem('userLogged')}
+                        redictPath="/auth/signin" >
+                        <AssetCreate />
+                    </ProtectedRoute>
+                } />
+            <Route path='/assets/:id' element={<AssetShow />} />   
             <Route path='/reports' element={<ReportCreate />} />
             <Route path='/reports/historicalOrders' element={<Report />} />
         </Routes>    
