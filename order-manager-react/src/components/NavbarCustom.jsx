@@ -8,8 +8,12 @@ import Button from "react-bootstrap/Button";
 
 const NavbarCustom = () => {
 
+    let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+
+    let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
+
     const signoff = () => {
-        if(localStorage.getItem('userLogged')){
+        if(user){
             localStorage.removeItem('userLogged')
             alert('Logged out successfully.')
         }    
@@ -24,41 +28,36 @@ const NavbarCustom = () => {
                 <Nav className="me-auto">
                     <NavDropdown title="Orders" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/orders/create">Create new Order</NavDropdown.Item>
-                    <NavDropdown.Item href="/orders/update">Update an Order</NavDropdown.Item>
                     <NavDropdown.Item href="/orders/show">View an Order</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="/orders/delete">Delete an Order</NavDropdown.Item>
+                    <NavDropdown.Item href="/orders/">View all Orders</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Customers" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/customers/create">Create new Customer</NavDropdown.Item>
-                    <NavDropdown.Item href="/customers/update">Update a Customer</NavDropdown.Item>
                     <NavDropdown.Item href="/customers/show">View a Customer</NavDropdown.Item>
-                    <NavDropdown.Item href="/customers/">View all Customers</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="/customers/delete">Delete a Customer</NavDropdown.Item>
+                    <NavDropdown.Item href="/customers/">View all Customers</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Assets" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/assets/create">Create new Asset</NavDropdown.Item>
-                    <NavDropdown.Item href="/assets/update">Update an Asset</NavDropdown.Item>
                     <NavDropdown.Item href="/assets/show">View an Asset</NavDropdown.Item>
-                    <NavDropdown.Item href="/assets/">View all Assets</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="/assets/delete">Delete an Asset</NavDropdown.Item>
+                    <NavDropdown.Item href="/assets/">View all Assets</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Reports" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="/reports/historicalOrders">Historical Orders</NavDropdown.Item>
-                    <NavDropdown.Item href="/reports/biggestDiscount">Biggest Discount</NavDropdown.Item>
-                    <NavDropdown.Item href="/reports/totalDiscount">Total Discount</NavDropdown.Item>
+                        {admin ? <NavDropdown.Item href="/reports/historicalOrders">Historical Orders</NavDropdown.Item> : null}
+                        {admin ? <NavDropdown.Item href="/reports/biggestDiscount">Biggest Discount</NavDropdown.Item> : null}
+                        {admin ? <NavDropdown.Item href="/reports/totalDiscount">Total Discount</NavDropdown.Item> : null}
                     </NavDropdown>
                     <NavDropdown title="Users" id="basic-nav-dropdown">
-                    {localStorage.getItem('userLogged') ? null : <NavDropdown.Item href="/auth/signin">SignIn</NavDropdown.Item>}
+                    {user ? null : <NavDropdown.Item href="/auth/signin">SignIn</NavDropdown.Item>}
                     <NavDropdown.Item href="/auth/signup">SignUp</NavDropdown.Item>
-                    {localStorage.getItem('userLogged') ? <NavDropdown.Item onClick={signoff}>LogOut</NavDropdown.Item> : null }
+                    {user ? <NavDropdown.Item onClick={signoff}>LogOut</NavDropdown.Item> : null }
                     </NavDropdown>    
                 </Nav>
                 <Form className="d-flex">
                     <Container>
-                        {localStorage.getItem('userLogged') ? <Form.Label >Welcome {JSON.parse(localStorage.getItem('userLogged')).username}</Form.Label> : null}
+                        {user ? <Form.Label >Welcome {JSON.parse(user).username}</Form.Label> : null}
                     </Container>
                 <Form.Control
                     type="search"
