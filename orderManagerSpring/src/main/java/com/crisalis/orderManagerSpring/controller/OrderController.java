@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/orders")
-public class OrderAssetDetailController {
+public class OrderController {
 
     @Autowired
     OrderAssetDetailServiceImpl orderAssetDetailServiceImpl;
