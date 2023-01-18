@@ -21,6 +21,18 @@ public class OrderAssetDetail {
     private Integer id;
 
     private Double quantity;
+    /*
+    private BigDecimal unitItemPrice;
+
+    private BigDecimal totalItemPrice;
+
+    private Integer yearsWarranty;
+
+    private BigDecimal warrantyPercentage;
+
+    private BigDecimal totalWarrantyPrice;
+
+    private BigDecimal supportCharge;*/
 
     @ManyToOne(
             fetch = FetchType.EAGER
@@ -35,4 +47,11 @@ public class OrderAssetDetail {
     )
     @JoinColumn(name = "id_ownService")
     private OwnService ownService;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name="id_order")
+    private Order order;
 }
