@@ -40,11 +40,18 @@ public class Order {
     private Boolean status;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
-            optional = false
+            fetch = FetchType.EAGER
+            //optional = false
     )
-    @JoinColumn(name = "id_customer")
-    private Customer customer;
+    @JoinColumn(name = "id_company")
+    private Company company;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER
+            //optional = false
+    )
+    @JoinColumn(name = "id_person")
+    private Person person;
 
     /*@OneToMany(
             fetch = FetchType.EAGER,

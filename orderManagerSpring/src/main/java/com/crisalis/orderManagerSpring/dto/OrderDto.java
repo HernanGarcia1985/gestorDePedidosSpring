@@ -17,5 +17,5 @@ public class OrderDto {
 
     private Integer idCustomer;
 
-    private List<OrderAssetDetailDto> oderDetail = new ArrayList();
+    private List<OrderAssetDetailDto> orderDetail = new ArrayList();
 }
