@@ -84,4 +84,16 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
         return orderDetailDtoList;
     }
+
+    @Override
+    public void annulOrderById(Integer id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if(order.isPresent()){
+            Order annulOrder = order.get();
+            annulOrder.setStatus(false);
+            orderRepository.save(annulOrder);
+        } else {
+            throw new NotFoundException("Order with id "+id+" does not exist");
+        }
+    }
 }

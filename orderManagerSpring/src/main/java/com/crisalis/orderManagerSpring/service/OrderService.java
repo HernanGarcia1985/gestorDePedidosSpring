@@ -12,4 +12,6 @@ public interface OrderService {
     OrderDetailDto getOrderById(Integer id);
 
     List<OrderDetailDto> getAllOrders ();
+
+    void annulOrderById(Integer id);
 }

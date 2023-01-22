@@ -37,4 +37,10 @@ public class OrderController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(orderDetailDtoList);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> annulOrder(@PathVariable(value = "id") Integer id){
+        orderServiceImpl.annulOrderById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Order with id "+id+" was annulled successfully!");
+    }
 }
