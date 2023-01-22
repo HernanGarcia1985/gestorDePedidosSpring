@@ -1,8 +1,8 @@
 package com.crisalis.orderManagerSpring.dto;
 
+import com.crisalis.orderManagerSpring.model.OrderAssetDetail;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderDto {
+public class OrderCreateDto {
 
     private Integer id;
 
     private Integer idCustomer;
 
-    private List<OrderAssetDetailDto> orderDetail = new ArrayList();
+    private List<OrderAssetDetail> orderDetailList = new ArrayList();
 }
