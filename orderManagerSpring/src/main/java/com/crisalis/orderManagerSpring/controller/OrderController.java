@@ -1,12 +1,15 @@
 package com.crisalis.orderManagerSpring.controller;
 
 import com.crisalis.orderManagerSpring.dto.OrderCreateDto;
+import com.crisalis.orderManagerSpring.dto.OrderDetailDto;
 import com.crisalis.orderManagerSpring.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -23,5 +26,15 @@ public class OrderController {
     @GetMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getOrderById(@PathVariable(value = "id") Integer id){
         return ResponseEntity.status(HttpStatus.OK).body(orderServiceImpl.getOrderById(id));
+    }
+
+    @GetMapping(value = "" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllOrders(){
+        List<OrderDetailDto> orderDetailDtoList = orderServiceImpl.getAllOrders();
+        if (orderDetailDtoList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No orders found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(orderDetailDtoList);
     }
 }

@@ -72,4 +72,16 @@ public class OrderServiceImpl implements OrderService {
         }
         throw new NotFoundException("Order not found");
     }
+
+    @Override
+    public List<OrderDetailDto> getAllOrders() {
+        List<Order> allOrders = orderRepository.findAll();
+        if(allOrders.isEmpty()){
+            throw new NotFoundException("No orders found");
+        }
+        List<OrderDetailDto> orderDetailDtoList = allOrders.stream()
+                .map(order -> orderMapper.orderDetailToDto(order, null))
+                .collect(Collectors.toList());
+        return orderDetailDtoList;
+    }
 }
