@@ -2,9 +2,10 @@ package com.crisalis.orderManagerSpring.model;
 
 import lombok.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +18,18 @@ public class OwnService extends Asset{
     private Boolean special;
 
     private BigDecimal supportCharge;
+
+    @ManyToMany
+    @JoinTable(
+            name = "assets_taxes",
+            joinColumns = {
+                    @JoinColumn(name = "id_assets")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "id_taxes")
+            }
+    )
+    private List<Tax> taxList = new ArrayList<>();
 
     @Builder
     public OwnService(Integer id, String name, BigDecimal basePrice, Boolean special, BigDecimal supportCharge) {
