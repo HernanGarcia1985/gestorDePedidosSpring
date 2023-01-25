@@ -15,14 +15,14 @@ const obtainAllCustomer = async (setAllCustomers, setLoading) => {
             .then(response => response.json())
             .then(data => {
                 if(data.exception) {
-                    alert("Customer with id "  + " not found");
+                    alert("No Customers found");
                 } else {
                     let sortedData = data.sort((x,y) => x.id - y.id)
                     setAllCustomers(sortedData)
                 }    
         });        
     } catch (error) {
-        alert("Customer with id "  + " not found");                        
+        alert("No Customers found");                        
     } finally {
         setLoading(false)
     }
