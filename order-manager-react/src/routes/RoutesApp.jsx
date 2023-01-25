@@ -12,6 +12,9 @@ import AssetCreate from '../views/AssetCreate';
 import AssetShow from '../views/AssetShow';
 import AssetViewAll from '../views/AssetViewAll';
 import ProtectedRoute from '../components/ProtectedRoute';
+import TaxViewAll from '../views/TaxViewAll';
+import TaxShow from '../views/TaxShow';
+import TaxCreate from '../components/TaxCreateForm';
 
 const RoutesApp = () => {
     return (
@@ -36,6 +39,17 @@ const RoutesApp = () => {
             <Route path='/assets/:id' element={<AssetShow />} />   
             <Route path='/reports' element={<ReportCreate />} />
             <Route path='/reports/historicalOrders' element={<Report />} />
+            <Route
+                path='/taxes/create'
+                element= {
+                    <ProtectedRoute 
+                        user={localStorage.getItem('userLogged')}
+                        redictPath="/auth/signin" >
+                        <TaxCreate />
+                    </ProtectedRoute>
+                } />
+            <Route path='/taxes/:id' element={<TaxShow />} /> 
+            <Route path='/taxes/' element={<TaxViewAll />} />
         </Routes>    
     )
 }

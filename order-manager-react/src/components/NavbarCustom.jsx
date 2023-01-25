@@ -33,7 +33,7 @@ const NavbarCustom = () => {
                     <NavDropdown.Item href="/orders/">View all Orders</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Customers" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="/customers/create">Create new Customer</NavDropdown.Item>
+                    <NavDropdown.Item href="/customers/create">Create a Customer</NavDropdown.Item>
                     <NavDropdown.Item href="/customers/show">View a Customer</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/customers/">View all Customers</NavDropdown.Item>
@@ -43,6 +43,12 @@ const NavbarCustom = () => {
                     <NavDropdown.Item href="/assets/show">View an Asset</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/assets/">View all Assets</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown title="Taxes" id="basic-nav-dropdown">
+                        {admin ? <NavDropdown.Item href="/taxes/create">Create new Tax</NavDropdown.Item> : null}
+                        {admin ? <NavDropdown.Item href="/taxes/show">View a Tax</NavDropdown.Item> : null}
+                    <NavDropdown.Divider />
+                        <NavDropdown.Item href="/taxes/">View all Taxes</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Reports" id="basic-nav-dropdown">
                         {admin ? <NavDropdown.Item href="/reports/historicalOrders">Historical Orders</NavDropdown.Item> : null}
