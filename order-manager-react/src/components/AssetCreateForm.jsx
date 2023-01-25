@@ -3,8 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import createAsset from '../utils/createAsset';
+import { PlusSquare, DashSquare } from "react-bootstrap-icons";
 
-const CustomerForm = () => {
+const AssetCreateForm = ({allTaxes}) => {
 
     const [assetType, setAssetType] = useState('')
     const [name, setName] = useState('')
@@ -12,8 +13,51 @@ const CustomerForm = () => {
     const [special, setSpecial] = useState('')
     const [supportCharge, setSupportCharge] = useState('')
     const [warrantyPercentage, setWarrantyPercentage] = useState('')
+    const [assetTaxes, setAssetTaxes] = useState()
+    const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
+    
+    let arrayTax = [];
+    let taxSelected = '1';
+    let position;
+
+    function addTax () {
+        console.log('ingreso: ',taxSelected);
+        if(assetTaxes){
+            if(assetTaxes.indexOf(taxSelected) === -1){
+                arrayTax = assetTaxes;
+                arrayTax.push(taxSelected)
+                console.log('se agregó')
+                setAssetTaxes(arrayTax)
+                setPrueba(!prueba) //Para que actualice los tax asociados automaticamente!
+            } else {
+                console.log("repetido")
+            }
+        } else {
+            console.log("primera vez")
+            arrayTax.push(taxSelected)
+            setAssetTaxes(arrayTax)
+        }
+    }
+
+    function removeTax () {
+        console.log('ingreso: ',taxSelected);
+        if(assetTaxes){
+            position = assetTaxes.indexOf(taxSelected);
+            if(position !== -1){
+                arrayTax = assetTaxes;
+                arrayTax = arrayTax.filter(tax => tax !== arrayTax[position])
+                console.log('se eliminó')
+                setAssetTaxes(arrayTax)
+            } else {
+                console.log("no estaba en la lista")
+            }
+        } else {
+            console.log("no hay elementos a eliminar")
+        }
+    }
 
      const create = (e) => {
+        console.log('taxes: ',assetTaxes);
         e.preventDefault()
         if (!noValidate()){
             createAsset(assetType, name, basePrice, special, supportCharge, warrantyPercentage)
@@ -49,7 +93,7 @@ const CustomerForm = () => {
             <Form.Control type="number" placeholder="Base Price" onChange={(e) => { setBasePrice(e.target.value)}}/>
         </Form.Group>
         <Row>
-            <Col md-auto>
+            <Col className="md-auto">
                 <Form.Group className="mb-3">
                     <Form.Label>If this SPECIAL service?</Form.Label>
                     <Form.Select placeholder="If this special service?" onChange={(e) => { setSpecial(e.target.value)}}>
@@ -72,7 +116,29 @@ const CustomerForm = () => {
                     <Form.Control type="number" placeholder="Enter Warranty Percentage in 0.10 format" onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
                 </Form.Group>
             </Col>
-        </Row>    
+        </Row>
+        <Form.Group className="mb-3">
+            <Form.Label>Associate Taxes</Form.Label>
+            {assetTaxes ? allTaxes.map((tax,index) => (
+                assetTaxes.includes(tax.id.toString()) ? <Form.Control disabled key={index} defaultValue={tax.name}/> : null
+            )) : null}
+        </Form.Group>
+        <Form.Group className="mb-3">
+            <Form.Label>All Taxes</Form.Label>
+            <Form.Select onChange={(e) => {taxSelected = e.target.value}}>    
+                {allTaxes ? allTaxes.map((tax, index) => (
+                    <option key={index} value={tax.id} >{tax.name}</option>
+                )) : null}           
+            </Form.Select>
+            <Row>
+                <Col>
+                    <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button>
+                </Col>
+                <Col>
+                    <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button>
+                </Col>
+            </Row>
+            </Form.Group>        
         <Button onClick={create}>Create</Button>
     </Form>
     </Container>
@@ -80,4 +146,4 @@ const CustomerForm = () => {
   );
 }
 
-export default CustomerForm;
+export default AssetCreateForm;
