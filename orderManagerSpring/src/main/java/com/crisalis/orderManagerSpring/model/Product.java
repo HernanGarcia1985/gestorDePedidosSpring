@@ -30,10 +30,11 @@ public class Product extends Asset{
     private List<Tax> taxList = new ArrayList<>();
 
     @Builder
-    public Product(Integer id, String name, BigDecimal basePrice, BigDecimal warrantyPercentage) {
+    public Product(Integer id, String name, BigDecimal basePrice, BigDecimal warrantyPercentage, List<Tax> taxList) {
         this.id = id;
         this.name = name;
         this.basePrice = basePrice;
         this.warrantyPercentage = warrantyPercentage;
+        this.taxList = taxList;
     }
 }

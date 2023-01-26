@@ -16,6 +16,7 @@ public class AssetMapper {
                 .special(ownService.getSpecial())
                 .supportCharge(ownService.getSupportCharge())
                 .assetType("Service")
+                .taxList(ownService.getTaxList())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class AssetMapper {
                 .basePrice(assetDto.getBasePrice())
                 .special(assetDto.getSpecial())
                 .supportCharge(assetDto.getSupportCharge())
+                .taxList(assetDto.getTaxList())
                 .build();
     }
 
@@ -36,6 +38,7 @@ public class AssetMapper {
                 .basePrice(product.getBasePrice())
                 .warrantyPercentage(product.getWarrantyPercentage())
                 .assetType("Product")
+                .taxList(product.getTaxList())
                 .build();
     }
 
@@ -45,6 +48,7 @@ public class AssetMapper {
                 .name(assetDto.getName())
                 .basePrice(assetDto.getBasePrice())
                 .warrantyPercentage(assetDto.getWarrantyPercentage())
+                .taxList(assetDto.getTaxList())
                 .build();
     }
 }

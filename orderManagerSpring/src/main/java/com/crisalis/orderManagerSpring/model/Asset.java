@@ -15,7 +15,17 @@ import java.math.BigDecimal;
 public abstract class Asset {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   /* @SequenceGenerator(
+            name = "asset_sequence",
+            sequenceName = "asset_sequence",
+            allocationSize = 1,
+            initialValue = 1
+    )*/
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+            /*strategy = GenerationType.SEQUENCE,
+            generator = "asset_sequence"*/
+    )
     protected Integer id;
 
     @Column(name = "name")
