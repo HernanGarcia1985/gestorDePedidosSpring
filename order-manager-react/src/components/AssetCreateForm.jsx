@@ -19,6 +19,7 @@ const AssetCreateForm = ({allTaxes}) => {
     let arrayTax = [];
     let taxSelected = '1';
     let position;
+    let assetTaxesUpdated = [];
 
     function addTax () {
         console.log('ingreso: ',taxSelected);
@@ -57,10 +58,10 @@ const AssetCreateForm = ({allTaxes}) => {
     }
 
      const create = (e) => {
-        console.log('taxes: ',assetTaxes);
         e.preventDefault()
         if (!noValidate()){
-            createAsset(assetType, name, basePrice, special, supportCharge, warrantyPercentage)
+            transformTaxes();
+            createAsset(assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetTaxesUpdated)
         } else {
             alert("Please check the data entered and complete all necessary fields");
         }    
@@ -73,6 +74,14 @@ const AssetCreateForm = ({allTaxes}) => {
             return !(name.length && basePrice.length && warrantyPercentage.length)    
         } else {
             return true
+        }
+    }
+
+    const transformTaxes = () => {
+        if (assetTaxes) {
+            assetTaxesUpdated = allTaxes.filter(tax => {
+                return assetTaxes.includes(tax.id.toString())
+            })
         }
     }
 

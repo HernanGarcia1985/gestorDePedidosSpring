@@ -1,4 +1,4 @@
-const createAsset = async (assetType, name, basePrice, special, supportCharge, warrantyPercentage) => {
+const createAsset = async (assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetTaxesUpdated) => {
     
     //console.log (assetType, name, basePrice, special, supportCharge, warrantyPercentage)
     
@@ -11,6 +11,7 @@ const createAsset = async (assetType, name, basePrice, special, supportCharge, w
         special: special,
         supportCharge: supportCharge,
         warrantyPercentage: warrantyPercentage,
+        assetTaxesUpdated: assetTaxesUpdated
     }
 
     let data = {
