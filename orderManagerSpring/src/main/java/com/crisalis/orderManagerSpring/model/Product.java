@@ -2,9 +2,10 @@ package com.crisalis.orderManagerSpring.model;
 
 import lombok.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +16,18 @@ import java.math.BigDecimal;
 public class Product extends Asset{
 
     private BigDecimal warrantyPercentage;
+
+    @ManyToMany
+    @JoinTable(
+            name = "assets_taxes",
+            joinColumns = {
+                    @JoinColumn(name = "id_assets")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "id_taxes")
+            }
+    )
+    private List<Tax> taxList = new ArrayList<>();
 
     @Builder
     public Product(Integer id, String name, BigDecimal basePrice, BigDecimal warrantyPercentage) {

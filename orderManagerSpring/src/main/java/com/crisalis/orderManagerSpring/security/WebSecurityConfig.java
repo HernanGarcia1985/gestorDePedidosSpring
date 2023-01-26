@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                 .antMatchers("/customers/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
                 .antMatchers("/orders/**").permitAll()
+                .antMatchers("/taxes/**").permitAll()
                 //.antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
 
