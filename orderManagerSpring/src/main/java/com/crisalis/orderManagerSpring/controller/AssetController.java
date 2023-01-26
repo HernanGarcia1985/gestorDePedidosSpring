@@ -52,6 +52,6 @@ public class AssetController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateAsset(@PathVariable(value = "id") Integer id, @RequestBody AssetDto assetModified){
-        return ResponseEntity.status(HttpStatus.OK).body(assetServiceImpl.updateAssetById(id, assetModified););
+        return ResponseEntity.status(HttpStatus.OK).body(assetServiceImpl.updateAssetById(id, assetModified));
     }
 }
