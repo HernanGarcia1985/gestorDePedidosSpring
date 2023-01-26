@@ -49,13 +49,13 @@ const CustomerForm = () => {
             <Form.Control placeholder="Business Name" onChange={(e) => { setBusinessName(e.target.value)}}/>
         </Form.Group>
         <Row>
-            <Col md-auto>
+            <Col className="md-auto">
                 <Form.Group className="mb-3">
                     <Form.Label>Start Of Activities</Form.Label>
                     <Form.Control type="date" placeholder="Start Of Activities" onChange={(e) => { setStartOfActivities(e.target.value)}}/>
                 </Form.Group>
             </Col>
-            <Col md-auto>
+            <Col className="md-auto">
                 <Form.Group className="mb-3">
                     <Form.Label>CUIT</Form.Label>
                     <Form.Control placeholder="Number of CUIT" onChange={(e) => { setCuit(e.target.value)}}/>
