@@ -1,6 +1,6 @@
-const updateAsset = async (id, assetType, name, basePrice, special, supportCharge, warrantyPercentage) => {
+const updateAsset = async (id, assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetTaxesUpdated) => {
     
-    console.log (id, assetType, name, basePrice, special, supportCharge, warrantyPercentage)
+    console.log (id, assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetTaxesUpdated)
     
     let url = 'http://localhost:8080/assets/'+id;
 
@@ -10,7 +10,8 @@ const updateAsset = async (id, assetType, name, basePrice, special, supportCharg
         basePrice: basePrice,
         special: special,
         supportCharge: supportCharge,
-        warrantyPercentage: warrantyPercentage
+        warrantyPercentage: warrantyPercentage,
+        assetTaxesUpdated: assetTaxesUpdated
     }
 
     let data = {
