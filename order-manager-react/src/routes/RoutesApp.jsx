@@ -17,6 +17,7 @@ import TaxShow from '../views/TaxShow';
 import TaxCreate from '../components/TaxCreateForm';
 import OrderCreate from '../views/OrderCreate';
 import OrderViewAll from '../views/OrderViewAll';
+import OrderShow from '../views/OrderShow';
 
 const RoutesApp = () => {
     return (
@@ -54,6 +55,7 @@ const RoutesApp = () => {
             <Route path='/taxes/' element={<TaxViewAll />} />
             <Route path='/orders/create' element={<OrderCreate />} />
             <Route path='/orders/' element={<OrderViewAll />} />
+            <Route path='/orders/:id' element={<OrderShow />} /> 
         </Routes>    
     )
 }
