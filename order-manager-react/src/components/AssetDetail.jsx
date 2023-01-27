@@ -151,10 +151,10 @@ const AssetDetail = ({asset, allTaxes}) => {
                     </Form.Select> : null }
                     <Row>
                         <Col>
-                            {admin ? <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button> : null }
+                            {admin ? <Button onClick={addTax}>Add  <PlusSquare></PlusSquare></Button> : null }
                         </Col>
                         <Col>
-                            {admin ? <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button> : null }
+                            {admin ? <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button> : null }
                         </Col>
                     </Row>
                 </Form.Group>    
@@ -219,10 +219,10 @@ const AssetDetail = ({asset, allTaxes}) => {
                     </Form.Select>
                     <Row>
                         <Col>
-                            {admin ? <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button> : null }
+                            {admin ? <Button onClick={addTax}>Add  <PlusSquare></PlusSquare></Button> : null }
                         </Col>
                         <Col>
-                            {admin ? <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button> : null }
+                            {admin ? <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button> : null }
                         </Col>
                     </Row>
                 </Form.Group>

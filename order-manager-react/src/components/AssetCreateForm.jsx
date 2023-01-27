@@ -141,10 +141,10 @@ const AssetCreateForm = ({allTaxes}) => {
             </Form.Select>
             <Row>
                 <Col>
-                    <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button>
+                    <Button onClick={addTax}>Add  <PlusSquare></PlusSquare></Button>
                 </Col>
                 <Col>
-                    <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button>
+                    <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button>
                 </Col>
             </Row>
             </Form.Group>        
