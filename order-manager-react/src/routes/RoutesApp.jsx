@@ -15,6 +15,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import TaxViewAll from '../views/TaxViewAll';
 import TaxShow from '../views/TaxShow';
 import TaxCreate from '../components/TaxCreateForm';
+import OrderCreate from '../views/OrderCreate';
 
 const RoutesApp = () => {
     return (
@@ -50,6 +51,7 @@ const RoutesApp = () => {
                 } />
             <Route path='/taxes/:id' element={<TaxShow />} /> 
             <Route path='/taxes/' element={<TaxViewAll />} />
+            <Route path='/orders/create' element={<OrderCreate />} />
         </Routes>    
     )
 }
