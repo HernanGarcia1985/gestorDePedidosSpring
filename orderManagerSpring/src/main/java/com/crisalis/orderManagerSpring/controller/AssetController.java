@@ -19,12 +19,8 @@ public class AssetController {
 
     @PostMapping(value = "" , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createAsset(@RequestBody AssetDto assetDto) {
-        try{
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(assetServiceImpl.createAsset(assetDto));
-        } catch (Exception exception){
-            throw new RuntimeException();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(assetServiceImpl.createAsset(assetDto));
     }
 
     @GetMapping(value = "" , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,8 +52,6 @@ public class AssetController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateAsset(@PathVariable(value = "id") Integer id, @RequestBody AssetDto assetModified){
-
-        assetServiceImpl.updateAssetById(id, assetModified);
-        return ResponseEntity.status(HttpStatus.OK).body("Asset with id "+id+" was updated successfully!");
+        return ResponseEntity.status(HttpStatus.OK).body(assetServiceImpl.updateAssetById(id, assetModified));
     }
 }

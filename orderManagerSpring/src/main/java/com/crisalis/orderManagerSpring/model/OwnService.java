@@ -32,11 +32,12 @@ public class OwnService extends Asset{
     private List<Tax> taxList = new ArrayList<>();
 
     @Builder
-    public OwnService(Integer id, String name, BigDecimal basePrice, Boolean special, BigDecimal supportCharge) {
+    public OwnService(Integer id, String name, BigDecimal basePrice, Boolean special, BigDecimal supportCharge, List<Tax> taxList) {
         this.id = id;
         this.name = name;
         this.basePrice = basePrice;
         this.special = special;
         this.supportCharge = supportCharge;
+        this.taxList = taxList;
     }
 }
