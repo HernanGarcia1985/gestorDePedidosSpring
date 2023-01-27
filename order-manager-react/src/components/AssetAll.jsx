@@ -1,10 +1,14 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3 } from "react-bootstrap-icons";
+import { Pencil, Trash3, Eye } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteAsset from '../utils/deleteAsset'
 
 function AssetAll({allAssets}) {
+
+  let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+
+  let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 
   const destroy = (id) => {
     
@@ -15,7 +19,7 @@ function AssetAll({allAssets}) {
     }
   }
 
-    console.log(allAssets)
+
   return (
     <Table responsive>
       <thead>
@@ -27,8 +31,8 @@ function AssetAll({allAssets}) {
             <th>Special</th>
             <th>Support Charge</th>
             <th>Warranty %</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            {admin ? <th>Edit</th> : <th>View</th> }
+            {admin ? <th>Delete</th> : null }
         </tr>
       </thead>
       <tbody>
@@ -41,8 +45,8 @@ function AssetAll({allAssets}) {
                     <td>{asset.special===true ? 'YES': ''}</td>
                     <td>{asset.special===true ? asset.supportCharge : ''}</td>
                     <td>{asset.assetType.toLowerCase() ==='product' ? asset.warrantyPercentage*100 : '' }</td>
-                    <td><Link to={`/assets/${asset.id}`}><Button className="btn-light"><Pencil></Pencil></Button></Link></td>
-                    <td ><Button key={asset.id} className="btn-danger" onClick={() => destroy(asset.id)}><Trash3></Trash3></Button></td>
+                    <td><Link to={`/assets/${asset.id}`}><Button className="btn-light">{admin ? <Pencil></Pencil> : <Eye></Eye> }</Button></Link></td>
+                    {admin ? <td ><Button key={asset.id} className="btn-danger" onClick={() => destroy(asset.id)}><Trash3></Trash3></Button></td> : null }
                 </tr>
             ))}
       </tbody>

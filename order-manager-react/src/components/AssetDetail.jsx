@@ -18,6 +18,10 @@ const AssetDetail = ({asset, allTaxes}) => {
     const [assetTaxes, setAssetTaxes] = useState(asset.assetTaxesUpdated.map(tax=> tax.id.toString()))
     const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
 
+    let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+
+    let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
+    
     console.log('impuestos: ',assetTaxes)
     console.log('bien: ',asset)
 
@@ -139,28 +143,28 @@ const AssetDetail = ({asset, allTaxes}) => {
                     )) : null}
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>All Taxes</Form.Label>
-                    <Form.Select onChange={(e) => { taxSelected = e.target.value }}>
+                    {admin ? <Form.Label>All Taxes</Form.Label> : null }
+                    {admin ? <Form.Select onChange={(e) => { taxSelected = e.target.value }}>
                         {allTaxes ? allTaxes.map((tax, index) => (
                             <option key={index} value={tax.id} >{tax.name}</option>
                         )) : null}
-                    </Form.Select>
+                    </Form.Select> : null }
                     <Row>
                         <Col>
-                            <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button>
+                            {admin ? <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button> : null }
                         </Col>
                         <Col>
-                            <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button>
+                            {admin ? <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button> : null }
                         </Col>
                     </Row>
                 </Form.Group>    
                 <Form.Group className="mb-3">
                 <Row>
                     <Col>            
-                        <Button onClick={update}>Update</Button>
+                        {admin ? <Button onClick={update}>Update</Button> : null }
                     </Col>
                     <Col>
-                        <Button onClick={destroy}>Delete</Button>
+                        {admin ? <Button onClick={destroy}>Delete</Button> : null }
                     </Col>
                 </Row>
                 </Form.Group>
@@ -215,20 +219,20 @@ const AssetDetail = ({asset, allTaxes}) => {
                     </Form.Select>
                     <Row>
                         <Col>
-                            <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button>
+                            {admin ? <Button onClick={addTax}>Agregar  <PlusSquare></PlusSquare></Button> : null }
                         </Col>
                         <Col>
-                            <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button>
+                            {admin ? <Button onClick={removeTax}>Quitar  <DashSquare></DashSquare></Button> : null }
                         </Col>
                     </Row>
                 </Form.Group>
         <Form.Group className="mb-3">
         <Row>
             <Col>            
-                <Button onClick={update}>Update</Button>
+                {admin ? <Button onClick={update}>Update</Button> : null }
             </Col>
             <Col>
-                <Button onClick={destroy}>Delete</Button>
+                {admin ? <Button onClick={destroy}>Delete</Button> : null }
             </Col>
         </Row>
         </Form.Group>
