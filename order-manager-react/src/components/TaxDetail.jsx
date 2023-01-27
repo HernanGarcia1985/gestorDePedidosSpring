@@ -41,7 +41,7 @@ const TaxDetail = ({tax}) => {
     }
 
     const noValidate = () =>{
-        return !(name.length && 1>=percentage.parseFloat()>=0)
+        return !(name.length && 1>=percentage>=0)
     }
     
         
@@ -55,7 +55,7 @@ const TaxDetail = ({tax}) => {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Percentage</Form.Label>
-                <Form.Control defaultValue={percentage} onChange={(e) => { setPercentage(e.target.value)}}/>
+                <Form.Control type="number" placeholder="Please enter a number between 0 and 1" defaultValue={percentage} onChange={(e) => { setPercentage(e.target.value)}}/>
             </Form.Group>    
             <Form.Group className="mb-3">
             <Row>
