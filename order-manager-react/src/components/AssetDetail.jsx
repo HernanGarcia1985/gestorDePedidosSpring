@@ -15,7 +15,7 @@ const AssetDetail = ({asset, allTaxes}) => {
     const [special, setSpecial] = useState(asset.special)
     const [supportCharge, setSupportCharge] = useState(asset.supportCharge)
     const [warrantyPercentage, setWarrantyPercentage] = useState(asset.warrantyPercentage)
-    const [assetTaxes, setAssetTaxes] = useState()
+    const [assetTaxes, setAssetTaxes] = useState(asset.assetTaxesUpdated.map(tax=> tax.id.toString()))
     const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
 
     console.log('impuestos: ',assetTaxes)
