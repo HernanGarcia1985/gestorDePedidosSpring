@@ -2,24 +2,22 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-//import createAsset from '../utils/createAsset';
+import createOrder from '../utils/createOrder';
 import { PlusSquare, DashSquare } from "react-bootstrap-icons";
 
 const OrderCreateForm = ({allCustomers, allAssets}) => {
 
-    const [idCustomer, setIdCustomer] = useState('')
+    const [idCustomer, setIdCustomer] = useState(allCustomers[0].id.toString())
     const [quantity, setQuantity] = useState()
     const [yearsWarranty, setYearsWarranty] = useState()
     const [assetList, setAssetList] = useState()
     const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
     
     let arrayAssset = [];
-    let assetSelected = allAssets[0].id.toString(); //'1';
+    let assetSelected = allAssets[0].id.toString();
     let position;
     let assetListUpdated = [];
 
-    console.log(quantity)
-    console.log(yearsWarranty)
 
     function addAsset () {
         console.log('ingreso: ',assetSelected);
@@ -61,20 +59,18 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
         e.preventDefault()
         if (!noValidate()){
             transformAssets();
-            //createAsset(assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetListUpdated)
+            createOrder(idCustomer, assetListUpdated, quantity, yearsWarranty);
         } else {
-            alert("Please check the data entered and complete all necessary fields");
+            alert("At least one asset is required to create an order. Please check the data entered and complete all necessary fields");
         }    
     }
 
     const noValidate = () =>{
-        // if (assetType.toLowerCase() ==='service'){
-        //     return !(name.length && basePrice.length && special.length && supportCharge.length)   
-        // } else if (assetType.toLowerCase() ==='product') {
-        //     return !(name.length && basePrice.length && warrantyPercentage.length)    
-        // } else {
-        //     return true
-        // }
+        if (assetList && assetList.length){
+            return !(quantity && quantity.length)       
+        } else {
+            return true
+        }
     }
 
     const transformAssets = () => {
@@ -87,50 +83,58 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
 
     const storeQuantities = (idAsset, qty) => {
         let quantityList;
-        let obj = {
-            idAsset: idAsset,
-            qty: parseInt(qty)
-        }
-        if (quantity){
-            quantityList = quantity;
-            let found = quantity.filter(x => {
-                return x.idAsset === obj.idAsset
-            })
-            if (found){
-                let idx =quantity.indexOf(found);
-                quantityList[idx] = obj;
-            } else {
-                quantityList.push(obj);
+        if(parseInt(qty)>0){
+            let obj = {
+                idAsset: idAsset,
+                qty: parseInt(qty)
             }
-            setQuantity(quantityList)
+            if (quantity){
+                quantityList = quantity;
+                let found = quantity.filter(x => {
+                    return x.idAsset === obj.idAsset
+                })
+                if (found.length){
+                    let idx =quantity.indexOf(found[0]);
+                    quantityList[idx] = obj;
+                } else {
+                    quantityList.push(obj);
+                }
+                setQuantity(quantityList)
+                console.log("finalmente qty: ", quantity)
+            } else {
+                setQuantity([obj])
+            }
         } else {
-            setQuantity([obj])
+            alert("Quantity must be greater than zero")
         }
-        
     }
 
     const storeYearsWarranty = (idAsset, years) => {
         let yearsWarrList;
-        let obj = {
-            idAsset: idAsset,
-            years: parseInt(years)
-        }
-        if (yearsWarranty){
-            yearsWarrList = yearsWarranty;
-            let found = yearsWarranty.filter(x => {
-                return x.idAsset === obj.idAsset
-            })
-            if (found){
-                let idx =yearsWarranty.indexOf(found);
-                yearsWarrList[idx] = obj;
-            } else {
-                yearsWarrList.push(obj);
+        if(parseInt(years)>=0) {
+            let obj = {
+                idAsset: idAsset,
+                years: parseInt(years)
             }
-            setYearsWarranty(yearsWarrList)
+            if (yearsWarranty){
+                yearsWarrList = yearsWarranty;
+                let found = yearsWarranty.filter(x => {
+                    return x.idAsset === obj.idAsset
+                })
+                if (found.length){
+                    let idx =yearsWarranty.indexOf(found[0]);
+                    yearsWarrList[idx] = obj;
+                } else {
+                    yearsWarrList.push(obj);
+                }
+                setYearsWarranty(yearsWarrList)
+                console.log("finalmente years: ", yearsWarranty)
+            } else {
+                setYearsWarranty([obj])
+            }
         } else {
-            setYearsWarranty([obj])
-        }
-        
+            alert("Years of Warranty must be greater than or equal to zero")
+        }    
     }
 
   return (
@@ -182,7 +186,7 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
                 <Col>
                     {assetList && assetList.length ? <Form.Label>Warranty (Years)</Form.Label> : null }
                     {assetList && assetList.length ? allAssets.map((asset,index) => (
-                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" key={index} onChange={(e) => { storeYearsWarranty(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" defaultValue="0" key={index} onChange={(e) => { storeYearsWarranty(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
                          : null
                     )) : null}
                 </Col>
