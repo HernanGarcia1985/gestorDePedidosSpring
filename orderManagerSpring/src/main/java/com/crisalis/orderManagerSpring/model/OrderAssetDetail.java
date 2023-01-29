@@ -3,6 +3,7 @@ package com.crisalis.orderManagerSpring.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "orders_assets_details")
@@ -20,8 +21,8 @@ public class OrderAssetDetail {
     )
     private Integer id;
 
-    private Double quantity;
-    /*
+    private Integer quantity;
+
     private BigDecimal unitItemPrice;
 
     private BigDecimal totalItemPrice;
@@ -32,7 +33,7 @@ public class OrderAssetDetail {
 
     private BigDecimal totalWarrantyPrice;
 
-    private BigDecimal supportCharge;*/
+    private BigDecimal supportCharge;
 
     @ManyToOne(
             fetch = FetchType.EAGER
