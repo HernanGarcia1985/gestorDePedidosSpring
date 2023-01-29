@@ -41,6 +41,7 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
             Optional<Product> product = productRepository.findById(orderAssetDetail.getProduct().getId());
             if (product.isPresent()) {
                 orderAssetDetail.setUnitItemPrice(calculateItemPrice(product.get(), null));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
                 orderAssetDetail.setOrder(order);
                 return orderAssetDetailRepository.save(orderAssetDetail);
             }
@@ -48,6 +49,7 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
             Optional<OwnService> ownService = serviceRepository.findById(orderAssetDetail.getOwnService().getId());
             if (ownService.isPresent()) {
                 orderAssetDetail.setUnitItemPrice(calculateItemPrice(null, ownService.get()));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
                 orderAssetDetail.setOrder(order);
                 return orderAssetDetailRepository.save(orderAssetDetail);
             }
@@ -78,6 +80,20 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
             totalTax = itemPrice.multiply(sumTaxes);
             itemPrice = itemPrice.add(totalTax);
             return itemPrice;
+        } else {
+            throw new NotFoundException("There are no assets associated");
+        }
+    }
+
+    public BigDecimal calculateTotalItemPrice (OrderAssetDetail orderAssetDetail) {
+        BigDecimal totalItemPrice = BigDecimal.valueOf(0);
+        if (orderAssetDetail.getProduct() != null) {
+            totalItemPrice = orderAssetDetail.getQuantity().compareTo(BigDecimal.ONE)==1 ? orderAssetDetail.getUnitItemPrice().multiply(orderAssetDetail.getQuantity()) : orderAssetDetail.getUnitItemPrice();
+            return totalItemPrice;
+        } else if (orderAssetDetail.getOwnService() != null){
+            totalItemPrice = totalItemPrice.add(orderAssetDetail.getUnitItemPrice());
+            totalItemPrice = orderAssetDetail.getOwnService().getSpecial() ? totalItemPrice.add(orderAssetDetail.getOwnService().getSupportCharge()) : totalItemPrice.add(BigDecimal.ZERO);
+            return totalItemPrice;
         } else {
             throw new NotFoundException("There are no assets associated");
         }
