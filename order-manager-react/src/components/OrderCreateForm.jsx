@@ -8,18 +8,18 @@ import { PlusSquare, DashSquare } from "react-bootstrap-icons";
 const OrderCreateForm = ({allCustomers, allAssets}) => {
 
     const [idCustomer, setIdCustomer] = useState('')
-    // const [name, setName] = useState('')
-    // const [basePrice, setBasePrice] = useState('')
-    // const [special, setSpecial] = useState('')
-    // const [supportCharge, setSupportCharge] = useState('')
-    // const [warrantyPercentage, setWarrantyPercentage] = useState('')
+    const [quantity, setQuantity] = useState()
+    const [yearsWarranty, setYearsWarranty] = useState()
     const [assetList, setAssetList] = useState()
     const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
     
     let arrayAssset = [];
-    let assetSelected = '1'; //AllAssets[0].id.toString();
+    let assetSelected = allAssets[0].id.toString(); //'1';
     let position;
     let assetListUpdated = [];
+
+    console.log(quantity)
+    console.log(yearsWarranty)
 
     function addAsset () {
         console.log('ingreso: ',assetSelected);
@@ -85,6 +85,54 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
         }
     }
 
+    const storeQuantities = (idAsset, qty) => {
+        let quantityList;
+        let obj = {
+            idAsset: idAsset,
+            qty: parseInt(qty)
+        }
+        if (quantity){
+            quantityList = quantity;
+            let found = quantity.filter(x => {
+                return x.idAsset === obj.idAsset
+            })
+            if (found){
+                let idx =quantity.indexOf(found);
+                quantityList[idx] = obj;
+            } else {
+                quantityList.push(obj);
+            }
+            setQuantity(quantityList)
+        } else {
+            setQuantity([obj])
+        }
+        
+    }
+
+    const storeYearsWarranty = (idAsset, years) => {
+        let yearsWarrList;
+        let obj = {
+            idAsset: idAsset,
+            years: parseInt(years)
+        }
+        if (yearsWarranty){
+            yearsWarrList = yearsWarranty;
+            let found = yearsWarranty.filter(x => {
+                return x.idAsset === obj.idAsset
+            })
+            if (found){
+                let idx =yearsWarranty.indexOf(found);
+                yearsWarrList[idx] = obj;
+            } else {
+                yearsWarrList.push(obj);
+            }
+            setYearsWarranty(yearsWarrList)
+        } else {
+            setYearsWarranty([obj])
+        }
+        
+    }
+
   return (
     <>
     <Container>
@@ -100,16 +148,42 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
             </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3">
-            <Form.Label>Included assets</Form.Label>
+            <Form.Label>Included Assets</Form.Label>
+        </Form.Group>
+        <Form.Group className="mb-3">
+            {assetList && assetList.length ? null : <Form.Label>There are no assets associated to the order yet</Form.Label> }
             <Row>
                 <Col>
-                    {assetList ? allAssets.map((asset,index) => (
+                    {assetList && assetList.length ? <Form.Label>Item</Form.Label> : null }
+                    {assetList && assetList.length ? allAssets.map((asset,index) => (
                         assetList.includes(asset.id.toString()) ? <Form.Control disabled key={index} defaultValue={asset.name}/> : null
                     )) : null}
                 </Col>
                 <Col>
-                    {assetList ? allAssets.map((asset,index) => (
+                    {assetList && assetList.length ? <Form.Label>Base Price</Form.Label> : null }
+                    {assetList && assetList.length ? allAssets.map((asset,index) => (
                         assetList.includes(asset.id.toString()) ? <Form.Control disabled key={index} defaultValue={asset.basePrice}/> : null
+                    )) : null}
+                </Col>
+                <Col>
+                    {assetList && assetList.length ? <Form.Label>Support Charge</Form.Label> : null }
+                    {assetList && assetList.length ? allAssets.map((asset,index) => (
+                        assetList.includes(asset.id.toString()) ? asset.special===true ? <Form.Control key={index} disabled defaultValue={asset.supportCharge}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                         : null
+                    )) : null}
+                </Col>
+                <Col>
+                    {assetList && assetList.length ? <Form.Label>Quantity</Form.Label> : null }
+                    {assetList && assetList.length ? allAssets.map((asset,index) => (
+                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" key={index} onChange={(e) => {storeQuantities(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                        : null
+                    )) : null}
+                </Col>
+                <Col>
+                    {assetList && assetList.length ? <Form.Label>Warranty (Years)</Form.Label> : null }
+                    {assetList && assetList.length ? allAssets.map((asset,index) => (
+                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" key={index} onChange={(e) => { storeYearsWarranty(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                         : null
                     )) : null}
                 </Col>
             </Row>
