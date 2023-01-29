@@ -179,14 +179,14 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
                 <Col>
                     {assetList && assetList.length ? <Form.Label>Quantity</Form.Label> : null }
                     {assetList && assetList.length ? allAssets.map((asset,index) => (
-                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" key={index} onChange={(e) => {storeQuantities(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" min="1" key={index} onChange={(e) => {storeQuantities(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
                         : null
                     )) : null}
                 </Col>
                 <Col>
                     {assetList && assetList.length ? <Form.Label>Warranty (Years)</Form.Label> : null }
                     {assetList && assetList.length ? allAssets.map((asset,index) => (
-                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" defaultValue="0" key={index} onChange={(e) => { storeYearsWarranty(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
+                        assetList.includes(asset.id.toString()) ? asset.assetType.toLowerCase() === 'product' ? <Form.Control type="number" min="0" defaultValue="0" key={index} onChange={(e) => { storeYearsWarranty(asset.id, e.target.value)}}/> : <Form.Control key={index} disabled defaultValue="N/A"/>
                          : null
                     )) : null}
                 </Col>
