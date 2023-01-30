@@ -59,7 +59,11 @@ public class OrderServiceImpl implements OrderService {
                 .map(detail -> orderAssetDetailServiceImpl.createOrderAssetDetail(detail, newOrder)
                 ).collect(Collectors.toList());
         //Buscar el servicio que le ocasiona el descuento y setearlo
+        newOrder.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList));
         //Si existe llamar a calculateDiscount
+//        if(newOrder.getServiceOriginateDiscount() != null) {
+//            newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
+//        }
         newOrder.setTotalPrice(calculateTotalPrice(newOrder));
         orderRepository.save(newOrder);
         return orderMapper.orderDetailToDto(newOrder,orderAssetDetailList);
@@ -108,5 +112,19 @@ public class OrderServiceImpl implements OrderService {
                 .map(totalMapper)
                 .reduce(BigDecimal.ZERO, BigDecimal::add );
         return totalPrice; //VER descuentos
+    }
+
+    public String findServiceOriginateDiscount (List<OrderAssetDetail> orderAssetDetailList) {
+        String serviceOriginateDiscount;
+        List<OrderAssetDetail> orderServiceList = orderAssetDetailList.stream()
+                .filter(orderAssetDetail -> orderAssetDetail.getOwnService() != null)
+                .collect(Collectors.toList());
+        if(orderServiceList.isEmpty()){
+            //Buscar por idcustomer servicios activos
+            return null;
+        } else {
+            serviceOriginateDiscount = orderServiceList.get(0).getOwnService().getName();
+        }
+        return serviceOriginateDiscount;
     }
 }
