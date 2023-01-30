@@ -15,7 +15,7 @@ const createOrder = async (idCustomer, assetListUpdated, quantity, yearsWarranty
         let yearsFound = yearsWarranty && yearsWarranty.length ? yearsWarranty.filter(x => {
             return x.idAsset === asset.id
         }) : [];
-        years = yearsFound.length ? yearsFound[0].years : 0;
+        years = yearsFound.length ? yearsFound[0].years : null;
 
         if(asset.assetType.toLowerCase() === 'product'){
             product = {
