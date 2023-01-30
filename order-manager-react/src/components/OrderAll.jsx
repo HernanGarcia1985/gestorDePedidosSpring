@@ -1,8 +1,8 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3, Eye } from "react-bootstrap-icons";
+import { Trash3, Eye } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
-//import deleteAsset from '../utils/deleteAsset'
+import annulmentAnOrder from '../utils/annulmentAnOrder';
 
 function OrderAll({allOrders}) {
 
@@ -10,10 +10,10 @@ function OrderAll({allOrders}) {
 
   let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 
-  const destroy = (id) => {
+  const cancelOrder = (id) => {
     
-    if(window.confirm("Are you sure to delete the asset? This operation is not reversible.")){
-      //deleteAsset(id)
+    if(window.confirm("Are you sure to annul the order? This operation is not reversible.")){
+      annulmentAnOrder(id)
     } else {
       console.log("Operation cancelled")
     }
@@ -29,8 +29,9 @@ function OrderAll({allOrders}) {
             <th>Customer</th>
             <th>Created Date</th>
             <th>Status</th>
+            <th>Total Discount</th>
             <th>Total Price</th>
-            {admin ? <th>Edit</th> : <th>View</th> }
+            <th>View</th>
             {admin ? <th>Cancel</th> : null }
         </tr>
       </thead>
@@ -41,10 +42,11 @@ function OrderAll({allOrders}) {
                     <td>{order.id}</td>
                     <td>{order.company ? order.company.businessName : order.person.name+' '+order.person.lastName}</td>
                     <td>{order.dateCreated}</td>
-                    <td>{order.status ? 'ACTIVE': 'CANCELED'}</td>
+                    <td>{order.status ? 'ACTIVE': 'CANCELLED'}</td>
+                    <td>{order.totalDiscount>0 ? order.totalDiscount: '-'}</td>
                     <td>{order.totalPrice ? order.totalPrice : '0'}</td>
-                    <td><Link to={`/orders/${order.id}`}><Button className="btn-light">{admin ? <Pencil></Pencil> : <Eye></Eye> }</Button></Link></td>
-                    {admin ? <td ><Button key={order.id} className="btn-danger" onClick={() => destroy(order.id)}><Trash3></Trash3></Button></td> : null }
+                    <td><Link to={`/orders/${order.id}`}><Button className="btn-light"><Eye></Eye></Button></Link></td>
+                    {admin ? <td ><Button key={order.id} className="btn-danger" onClick={() => cancelOrder(order.id)}><Trash3></Trash3></Button></td> : null }
                 </tr>
             ))}
       </tbody>
