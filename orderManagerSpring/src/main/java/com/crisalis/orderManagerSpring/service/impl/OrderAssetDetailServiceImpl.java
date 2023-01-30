@@ -40,14 +40,19 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
         if (orderAssetDetail.getProduct() != null) {
             Optional<Product> product = productRepository.findById(orderAssetDetail.getProduct().getId());
             if (product.isPresent()) {
+                orderAssetDetail.setWarrantyPercentage(product.get().getWarrantyPercentage());
                 orderAssetDetail.setUnitItemPrice(calculateItemPrice(product.get(), null));
+                orderAssetDetail.setTotalWarrantyPrice(calculateTotalWarrantyPrice(orderAssetDetail));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
                 orderAssetDetail.setOrder(order);
                 return orderAssetDetailRepository.save(orderAssetDetail);
             }
         } else {
             Optional<OwnService> ownService = serviceRepository.findById(orderAssetDetail.getOwnService().getId());
             if (ownService.isPresent()) {
+                orderAssetDetail.setSupportCharge(ownService.get().getSupportCharge());
                 orderAssetDetail.setUnitItemPrice(calculateItemPrice(null, ownService.get()));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
                 orderAssetDetail.setOrder(order);
                 return orderAssetDetailRepository.save(orderAssetDetail);
             }
@@ -81,5 +86,29 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
         } else {
             throw new NotFoundException("There are no assets associated");
         }
+    }
+
+    public BigDecimal calculateTotalItemPrice (OrderAssetDetail orderAssetDetail) {
+        BigDecimal totalItemPrice = BigDecimal.valueOf(0);
+        if (orderAssetDetail.getProduct() != null) {
+            totalItemPrice = orderAssetDetail.getQuantity().compareTo(BigDecimal.ONE)==1 ? orderAssetDetail.getUnitItemPrice().multiply(orderAssetDetail.getQuantity()) : orderAssetDetail.getUnitItemPrice();
+            totalItemPrice = totalItemPrice.add(orderAssetDetail.getTotalWarrantyPrice());
+            return totalItemPrice;
+        } else if (orderAssetDetail.getOwnService() != null){
+            totalItemPrice = totalItemPrice.add(orderAssetDetail.getUnitItemPrice());
+            totalItemPrice = orderAssetDetail.getOwnService().getSpecial() ? totalItemPrice.add(orderAssetDetail.getSupportCharge()) : totalItemPrice.add(BigDecimal.ZERO);
+            return totalItemPrice;
+        } else {
+            throw new NotFoundException("There are no assets associated");
+        }
+    }
+
+    public BigDecimal calculateTotalWarrantyPrice (OrderAssetDetail orderAssetDetail) {
+        BigDecimal totalWarrantyPrice = BigDecimal.valueOf(0);
+        if (orderAssetDetail.getYearsWarranty().compareTo(BigDecimal.ZERO)>0){
+            totalWarrantyPrice = orderAssetDetail.getYearsWarranty().multiply(orderAssetDetail.getUnitItemPrice()).multiply(orderAssetDetail.getWarrantyPercentage());
+            //Multiplicar por cantidad la garantía???
+        }
+        return totalWarrantyPrice;
     }
 }

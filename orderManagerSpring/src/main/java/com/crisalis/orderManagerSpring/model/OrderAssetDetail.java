@@ -21,13 +21,13 @@ public class OrderAssetDetail {
     )
     private Integer id;
 
-    private Integer quantity;
+    private BigDecimal quantity;
 
     private BigDecimal unitItemPrice;
 
     private BigDecimal totalItemPrice;
 
-    private Integer yearsWarranty;
+    private BigDecimal yearsWarranty;
 
     private BigDecimal warrantyPercentage;
 
