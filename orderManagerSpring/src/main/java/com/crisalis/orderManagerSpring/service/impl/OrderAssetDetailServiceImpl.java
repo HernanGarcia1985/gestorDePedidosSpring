@@ -106,8 +106,7 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
     public BigDecimal calculateTotalWarrantyPrice (OrderAssetDetail orderAssetDetail) {
         BigDecimal totalWarrantyPrice = BigDecimal.valueOf(0);
         if (orderAssetDetail.getYearsWarranty().compareTo(BigDecimal.ZERO)>0){
-            totalWarrantyPrice = orderAssetDetail.getYearsWarranty().multiply(orderAssetDetail.getUnitItemPrice()).multiply(orderAssetDetail.getWarrantyPercentage());
-            //Multiplicar por cantidad la garantía???
+            totalWarrantyPrice = orderAssetDetail.getYearsWarranty().multiply(orderAssetDetail.getUnitItemPrice()).multiply(orderAssetDetail.getWarrantyPercentage()).multiply(orderAssetDetail.getQuantity());
         }
         return totalWarrantyPrice;
     }
