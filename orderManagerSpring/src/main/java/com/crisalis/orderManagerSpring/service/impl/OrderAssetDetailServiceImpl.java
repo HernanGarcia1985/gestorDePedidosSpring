@@ -50,6 +50,7 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
         } else {
             Optional<OwnService> ownService = serviceRepository.findById(orderAssetDetail.getOwnService().getId());
             if (ownService.isPresent()) {
+                orderAssetDetail.setSupportCharge(ownService.get().getSupportCharge());
                 orderAssetDetail.setUnitItemPrice(calculateItemPrice(null, ownService.get()));
                 orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
                 orderAssetDetail.setOrder(order);
@@ -95,7 +96,7 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
             return totalItemPrice;
         } else if (orderAssetDetail.getOwnService() != null){
             totalItemPrice = totalItemPrice.add(orderAssetDetail.getUnitItemPrice());
-            totalItemPrice = orderAssetDetail.getOwnService().getSpecial() ? totalItemPrice.add(orderAssetDetail.getOwnService().getSupportCharge()) : totalItemPrice.add(BigDecimal.ZERO);
+            totalItemPrice = orderAssetDetail.getOwnService().getSpecial() ? totalItemPrice.add(orderAssetDetail.getSupportCharge()) : totalItemPrice.add(BigDecimal.ZERO);
             return totalItemPrice;
         } else {
             throw new NotFoundException("There are no assets associated");
