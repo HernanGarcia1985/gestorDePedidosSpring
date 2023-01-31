@@ -58,12 +58,11 @@ public class OrderServiceImpl implements OrderService {
         List<OrderAssetDetail> orderAssetDetailList = orderCreateDto.getOrderDetailList().stream()
                 .map(detail -> orderAssetDetailServiceImpl.createOrderAssetDetail(detail, newOrder)
                 ).collect(Collectors.toList());
-        //Buscar el servicio que le ocasiona el descuento y setearlo
         newOrder.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList));
-        //Si existe llamar a calculateDiscount
-//        if(newOrder.getServiceOriginateDiscount() != null) {
-//            newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
-//        }
+        if(newOrder.getServiceOriginateDiscount() != null) {
+            newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
+        }
+        newOrder.setDiscountPercentage(newOrder.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null);
         newOrder.setTotalPrice(calculateTotalPrice(newOrder));
         orderRepository.save(newOrder);
         return orderMapper.orderDetailToDto(newOrder,orderAssetDetailList);
@@ -126,5 +125,23 @@ public class OrderServiceImpl implements OrderService {
             serviceOriginateDiscount = orderServiceList.get(0).getOwnService().getName();
         }
         return serviceOriginateDiscount;
+    }
+
+    public BigDecimal calculateTotalDiscount (List<OrderAssetDetail> orderAssetDetailList) {
+        BigDecimal totalDiscount = BigDecimal.valueOf(0);
+        BigDecimal totalProductsPrice;
+        List<OrderAssetDetail> orderProductList = orderAssetDetailList.stream()
+                .filter(orderAssetDetail -> orderAssetDetail.getProduct() != null)
+                .collect(Collectors.toList());
+        Function<OrderAssetDetail, BigDecimal> totalMapper = orderAssetDetail -> orderAssetDetail.getUnitItemPrice().multiply(orderAssetDetail.getQuantity());
+        if(!orderProductList.isEmpty()){
+            totalProductsPrice = orderProductList.stream()
+                    .map(totalMapper)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            totalDiscount = totalProductsPrice.multiply(BigDecimal.valueOf(0.10)).compareTo(BigDecimal.valueOf(2500))<0 ?
+                    totalProductsPrice.multiply(BigDecimal.valueOf(0.10)) : BigDecimal.valueOf(2500);
+            return totalDiscount;
+        }
+        return totalDiscount;
     }
 }

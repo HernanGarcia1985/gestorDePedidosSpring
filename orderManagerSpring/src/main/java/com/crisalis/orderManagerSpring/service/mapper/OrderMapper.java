@@ -9,6 +9,7 @@ import com.crisalis.orderManagerSpring.model.OrderAssetDetail;
 import com.crisalis.orderManagerSpring.model.Person;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,6 +40,12 @@ public class OrderMapper {
                 .company(order.getCompany() != null ? order.getCompany(): null)
                 .person(order.getPerson() != null ? order.getPerson() : null)
                 .dateCreated(order.getDateCreated())
+                .totalDiscount(order.getTotalDiscount() != null ? order.getTotalDiscount() : BigDecimal.ZERO)
+                .subTotalPrice(order.getTotalPrice() != null ? order.getTotalPrice() : BigDecimal.ZERO)
+                .totalPrice(order.getTotalDiscount() != null &&
+                        order.getTotalPrice() != null ?
+                        order.getTotalPrice().subtract(order.getTotalDiscount())
+                        : BigDecimal.ZERO)
                 .status(order.getStatus())
                 .orderDetailList(orderAssetDetailList)
                 .build();
