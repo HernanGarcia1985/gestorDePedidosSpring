@@ -2,7 +2,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-//import updateAsset from '../utils/updateAsset';
 //import deleteAsset from '../utils/deleteAsset';
 import { useParams } from 'react-router-dom';
 import { PlusSquare, DashSquare } from "react-bootstrap-icons";
@@ -11,51 +10,54 @@ const OrderDetail = ({order, allAssets}) => {
 
     const [customer, setCustomer] = useState(order.company ? order.company.businessName : order.person.name+' '+order.person.lastName)
     const [dateCreated, setDateCreated] = useState(order.dateCreated)
-    const [status, setStatus] = useState(order.status ? 'ACTIVE': 'CANCELED')
-    const [assetList, setAssetList] = useState(order.orderDetailList ? order.orderDetailList.map(orderDetail => orderDetail.product? orderDetail.product.id.toString(): orderDetail.ownService.id.toString()) : null)
-    const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
+    const [totalPrice, setTotalPrice] = useState(order.totalPrice)
+    const [subTotalPrice, setSubTotalPrice] = useState(order.subTotalPrice)
+    const [totalDiscount, setTotalDiscount] = useState(order.totalDiscount)
+    const [status, setStatus] = useState(order.status ? 'ACTIVE': 'CANCELLED')
+    const [orderDetailList, setOrderDetailList] = useState(order.orderDetailList && order.orderDetailList.length ? order.orderDetailList : null)
+    const [prueba, setPrueba] = useState(true) //Para que actualice los assets asociados automaticamente!
 
     let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
 
     let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 
-    console.log(assetList)
+    console.log(orderDetailList)
 
     const {id} = useParams()
 
     let arrayAsset = [];
-    let assetSelected = '1'; //AllAssets[0].id.toString();
+    let assetSelected = allAssets[0].id.toString(); //'1';
     let position;
     let assetListUpdated = [];
 
     function addAsset () {
         console.log('ingreso: ',assetSelected);
-        if(assetList){
-            if(assetList.indexOf(assetSelected) === -1){
-                arrayAsset = assetList;
+        if(orderDetailList){
+            if(orderDetailList.indexOf(assetSelected) === -1){
+                arrayAsset = orderDetailList;
                 arrayAsset.push(assetSelected)
                 console.log('se agregó')
-                setAssetList(arrayAsset)
-                setPrueba(!prueba) //Para que actualice los tax asociados automaticamente!
+                setOrderDetailList(arrayAsset)
+                setPrueba(!prueba) //Para que actualice los assets asociados automaticamente!
             } else {
                 console.log("repetido")
             }
         } else {
             console.log("primera vez")
             arrayAsset.push(assetSelected)
-            setAssetList(arrayAsset)
+            setOrderDetailList(arrayAsset)
         }
     }
 
     function removeAsset () {
         console.log('ingreso: ',assetSelected);
-        if(assetList){
-            position = assetList.indexOf(assetSelected);
+        if(orderDetailList){
+            position = orderDetailList.indexOf(assetSelected);
             if(position !== -1){
-                arrayAsset = assetList;
+                arrayAsset = orderDetailList;
                 arrayAsset = arrayAsset.filter(asset => asset !== arrayAsset[position])
                 console.log('se eliminó')
-                setAssetList(arrayAsset)
+                setOrderDetailList(arrayAsset)
             } else {
                 console.log("no estaba en la lista")
             }
@@ -68,7 +70,7 @@ const OrderDetail = ({order, allAssets}) => {
         e.preventDefault()
         if (!noValidate()){
             transformAssets();
-            if(window.confirm("Are you sure to update the asset? This operation is not reversible.")){
+            if(window.confirm("Are you sure to update the order? This operation is not reversible.")){
                 //updateAsset(id, assetType, name, basePrice, special, supportCharge, warrantyPercentage, assetTaxesUpdated)
         } else {
             console.log("Operation cancelled")
@@ -80,7 +82,7 @@ const OrderDetail = ({order, allAssets}) => {
 
     const destroy = (e) => {
         e.preventDefault()
-        if(window.confirm("Are you sure to delete the asset? This operation is not reversible.")){
+        if(window.confirm("Are you sure to delete the order? This operation is not reversible.")){
             //deleteAsset(id)
         } else {
             console.log("Operation cancelled")
@@ -100,9 +102,9 @@ const OrderDetail = ({order, allAssets}) => {
     }
 
     const transformAssets = () => {
-        if (assetList) {
+        if (orderDetailList) {
             assetListUpdated = allAssets.filter(asset => {
-                return assetList.includes(asset.id.toString())
+                return orderDetailList.includes(asset.id.toString())
             })
         }
     }//Cambiar!!!!!
@@ -136,11 +138,124 @@ const OrderDetail = ({order, allAssets}) => {
             <Form.Label>Customer</Form.Label>
             <Form.Control type='text' defaultValue={customer} disabled onLoad={(e) => { setCustomer(e.target.value)}}></Form.Control>
         </Form.Group>
+
+
+
         <Form.Group className="mb-3">
-            <Form.Label>Included assets</Form.Label>
-                {assetList ? allAssets.map((asset,index) => (
-                    assetList.includes(asset.id.toString()) ? <Form.Control disabled key={index} defaultValue={asset.name}/> : null
+            <Form.Label>Detail</Form.Label>
+        </Form.Group>
+        <Form.Group className="mb-3">
+            {orderDetailList && orderDetailList.length ? null : <Form.Label>There are no assets associated to the order</Form.Label> }
+            <Row>
+                <Col className="col-md-1">
+                {orderDetailList && orderDetailList.length ? <Form.Label>#</Form.Label> : null }
+                {orderDetailList && orderDetailList.length ? orderDetailList.map((orderDetail,index) => (
+                    <Form.Control disabled key={index} defaultValue={index+1}/> 
                 )) : null}
+                </Col>
+                <Col>
+                {orderDetailList && orderDetailList.length ? <Form.Label>Item</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    orderDetail.product === null ? <Form.Control disabled key={index} defaultValue={orderDetail.ownService.name}/>
+                     : <Form.Control disabled key={index} defaultValue={orderDetail.product.name}/>
+                )) : null}
+                </Col>
+                <Col className="col-md-1">
+                {orderDetailList && orderDetailList.length ? <Form.Label>Quantity</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    orderDetail.product === null ? <Form.Control disabled key={index} defaultValue="-"/>
+                     : <Form.Control disabled key={index} defaultValue={orderDetail.quantity}/>
+                )) : null}
+                </Col>
+                <Col>
+                {orderDetailList && orderDetailList.length ? <Form.Label>Years Of Warranty</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    orderDetail.product === null ? <Form.Control disabled key={index} defaultValue="-"/>
+                     : <Form.Control disabled key={index} defaultValue={orderDetail.yearsWarranty}/>
+                )) : null}
+                </Col>
+                <Col>
+                {orderDetailList && orderDetailList.length ? <Form.Label>Unit Price</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    <Form.Control disabled key={index} defaultValue={orderDetail.unitItemPrice}/>
+                )) : null}
+                </Col>
+                <Col>
+                {orderDetailList && orderDetailList.length ? <Form.Label>Support Charge / Warranty Cost</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    orderDetail.product === null ? <Form.Control disabled key={index} defaultValue={orderDetail.supportCharge}/>
+                     : <Form.Control disabled key={index} defaultValue={orderDetail.totalWarrantyPrice}/>
+                )) : null}
+                </Col>
+                <Col>
+                {orderDetailList && orderDetailList.length ? <Form.Label>Amount</Form.Label> : null }
+                {orderDetailList && orderDetailList.length? orderDetailList.map((orderDetail,index) => (
+                    <Form.Control disabled key={index} defaultValue={orderDetail.totalItemPrice}/>
+                )) : null}
+                </Col>
+            </Row>        
+        </Form.Group>
+        <Form.Group className="mb-3">
+            <Row>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? <Form.Label>Subtotal</Form.Label> : null }
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? 
+                        <Form.Control disabled defaultValue={subTotalPrice}/>
+                     : null}
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? <Form.Label>Total Discount</Form.Label> : null }
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? 
+                        <Form.Control disabled defaultValue={totalDiscount}/>
+                     : null}
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col className="col-md-1">
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? <Form.Label>Total</Form.Label> : null }
+                </Col>
+                <Col>
+                    {orderDetailList && orderDetailList.length ? 
+                        <Form.Control disabled defaultValue={totalPrice}/>
+                     : null}
+                </Col>
+            </Row>
         </Form.Group>
         <Form.Group className="mb-3">
             <Form.Label>All Assets</Form.Label>
