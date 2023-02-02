@@ -1,11 +1,15 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3 } from "react-bootstrap-icons";
+import { Pencil, Trash3} from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteCustomer from '../utils/deleteCustomer'
 
 function CustomerAll({allCustomers}) {
 
+  let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+
+  let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
+  
   const destroy = (id) => {
     
     if(window.confirm("Are you sure to delete the client? This operation is not reversible.")){
@@ -27,8 +31,8 @@ function CustomerAll({allCustomers}) {
             <th>Name</th>
             <th>Last Name</th>
             <th>DNI</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            {admin ? <th>Edit</th> : <th>View</th> }
+            {admin ? <th>Delete</th> : null }
         </tr>
       </thead>
       <tbody>
@@ -42,7 +46,7 @@ function CustomerAll({allCustomers}) {
                     <td>{customer.lastName}</td>
                     <td>{customer.dni}</td>
                     <td><Link to={`/customers/${customer.id}`}><Button className="btn-light"><Pencil></Pencil></Button></Link></td>
-                    <td ><Button key={customer.id} className="btn-danger" onClick={() => destroy(customer.id)}><Trash3></Trash3></Button></td>
+                    {admin ? <td ><Button key={customer.id} className="btn-danger" onClick={() => destroy(customer.id)}><Trash3></Trash3></Button></td> : null }
                 </tr>
             ))}
       </tbody>
