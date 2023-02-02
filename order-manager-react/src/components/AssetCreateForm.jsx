@@ -93,14 +93,16 @@ const AssetCreateForm = ({allTaxes}) => {
             <Form.Check inline type="radio" name="ServiceOrProduct" label="Service"  value = "Service" onChange={(e) => { setAssetType(e.target.value)}}/>
             <Form.Check inline type="radio" name="ServiceOrProduct" label="Product" value = "Product" onChange={(e) => { setAssetType(e.target.value)}}/>
         </Form.Group>
+        {assetType !== "" ? 
         <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control placeholder="Name" onChange={(e) => { setName(e.target.value)}}/>
-                </Form.Group>
-        <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control placeholder="Name" onChange={(e) => { setName(e.target.value)}}/>
+        </Form.Group> : null }
+        {assetType !== "" ? <Form.Group className="mb-3">
             <Form.Label>Base Price</Form.Label>
-            <Form.Control type="number" placeholder="Base Price" onChange={(e) => { setBasePrice(e.target.value)}}/>
-        </Form.Group>
+            <Form.Control type="number" min="1" placeholder="Base Price" onChange={(e) => { setBasePrice(e.target.value)}}/>
+        </Form.Group> : null }
+        {assetType === "Service" ?
         <Row>
             <Col className="md-auto">
                 <Form.Group className="mb-3">
@@ -114,24 +116,27 @@ const AssetCreateForm = ({allTaxes}) => {
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Support Charge</Form.Label>
-                    <Form.Control type="number" placeholder="Support Charge" onChange={(e) => { setSupportCharge(e.target.value)}}/>
+                    <Form.Control type="number" min="0" placeholder="Support Charge" onChange={(e) => { setSupportCharge(e.target.value)}}/>
                 </Form.Group>
             </Col>
-        </Row>
+        </Row> : null }
+        {assetType === "Product" ?
         <Row>
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Warranty Percentage</Form.Label>
-                    <Form.Control type="number" placeholder="Enter Warranty Percentage in 0.10 format" onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
+                    <Form.Control type="number" min="0" max="1" placeholder="Please enter Warranty Percentage in 0.10 format (A number between 0 and 1)" onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
                 </Form.Group>
             </Col>
-        </Row>
+        </Row> : null }
+        {assetType !== "" ? 
         <Form.Group className="mb-3">
             <Form.Label>Associate Taxes</Form.Label>
             {assetTaxes ? allTaxes.map((tax,index) => (
                 assetTaxes.includes(tax.id.toString()) ? <Form.Control disabled key={index} defaultValue={tax.name}/> : null
             )) : null}
-        </Form.Group>
+        </Form.Group> : null }
+        {assetType !== "" ? 
         <Form.Group className="mb-3">
             <Form.Label>All Taxes</Form.Label>
             <Form.Select onChange={(e) => {taxSelected = e.target.value}}>    
@@ -147,8 +152,8 @@ const AssetCreateForm = ({allTaxes}) => {
                     <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button>
                 </Col>
             </Row>
-            </Form.Group>        
-        <Button onClick={create}>Create</Button>
+        </Form.Group> : null }        
+        {assetType !== "" ? <Button onClick={create}>Create</Button> : null }
     </Form>
     </Container>
     </>
