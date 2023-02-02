@@ -42,9 +42,9 @@ function AssetAll({allAssets}) {
                     <td>{asset.assetType.toUpperCase()}</td>
                     <td>{asset.name}</td>
                     <td>{asset.basePrice}</td>
-                    <td>{asset.special===true ? 'YES': ''}</td>
-                    <td>{asset.special===true ? asset.supportCharge : ''}</td>
-                    <td>{asset.assetType.toLowerCase() ==='product' ? asset.warrantyPercentage*100 : '' }</td>
+                    <td>{asset.assetType.toLowerCase() ==='product' ? '-' : asset.special===true ? 'YES': 'NO'}</td>
+                    <td>{asset.special===true ? asset.supportCharge : '-'}</td>
+                    <td>{asset.assetType.toLowerCase() ==='product' ? asset.warrantyPercentage*100 : '-' }</td>
                     <td><Link to={`/assets/${asset.id}`}><Button className="btn-light">{admin ? <Pencil></Pencil> : <Eye></Eye> }</Button></Link></td>
                     {admin ? <td ><Button key={asset.id} className="btn-danger" onClick={() => destroy(asset.id)}><Trash3></Trash3></Button></td> : null }
                 </tr>
