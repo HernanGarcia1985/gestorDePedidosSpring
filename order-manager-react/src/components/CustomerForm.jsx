@@ -44,64 +44,96 @@ const CustomerForm = () => {
             <Form.Check inline type="radio" name="PersonOrCompany" label="Person"  value = "Person" onChange={(e) => { setCustomerType(e.target.value)}}/>
             <Form.Check inline type="radio" name="PersonOrCompany" label="Company" value = "Company" onChange={(e) => { setCustomerType(e.target.value)}}/>
         </Form.Group>
+        {customerType === "Company" ? 
         <Form.Group className="mb-3">
             <Form.Label>Business Name</Form.Label>
             <Form.Control placeholder="Business Name" onChange={(e) => { setBusinessName(e.target.value)}}/>
-        </Form.Group>
-        <Row>
-            <Col className="md-auto">
-                <Form.Group className="mb-3">
-                    <Form.Label>Start Of Activities</Form.Label>
-                    <Form.Control type="date" placeholder="Start Of Activities" onChange={(e) => { setStartOfActivities(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-            <Col className="md-auto">
-                <Form.Group className="mb-3">
-                    <Form.Label>CUIT</Form.Label>
-                    <Form.Control placeholder="Number of CUIT" onChange={(e) => { setCuit(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control placeholder="Name" onChange={(e) => { setName(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-            <Col>
-                <Form.Group className="mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control placeholder="Last Name" onChange={(e) => { setLastName(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-            <Col>
-                <Form.Group className="mb-3">
-                    <Form.Label>DNI</Form.Label>
-                    <Form.Control placeholder="Number of DNI, CI or ID" onChange={(e) => { setDni(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Contact Email" onChange={(e) => { setEmail(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-            <Col>
-                <Form.Group className="mb-3">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control placeholder="Contact Phone" onChange={(e) => { setPhone(e.target.value)}}/>
-                </Form.Group>
-            </Col>
-        </Row>
+        </Form.Group> : null }
+        {customerType === "Company" ? 
+            <Row>
+                <Col className="md-auto">
+                    <Form.Group className="mb-3">
+                        <Form.Label>Start Of Activities</Form.Label>
+                        <Form.Control type="date" placeholder="Start Of Activities" onChange={(e) => { setStartOfActivities(e.target.value)}}/>
+                    </Form.Group>
+                </Col>
+                <Col className="md-auto">
+                    <Form.Group className="mb-3">
+                        <Form.Label>CUIT</Form.Label>
+                        <Form.Control placeholder="Number of CUIT" onChange={(e) => { setCuit(e.target.value)}}/>
+                    </Form.Group>
+                </Col>
+            </Row> : null }
+        {customerType === "Company" ? 
+            <Form.Group className="mb-3">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control placeholder="Contact Email" onChange={(e) => { setEmail(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control placeholder="Contact Phone" onChange={(e) => { setPhone(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form.Group> : null }
+        {customerType === "Company" ?
             <Form.Group className="mb-3">
                 <Form.Label>Address</Form.Label>
                 <Form.Control placeholder="Address" onChange={(e) => { setAddress(e.target.value)}}/>
-            </Form.Group>
+            </Form.Group> : null }
+        <Form.Group className="mb-3">
+            {customerType === "Company" ? <Form.Label>Person In Charge</Form.Label> : null }
+        </Form.Group>
+        {customerType !== "" ?
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control placeholder="Name" onChange={(e) => { setName(e.target.value)}}/>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control placeholder="Last Name" onChange={(e) => { setLastName(e.target.value)}}/>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className="mb-3">
+                        <Form.Label>DNI</Form.Label>
+                        <Form.Control placeholder="Number of DNI, CI or ID" onChange={(e) => { setDni(e.target.value)}}/>
+                    </Form.Group>
+                </Col>
+            </Row> : null }
+        {customerType === "Person" ? 
+            <Form.Group className="mb-3">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control placeholder="Contact Email" onChange={(e) => { setEmail(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control placeholder="Contact Phone" onChange={(e) => { setPhone(e.target.value)}}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form.Group> : null }
+        {customerType === "Person" ?
+            <Form.Group className="mb-3">
+                <Form.Label>Address</Form.Label>
+                <Form.Control placeholder="Address" onChange={(e) => { setAddress(e.target.value)}}/>
+            </Form.Group> : null }
         
-        <Button onClick={create}>Create</Button>
+        {customerType !== "" ?<Button onClick={create}>Create</Button> : null }
     </Form>
     </Container>
     </>
