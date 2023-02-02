@@ -36,7 +36,7 @@ function TaxAll({allTaxes}) {
                 <tr key={index}>
                     <td>{index+1}</td>
                     <td>{tax.name}</td>
-                    <td>{tax.percentage>0? tax.percentage*100 : ''}</td>
+                    <td>{tax.percentage>0? (100*tax.percentage.toFixed(4)).toFixed(2): ''}</td>
                     <td><Link to={`/taxes/${tax.id}`}><Button className="btn-light">{admin ? <Pencil></Pencil> : <Eye></Eye> }</Button></Link></td>
                     {admin ? <td ><Button key={tax.id} className="btn-danger" onClick={() => destroy(tax.id)}><Trash3></Trash3></Button></td> : null }
                 </tr>
