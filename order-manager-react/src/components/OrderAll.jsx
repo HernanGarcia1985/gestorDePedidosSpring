@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Trash3, Eye } from "react-bootstrap-icons";
+import { XSquare, Eye } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import annulmentAnOrder from '../utils/annulmentAnOrder';
 
@@ -32,7 +32,7 @@ function OrderAll({allOrders}) {
             <th>Total Discount</th>
             <th>Total Price</th>
             <th>View</th>
-            {admin ? <th>Cancel</th> : null }
+            {admin ? <th>Annul</th> : null }
         </tr>
       </thead>
       <tbody>
@@ -46,7 +46,7 @@ function OrderAll({allOrders}) {
                     <td>{order.totalDiscount>0 ? order.totalDiscount: '-'}</td>
                     <td>{order.totalPrice ? order.totalPrice : '0'}</td>
                     <td><Link to={`/orders/${order.id}`}><Button className="btn-light"><Eye></Eye></Button></Link></td>
-                    {admin ? <td ><Button key={order.id} className="btn-danger" onClick={() => cancelOrder(order.id)}><Trash3></Trash3></Button></td> : null }
+                    {admin ? <td ><Button key={order.id} className="btn-danger" onClick={() => cancelOrder(order.id)}><XSquare></XSquare></Button></td> : null }
                 </tr>
             ))}
       </tbody>
