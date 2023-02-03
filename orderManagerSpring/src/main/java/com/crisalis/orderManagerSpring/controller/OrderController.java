@@ -43,4 +43,10 @@ public class OrderController {
         orderServiceImpl.annulOrderById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Order with id "+id+" was annulled successfully!");
     }
+
+    @PostMapping(value = "/validate" , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validateOrder (@RequestBody OrderCreateDto orderCreateDto) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(orderServiceImpl.validateOrder(orderCreateDto));
+    }
 }
