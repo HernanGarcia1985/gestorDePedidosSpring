@@ -1,52 +1,5 @@
-const createOrder = async (idCustomer, assetListUpdated, quantity, yearsWarranty) => {
-    
-    let orderDetailList = [];
-    let qty;
-    let years;
-    let product;
-    let ownService;
+const createOrder = async (idCustomer, orderDetailList) => {
 
-    assetListUpdated.map(asset => {
-        let qtyFound = quantity && quantity.length ? quantity.filter(x => {
-            return x.idAsset === asset.id
-        }) : [];
-        qty = qtyFound.length ? qtyFound[0].qty : null;
-
-        let yearsFound = yearsWarranty && yearsWarranty.length ? yearsWarranty.filter(x => {
-            return x.idAsset === asset.id
-        }) : [];
-        years = yearsFound.length ? yearsFound[0].years : 0; //Dejar en cero
-
-        if(asset.assetType.toLowerCase() === 'product'){
-            product = {
-                id: asset.id,
-                name: asset.name,
-                basePrice: asset.basePrice,
-                warrantyPercentage: asset.warrantyPercentage
-                //taxList faltaría no es necesaria
-            }
-            ownService = null;
-        } else {
-            product = null;
-            ownService = {
-                id: asset.id,
-                name: asset.name,
-                basePrice: asset.basePrice,
-                special: asset.special,
-                supportCharge: asset.supportCharge
-                //taxList faltaría no es necesaria
-            }
-        }
-
-        orderDetailList.push({
-            id: null,
-            quantity: qty,
-            yearsWarranty: years,
-            product: product,
-            ownService: ownService,
-            order: null
-        })
-    })
     
     let url = 'http://localhost:8080/orders/';
 

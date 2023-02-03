@@ -5,6 +5,7 @@ import { useState } from 'react';
 import annulOrder from '../utils/annulOrder';
 import { useParams } from 'react-router-dom';
 import { XSquare, CheckSquare } from "react-bootstrap-icons";
+import createOrder from '../utils/createOrder';
 
 const OrderDetailTable = ({order}) => {
 
@@ -28,6 +29,12 @@ const OrderDetailTable = ({order}) => {
         }
     }
 
+    const save = () => {
+        const idCustomer = order.company ? order.company.id : order.person.id; 
+        console.log(idCustomer, orderDetailList)
+        createOrder(idCustomer, orderDetailList);
+    }
+
     const activate = () => {
         setStatus(true)
     }
@@ -35,7 +42,7 @@ const OrderDetailTable = ({order}) => {
     const borderFont = {
         fontWeight: "normal",
         borderStyle: "none",
-        backgroundColor: "lightgrey"
+        backgroundColor: "rgba(248,249,250,1)"//"lightgrey" #f8f9fa
     }
 
     const border = {
@@ -47,7 +54,7 @@ const OrderDetailTable = ({order}) => {
     }
 
     const tableDetail = {
-        backgroundColor: "lightgrey",
+        backgroundColor: "rgba(248,249,250,1)",
         borderColor: "black"
     }
 
@@ -60,11 +67,11 @@ const OrderDetailTable = ({order}) => {
             <thead>
                 <tr>
                     {order ? <th style={border}>Order number: </th> : null } 
-                    {order ? <th style={borderFont}>{id}</th> : null }
+                    {order ? <th style={borderFont}>{id ? id : 'CREATING'}</th> : null }
                     {order ? <th style={border}>Created Date: </th> : null }
                     {order ? <th style={borderFont}>{order.dateCreated}</th> : null }
                     {order ? <th style={border}>Status: </th> : null }
-                    {order ? <th style={borderFont}>{status}</th> : null }
+                    {order ? <th style={borderFont}>{id ? status: 'CREATING'}</th> : null }
                 </tr>
                 <br>
                 </br>
@@ -149,19 +156,19 @@ const OrderDetailTable = ({order}) => {
                 <Button>Back</Button>
             </Col>
             <Col>
-                <Button>Save</Button>    
+                {order.id ? null : <Button onClick={save}>Save</Button> }    
             </Col>
         </Row>
         </Form.Group>
         <Form.Group className="mb-3">   
         <Row>
             <Col>            
-                { admin ? order.status ? 
+                { admin && order.id ? order.status ? 
                 <Form.Label style={bold}>Annul the order?</Form.Label>
                  : <Form.Label style={bold}>Activate the order again?</Form.Label> : null }
             </Col>
             <Col>
-                {admin ? order.status ? 
+                {admin && order.id ? order.status ? 
                 <Button onClick={annulment}>Annul  <XSquare></XSquare></Button>
                  : <Button onClick={activate}>Activate  <CheckSquare></CheckSquare></Button> : null }
             </Col>
