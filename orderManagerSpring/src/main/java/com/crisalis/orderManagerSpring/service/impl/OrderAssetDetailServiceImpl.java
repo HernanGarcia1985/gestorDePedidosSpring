@@ -60,6 +60,29 @@ public class OrderAssetDetailServiceImpl implements OrderAssetDetailService {
         throw new NotFoundException("Associate Asset not found");
     }
 
+    @Override
+    public OrderAssetDetail validateOrderAssetDetail(OrderAssetDetail orderAssetDetail) {
+        if (orderAssetDetail.getProduct() != null) {
+            Optional<Product> product = productRepository.findById(orderAssetDetail.getProduct().getId());
+            if (product.isPresent()) {
+                orderAssetDetail.setWarrantyPercentage(product.get().getWarrantyPercentage());
+                orderAssetDetail.setUnitItemPrice(calculateItemPrice(product.get(), null));
+                orderAssetDetail.setTotalWarrantyPrice(calculateTotalWarrantyPrice(orderAssetDetail));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
+                return orderAssetDetail;
+            }
+        } else {
+            Optional<OwnService> ownService = serviceRepository.findById(orderAssetDetail.getOwnService().getId());
+            if (ownService.isPresent()) {
+                orderAssetDetail.setSupportCharge(ownService.get().getSupportCharge());
+                orderAssetDetail.setUnitItemPrice(calculateItemPrice(null, ownService.get()));
+                orderAssetDetail.setTotalItemPrice(calculateTotalItemPrice(orderAssetDetail));
+                return orderAssetDetail;
+            }
+        }
+        throw new NotFoundException("Associate Asset not found");
+    }
+
     public BigDecimal calculateItemPrice(Product product, OwnService ownService) {
         BigDecimal totalTax;
         BigDecimal itemPrice = BigDecimal.valueOf(0);

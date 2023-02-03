@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
             newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
         }
         newOrder.setDiscountPercentage(newOrder.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null);
-        newOrder.setTotalPrice(calculateTotalPrice(newOrder));
+        newOrder.setTotalPrice(calculateTotalPrice(newOrder, null));
         orderRepository.save(newOrder);
         return orderMapper.orderDetailToDto(newOrder,orderAssetDetailList);
     }
@@ -103,9 +103,45 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    public BigDecimal calculateTotalPrice (Order order){
+    @Override
+    public OrderDetailDto validateOrder(OrderCreateDto orderCreateDto) {
+        if (orderCreateDto.getOrderDetailList() == null || orderCreateDto.getOrderDetailList().isEmpty()){
+            throw new NotFoundException("No assets were included in the order");
+        }
+        Order order = null;
+        Optional<Company> company = companyRepository.findById(orderCreateDto.getIdCustomer());
+        if (company.isPresent()) {
+            order = orderMapper.toEntity(orderCreateDto, company.get(), null);
+        } else {
+            Optional<Person> person = personRepository.findById(orderCreateDto.getIdCustomer());
+            if (person.isPresent()) {
+                order = orderMapper.toEntity(orderCreateDto, null, person.get());
+            }
+        }
+        if (order == null){
+            throw new NotFoundException("Associate Customer not found");
+        }
+        List<OrderAssetDetail> orderAssetDetailList = orderCreateDto.getOrderDetailList().stream()
+                .map(detail -> orderAssetDetailServiceImpl.validateOrderAssetDetail(detail)
+                ).collect(Collectors.toList());
+        order.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList));
+        if(order.getServiceOriginateDiscount() != null) {
+            order.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
+        }
+        order.setDiscountPercentage(order.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null);
+        order.setTotalPrice(calculateTotalPrice(order, orderAssetDetailList));
+        return orderMapper.orderDetailToDto(order,orderAssetDetailList);
+    }
+
+    public BigDecimal calculateTotalPrice (Order order, List<OrderAssetDetail> orderAssetDetailListParam){
         BigDecimal totalPrice;
-        List<OrderAssetDetail> orderAssetDetailList = orderAssetDetailServiceImpl.getAllOrderAssetDetailByOrderId(order.getId());
+        List<OrderAssetDetail> orderAssetDetailList;
+        if (orderAssetDetailListParam != null){
+            orderAssetDetailList = orderAssetDetailListParam;
+        }
+        else {
+            orderAssetDetailList = orderAssetDetailServiceImpl.getAllOrderAssetDetailByOrderId(order.getId());
+        }
         Function<OrderAssetDetail, BigDecimal> totalMapper = OrderAssetDetail::getTotalItemPrice;
         totalPrice =  orderAssetDetailList.stream()
                 .map(totalMapper)
