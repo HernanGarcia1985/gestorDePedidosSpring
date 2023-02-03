@@ -3,6 +3,7 @@ package com.crisalis.orderManagerSpring.controller;
 import com.crisalis.orderManagerSpring.dto.JwtResponseDto;
 import com.crisalis.orderManagerSpring.dto.UserLoginDto;
 import com.crisalis.orderManagerSpring.dto.UserRegisterDto;
+import com.crisalis.orderManagerSpring.exception.custom.UnauthorizatedException;
 import com.crisalis.orderManagerSpring.model.EnumRole;
 import com.crisalis.orderManagerSpring.model.Role;
 import com.crisalis.orderManagerSpring.model.User;
@@ -10,7 +11,10 @@ import com.crisalis.orderManagerSpring.repository.RoleRepository;
 import com.crisalis.orderManagerSpring.repository.UserRepository;
 import com.crisalis.orderManagerSpring.security.jwt.JwtUtils;
 import com.crisalis.orderManagerSpring.service.impl.UserDetailsImpl;
+import com.crisalis.orderManagerSpring.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,8 +36,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 public class AuthController {
 
+    //@Autowired
+    //AuthenticationManager authenticationManager;
+
     @Autowired
-    AuthenticationManager authenticationManager;
+    UserServiceImpl userServiceImpl;
 
     @Autowired
     UserRepository userRepository;
@@ -44,13 +51,20 @@ public class AuthController {
     @Autowired
     PasswordEncoder encoder;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    //@Autowired
+    //JwtUtils jwtUtils;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody UserLoginDto loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
+        try {
+            return new ResponseEntity<>(userServiceImpl.authUser(loginRequest), HttpStatus.OK);
+        } catch (Exception exception) {
+            throw new UnauthorizatedException("Bad Credentials");
+            //exception.getMessage(),
+        }
+
+        /*Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -65,11 +79,18 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                roles));*/
     }
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterDto signUpRequest) {
+
+        /*try {
+            return new ResponseEntity<>(userServiceImpl.saveUser(signUpRequest), HttpStatus.CREATED);
+        } catch (Exception exception) {
+            throw new CrudException(HttpStatus.BAD_REQUEST, "Resource cannot be created");
+            //exception.getMessage(),
+        }*/
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -88,7 +109,7 @@ public class AuthController {
         User user = new User(signUpRequest.getEmail(),
                 signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword())
-                );
+        );
 
         Set<Role> roles = new HashSet<>();
 
