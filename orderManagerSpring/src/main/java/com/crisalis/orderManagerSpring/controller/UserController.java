@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -25,12 +22,17 @@ public class UserController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
-        //try {
-            return  new ResponseEntity<>(userServiceImpl.saveUser(userDto), HttpStatus.CREATED);
-        //} catch (Exception exception) {
-          //  throw new CrudException(HttpStatus.BAD_REQUEST, "Could not create resource");
+        System.out.println(userDto);
+        try {
+            return new ResponseEntity<>(userServiceImpl.saveUser(userDto), HttpStatus.CREATED);
+        } catch (Exception exception) {
+            throw new CrudException(HttpStatus.BAD_REQUEST, "Could not create resource");
             //exception.getMessage(),
-        //}
+        }
+    }
+    @GetMapping(value = "")
+    public void saludo(){
+        System.out.println("Saludo");
     }
 
 /*    public UserDto login(@Valid @RequestBody String userName, String password){

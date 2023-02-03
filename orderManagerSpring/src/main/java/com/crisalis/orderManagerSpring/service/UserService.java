@@ -2,6 +2,7 @@ package com.crisalis.orderManagerSpring.service;
 
 import com.crisalis.orderManagerSpring.dto.UserDto;
 import com.crisalis.orderManagerSpring.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
 
