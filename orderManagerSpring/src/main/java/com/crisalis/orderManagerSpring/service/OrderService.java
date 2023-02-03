@@ -14,4 +14,6 @@ public interface OrderService {
     List<OrderDetailDto> getAllOrders ();
 
     void annulOrderById(Integer id);
+
+    OrderDetailDto validateOrder(OrderCreateDto orderCreateDto);
 }

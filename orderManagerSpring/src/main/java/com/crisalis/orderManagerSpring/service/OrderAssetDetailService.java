@@ -11,4 +11,6 @@ public interface OrderAssetDetailService {
     List<OrderAssetDetail> getAllOrderAssetDetailByOrderId (Integer id);
 
     OrderAssetDetail createOrderAssetDetail (OrderAssetDetail orderAssetDetail, Order order);
+
+    OrderAssetDetail validateOrderAssetDetail (OrderAssetDetail orderAssetDetail);
 }
