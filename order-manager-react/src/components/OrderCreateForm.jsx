@@ -2,8 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-import createOrder from '../utils/createOrder';
 import { PlusSquare, DashSquare } from "react-bootstrap-icons";
+import { useNavigate } from 'react-router-dom';
 
 const OrderCreateForm = ({allCustomers, allAssets}) => {
 
@@ -18,6 +18,7 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
     let position;
     let assetListUpdated = [];
 
+    const navigate = useNavigate();
 
     function addAsset () {
         console.log('ingreso: ',assetSelected);
@@ -55,11 +56,18 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
         }
     }
 
-     const create = (e) => {
+     const validateOrder = (e) => {
         e.preventDefault()
         if (!noValidate()){
             transformAssets();
-            createOrder(idCustomer, assetListUpdated, quantity, yearsWarranty);
+            navigate('/orders/validate', {
+                state: {
+                    idCustomer,
+                    assetListUpdated,
+                    quantity,
+                    yearsWarranty
+                }
+            });
         } else {
             alert("At least one asset is required to create an order. Please check the data entered and complete all necessary fields");
         }    
@@ -208,7 +216,7 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
                 </Col>
             </Row>
             </Form.Group>        
-        <Button onClick={create}>Save</Button>
+        <Button onClick={validateOrder}>Validate</Button>
     </Form>
     </Container>
     </>
