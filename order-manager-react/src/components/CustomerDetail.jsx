@@ -20,6 +20,9 @@ const CustomerDetail = ({customer}) => {
     const [address, setAddress] = useState(customer.address)
     const [updatePersonInCharge, setUpdatePersonInCharge] = useState()
 
+    let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+
+    let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 
     const {id} = useParams()
 
@@ -111,7 +114,7 @@ const CustomerDetail = ({customer}) => {
                         <Button onClick={update}>Update</Button>
                     </Col>
                     <Col>
-                        <Button onClick={destroy}>Delete</Button>
+                        {admin ? <Button onClick={destroy}>Delete</Button> : null }
                     </Col>
                 </Row>
                 </Form.Group>
