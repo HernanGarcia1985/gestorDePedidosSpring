@@ -203,7 +203,7 @@ const CustomerDetail = ({customer}) => {
                 <Button onClick={update}>Update</Button>
             </Col>
             <Col>
-                <Button onClick={destroy}>Delete</Button>
+                {admin ? <Button onClick={destroy}>Delete</Button> : null }
             </Col>
         </Row>
         </Form.Group>
