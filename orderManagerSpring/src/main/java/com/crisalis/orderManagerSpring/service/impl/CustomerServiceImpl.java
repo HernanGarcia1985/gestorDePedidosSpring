@@ -1,18 +1,21 @@
 package com.crisalis.orderManagerSpring.service.impl;
 
 import com.crisalis.orderManagerSpring.dto.CustomerDto;
+import com.crisalis.orderManagerSpring.dto.OrderDetailDto;
 import com.crisalis.orderManagerSpring.exception.custom.EmptyElementException;
 import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
 import com.crisalis.orderManagerSpring.exception.custom.NotPosibleDeleteException;
-import com.crisalis.orderManagerSpring.model.Company;
-import com.crisalis.orderManagerSpring.model.Person;
+import com.crisalis.orderManagerSpring.model.*;
 import com.crisalis.orderManagerSpring.repository.CompanyRepository;
+import com.crisalis.orderManagerSpring.repository.CustomerAssetServiceRepository;
+import com.crisalis.orderManagerSpring.repository.OrderRepository;
 import com.crisalis.orderManagerSpring.repository.PersonRepository;
 import com.crisalis.orderManagerSpring.service.CustomerService;
 import com.crisalis.orderManagerSpring.service.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +32,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerMapper customerMapper;
+
+    @Autowired
+    OrderAssetDetailServiceImpl orderAssetDetailServiceImpl;
+
+    @Autowired
+    CustomerAssetServiceRepository customerAssetServiceRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Override
     public CustomerDto getCustomerById(Integer id) {
@@ -150,4 +162,51 @@ public class CustomerServiceImpl implements CustomerService {
         }
         throw new NotFoundException("Person with id "+id+" does not exist");
     }
+
+    @Override
+    public List<CustomerAssetService> assignServices(Integer idCustomer, OrderDetailDto orderDetailDto) {
+        List<CustomerAssetService> customerAssetServiceList = new ArrayList<>();
+        List<OrderAssetDetail> orderServiceList;
+        Optional<Company> company = companyRepository.findById(idCustomer);
+        Optional<Person> person = personRepository.findById(idCustomer);
+
+        if(company.isEmpty() && person.isEmpty()) throw new NotFoundException("Customer with id: "+ idCustomer + " does not exists");
+
+        if(company.isPresent()) {
+            if(!idCustomer.equals(company.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +"does not belong to the customer with id "+ idCustomer);
+        }
+
+        if(person.isPresent()) {
+            if(!idCustomer.equals(person.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +"does not belong to the customer with id "+ idCustomer);
+        }
+
+        if(!orderDetailDto.getStatus()) throw new NotFoundException("Order with id: "+ orderDetailDto.getId() + " is annuled");
+
+        Optional<Order> order = orderRepository.findById(orderDetailDto.getId());
+        List<OrderAssetDetail> orderAssetDetailList = orderAssetDetailServiceImpl.getAllOrderAssetDetailByOrderId(orderDetailDto.getId());
+        if (orderAssetDetailList.isEmpty() || orderAssetDetailList == null){
+            throw new NotFoundException("No assets associated with this order");
+        }
+        orderServiceList = orderAssetDetailList.stream()
+                .filter(orderAssetDetail -> orderAssetDetail.getOwnService() != null)
+                .collect(Collectors.toList());
+        if(orderServiceList.isEmpty()){
+            throw new NotFoundException("No services associated with this order");
+        }
+        CustomerAssetService customerAssetService = new CustomerAssetService(
+                null,
+                LocalDate.now(),
+                true,
+                order.orElse(null),
+                company.isPresent() ? company.get() : null,
+                person.isPresent() ? person.get() : null,
+                null
+        );
+        for (int i=0; i<orderServiceList.size(); i++) {
+            customerAssetService.setOwnService(orderServiceList.get(i).getOwnService());
+            customerAssetServiceList.add(i, customerAssetServiceRepository.save(customerAssetService));
+        }
+        return customerAssetServiceList;
+    }
+
 }

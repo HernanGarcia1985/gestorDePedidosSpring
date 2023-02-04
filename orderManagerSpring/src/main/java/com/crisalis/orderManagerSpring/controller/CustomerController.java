@@ -1,6 +1,7 @@
 package com.crisalis.orderManagerSpring.controller;
 
 import com.crisalis.orderManagerSpring.dto.CustomerDto;
+import com.crisalis.orderManagerSpring.dto.OrderDetailDto;
 import com.crisalis.orderManagerSpring.service.impl.CustomerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,5 +57,11 @@ public class CustomerController {
     public ResponseEntity<?> updateCustomer(@PathVariable(value = "id") Integer id, @RequestBody CustomerDto customerModified){
         CustomerDto customerUpdated = customerServiceImpl.updateCustomerById(id, customerModified);
         return ResponseEntity.status(HttpStatus.OK).body(customerUpdated);
+    }
+
+    @PostMapping(value = "/activateServices" , consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> assignServices(@RequestBody Integer idCustomer, OrderDetailDto orderDetailDto) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(customerServiceImpl.assignServices(idCustomer, orderDetailDto));
     }
 }
