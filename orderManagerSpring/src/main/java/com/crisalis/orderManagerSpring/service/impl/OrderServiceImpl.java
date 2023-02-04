@@ -5,6 +5,7 @@ import com.crisalis.orderManagerSpring.dto.OrderDetailDto;
 import com.crisalis.orderManagerSpring.exception.custom.NotFoundException;
 import com.crisalis.orderManagerSpring.model.*;
 import com.crisalis.orderManagerSpring.repository.CompanyRepository;
+import com.crisalis.orderManagerSpring.repository.CustomerAssetServiceRepository;
 import com.crisalis.orderManagerSpring.repository.OrderRepository;
 import com.crisalis.orderManagerSpring.repository.PersonRepository;
 import com.crisalis.orderManagerSpring.service.OrderService;
@@ -36,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderAssetDetailServiceImpl orderAssetDetailServiceImpl;
 
+    @Autowired
+    CustomerAssetServiceRepository customerAssetServiceRepository;
+
     @Override
     public OrderDetailDto createOrder(OrderCreateDto orderCreateDto) {
         if (orderCreateDto.getOrderDetailList() == null || orderCreateDto.getOrderDetailList().isEmpty()){
@@ -58,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderAssetDetail> orderAssetDetailList = orderCreateDto.getOrderDetailList().stream()
                 .map(detail -> orderAssetDetailServiceImpl.createOrderAssetDetail(detail, newOrder)
                 ).collect(Collectors.toList());
-        newOrder.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList));
+        newOrder.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList, newOrder));
         if(newOrder.getServiceOriginateDiscount() != null) {
             newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
         }
@@ -124,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderAssetDetail> orderAssetDetailList = orderCreateDto.getOrderDetailList().stream()
                 .map(detail -> orderAssetDetailServiceImpl.validateOrderAssetDetail(detail)
                 ).collect(Collectors.toList());
-        order.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList));
+        order.setServiceOriginateDiscount(findServiceOriginateDiscount(orderAssetDetailList, order));
         if(order.getServiceOriginateDiscount() != null) {
             order.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
         }
@@ -149,14 +153,17 @@ public class OrderServiceImpl implements OrderService {
         return totalPrice; //VER descuentos
     }
 
-    public String findServiceOriginateDiscount (List<OrderAssetDetail> orderAssetDetailList) {
+    public String findServiceOriginateDiscount (List<OrderAssetDetail> orderAssetDetailList, Order order) {
         String serviceOriginateDiscount;
         List<OrderAssetDetail> orderServiceList = orderAssetDetailList.stream()
                 .filter(orderAssetDetail -> orderAssetDetail.getOwnService() != null)
                 .collect(Collectors.toList());
         if(orderServiceList.isEmpty()){
-            //Buscar por idcustomer servicios activos
-            return null;
+            List<CustomerAssetService> customerAssetServiceList;
+            if(order.getCompany()!= null) customerAssetServiceList = customerAssetServiceRepository.findByCompanyId(order.getCompany().getId());
+            else customerAssetServiceList = customerAssetServiceRepository.findByPersonId(order.getPerson().getId());
+            if (customerAssetServiceList.isEmpty()) return null;
+            else serviceOriginateDiscount = customerAssetServiceList.get(0).getOwnService().getName();
         } else {
             serviceOriginateDiscount = orderServiceList.get(0).getOwnService().getName();
         }
