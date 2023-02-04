@@ -59,8 +59,8 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerUpdated);
     }
 
-    @PostMapping(value = "/activateServices" , consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> assignServices(@RequestBody Integer idCustomer, OrderDetailDto orderDetailDto) {
+    @PostMapping(value = "/activateServices/{id}" , consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> assignServices(@PathVariable(value = "id") Integer idCustomer, @RequestBody OrderDetailDto orderDetailDto) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(customerServiceImpl.assignServices(idCustomer, orderDetailDto));
     }

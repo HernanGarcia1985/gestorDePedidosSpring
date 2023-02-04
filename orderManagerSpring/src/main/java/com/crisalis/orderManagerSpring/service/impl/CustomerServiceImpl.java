@@ -193,17 +193,16 @@ public class CustomerServiceImpl implements CustomerService {
         if(orderServiceList.isEmpty()){
             throw new NotFoundException("No services associated with this order");
         }
-        CustomerAssetService customerAssetService = new CustomerAssetService(
-                null,
-                LocalDate.now(),
-                true,
-                order.orElse(null),
-                company.isPresent() ? company.get() : null,
-                person.isPresent() ? person.get() : null,
-                null
-        );
         for (int i=0; i<orderServiceList.size(); i++) {
-            customerAssetService.setOwnService(orderServiceList.get(i).getOwnService());
+            CustomerAssetService customerAssetService = new CustomerAssetService(
+                    null,
+                    LocalDate.now(),
+                    true,
+                    order.orElse(null),
+                    company.isPresent() ? company.get() : null,
+                    person.isPresent() ? person.get() : null,
+                    orderServiceList.get(i).getOwnService()
+            );
             customerAssetServiceList.add(i, customerAssetServiceRepository.save(customerAssetService));
         }
         return customerAssetServiceList;
