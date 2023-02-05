@@ -4,8 +4,9 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import annulOrder from '../utils/annulOrder';
 import { useParams } from 'react-router-dom';
-import { XSquare, CheckSquare } from "react-bootstrap-icons";
+import { XSquare, CheckSquare, ArrowLeftSquare } from "react-bootstrap-icons";
 import createOrder from '../utils/createOrder';
+import { Link } from 'react-router-dom';
 
 const OrderDetailTable = ({order}) => {
 
@@ -153,7 +154,9 @@ const OrderDetailTable = ({order}) => {
                 
             </Col>
             <Col>
-                <Button>Back</Button>
+                {order.id ? 
+                <Link to={'/orders'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                 : <Link to={'/orders/create'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link> }
             </Col>
             <Col>
                 {order.id ? null : <Button onClick={save}>Save</Button> }    
@@ -169,8 +172,8 @@ const OrderDetailTable = ({order}) => {
             </Col>
             <Col>
                 {admin && order.id ? order.status ? 
-                <Button onClick={annulment}>Annul  <XSquare></XSquare></Button>
-                 : <Button onClick={activate}>Activate  <CheckSquare></CheckSquare></Button> : null }
+                <Button className="btn-danger" onClick={annulment}>Annul  <XSquare></XSquare></Button>
+                 : <Button className="btn-warning" onClick={activate}>Activate  <CheckSquare></CheckSquare></Button> : null }
             </Col>
             <Col>    
             </Col>
