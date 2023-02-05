@@ -106,11 +106,11 @@ const OrderDetailTable = ({order}) => {
                             {orderDetail.product === null ? <td>{orderDetail.ownService.name}</td> : <td>{orderDetail.product.name}</td>}
                             {orderDetail.product === null ? <td>-</td> : <td>{orderDetail.quantity}</td>}
                             {orderDetail.product === null ? <td>-</td> : <td>{orderDetail.yearsWarranty}</td>}
-                            <td>{orderDetail.unitItemPrice}</td>
+                            <td>{orderDetail.unitItemPrice.toFixed(2)}</td>
                             {orderDetail.product === null ? 
-                                orderDetail.supportCharge>0 ? <td>{orderDetail.supportCharge}</td> : <td>-</td>
-                                 : orderDetail.totalWarrantyPrice>0 ? <td>{orderDetail.totalWarrantyPrice}</td> : <td>-</td>}
-                            <td>{orderDetail.totalItemPrice}</td>
+                                orderDetail.supportCharge>0 ? <td>{orderDetail.supportCharge.toFixed(2)}</td> : <td>-</td>
+                                 : orderDetail.totalWarrantyPrice>0 ? <td>{orderDetail.totalWarrantyPrice.toFixed(2)}</td> : <td>-</td>}
+                            <td>{orderDetail.totalItemPrice.toFixed(2)}</td>
                         </tr>
                     )) : null }
                         {orderDetailList && orderDetailList.length ? <tr>
@@ -120,7 +120,7 @@ const OrderDetailTable = ({order}) => {
                             <td style={border}></td>
                             <td style={border}></td>
                             <td style={bold} >Subtotal</td>
-                            <td>{order.subTotalPrice}</td>
+                            <td>{order.subTotalPrice.toFixed(2)}</td>
                         </tr> : null }
                         {orderDetailList && orderDetailList.length ? <tr>
                             <td style={border}></td>
@@ -129,7 +129,7 @@ const OrderDetailTable = ({order}) => {
                             <td style={border}></td>
                             <td style={border}></td>
                             <td style={bold} >Total Discount</td>
-                            <td>{order.totalDiscount}</td>
+                            <td>{order.totalDiscount.toFixed(2)}</td>
                         </tr> : null }
                         {orderDetailList && orderDetailList.length ? <tr>
                             <td style={border}></td>
@@ -138,7 +138,7 @@ const OrderDetailTable = ({order}) => {
                             <td style={border}></td>
                             <td style={border}></td>
                             <td style={bold} >Total</td>
-                            <td>{order.totalPrice}</td>
+                            <td>{order.totalPrice.toFixed(2)}</td>
                         </tr> : null }
                 </tbody>
             </Table>

@@ -126,13 +126,13 @@ const AssetDetail = ({asset, allTaxes}) => {
                         </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Base Price</Form.Label>
-                    <Form.Control type="number" min="1" defaultValue={basePrice} onChange={(e) => { setBasePrice(e.target.value)}}/>
+                    <Form.Control type="number" min="1" defaultValue={basePrice.toFixed(2)} onChange={(e) => { setBasePrice(e.target.value)}}/>
                 </Form.Group>
                 <Row>
                     <Col>
                         <Form.Group className="mb-3">
                             <Form.Label>Warranty Percentage</Form.Label>
-                            <Form.Control type="number" min="0" max="1" defaultValue={warrantyPercentage} onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
+                            <Form.Control type="number" min="0" max="1" placeholder="Please enter Warranty Percentage in 0.10 format (A number between 0 and 1)" defaultValue={warrantyPercentage} onChange={(e) => { setWarrantyPercentage(e.target.value)}}/>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -188,7 +188,7 @@ const AssetDetail = ({asset, allTaxes}) => {
                 </Form.Group>
         <Form.Group className="mb-3">
             <Form.Label>Base Price</Form.Label>
-            <Form.Control type="number" min="1" defaultValue={basePrice} onChange={(e) => { setBasePrice(e.target.value)}}/>
+            <Form.Control type="number" min="1" defaultValue={basePrice.toFixed(2)} onChange={(e) => { setBasePrice(e.target.value)}}/>
         </Form.Group>
         <Row>
             <Col className="md-auto">
@@ -203,7 +203,7 @@ const AssetDetail = ({asset, allTaxes}) => {
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Support Charge</Form.Label>
-                    <Form.Control key={special} type="number" min="0" defaultValue={supportCharge>0 ? supportCharge : "0"} onChange={(e) => { setSupportCharge(e.target.value)}}/>
+                    <Form.Control key={special} type="number" min="0" defaultValue={supportCharge>0 ? supportCharge.toFixed(2) : "0"} onChange={(e) => { setSupportCharge(e.target.value)}}/>
                 </Form.Group>
             </Col>
         </Row>
