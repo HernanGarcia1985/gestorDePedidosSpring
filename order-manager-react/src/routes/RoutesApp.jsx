@@ -19,11 +19,13 @@ import OrderCreate from '../views/OrderCreate';
 import OrderViewAll from '../views/OrderViewAll';
 import OrderDetailTableShow from '../views/OrderDetailTableShow';
 import OrderDetailValidate from '../views/OrderDetailValidate';
+import HomeImageCloud from '../components/HomeImageCloud';
 
 const RoutesApp = () => {
     return (
         <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/home" element={<HomeImageCloud />} />
             <Route path="/auth/signup" element={<Register />} />
             <Route path="/auth/signin" element={<Login />} />
             <Route path='/customers/' element={<CustomerViewAll />} />
