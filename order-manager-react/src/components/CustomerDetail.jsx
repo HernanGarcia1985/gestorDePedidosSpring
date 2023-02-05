@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import updateCustomer from '../utils/updateCustomer'
 import deleteCustomer from '../utils/deleteCustomer'
+import { ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const CustomerDetail = ({customer}) => {
 
@@ -67,6 +69,19 @@ const CustomerDetail = ({customer}) => {
             <Container>
             <Form >
                 <Form.Group className="mb-3">
+                    <Row>
+                        <Col>            
+                            <Button onClick={update}>Update</Button>
+                        </Col>
+                        <Col>
+                            <Link to={'/customers'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                        </Col>
+                        <Col>
+                            {admin ? <Button className="btn-danger" onClick={destroy}>Delete</Button> : null }
+                        </Col>
+                    </Row>
+                </Form.Group>
+                <Form.Group className="mb-3">
                     <Form.Label>Customer Type</Form.Label>
                     <Form.Control type='text' defaultValue={customerType.toUpperCase()} disabled onLoad={(e) => { setCustomerType(e.target.value)}}></Form.Control>
                 </Form.Group>
@@ -108,16 +123,6 @@ const CustomerDetail = ({customer}) => {
                         <Form.Label>Address</Form.Label>
                         <Form.Control defaultValue={address} onChange={(e) => { setAddress(e.target.value)}}/>
                     </Form.Group>
-                <Form.Group className="mb-3">
-                <Row>
-                    <Col>            
-                        <Button onClick={update}>Update</Button>
-                    </Col>
-                    <Col>
-                        {admin ? <Button onClick={destroy}>Delete</Button> : null }
-                    </Col>
-                </Row>
-                </Form.Group>
             </Form>
             </Container>
             </>
@@ -128,6 +133,19 @@ const CustomerDetail = ({customer}) => {
     <>
     <Container>
     <Form >
+        <Form.Group className="mb-3">
+            <Row>
+                <Col>            
+                    <Button onClick={update}>Update</Button>
+                </Col>
+                <Col>
+                    <Link to={'/customers'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                </Col>
+                <Col>
+                    {admin ? <Button className="btn-danger" onClick={destroy}>Delete</Button> : null }
+                </Col>
+            </Row>
+        </Form.Group>
         <Form.Group className="mb-3">
             <Form.Label>Customer Type</Form.Label>
             <Form.Control type='text' defaultValue={customerType.toUpperCase()} disabled onLoad={(e) => { setCustomerType(e.target.value)}}></Form.Control>
@@ -197,16 +215,6 @@ const CustomerDetail = ({customer}) => {
                 <Form.Label>Address</Form.Label>
                 <Form.Control defaultValue={address} onChange={(e) => { setAddress(e.target.value)}}/>
             </Form.Group>
-        <Form.Group className="mb-3">
-        <Row>
-            <Col>            
-                <Button onClick={update}>Update</Button>
-            </Col>
-            <Col>
-                {admin ? <Button onClick={destroy}>Delete</Button> : null }
-            </Col>
-        </Row>
-        </Form.Group>
     </Form>
     </Container>
     </>

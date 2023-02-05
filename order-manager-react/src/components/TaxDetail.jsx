@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import updateTax from '../utils/updateTax'
 import deleteTax from '../utils/deleteTax';
+import { ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const TaxDetail = ({tax}) => {
 
@@ -50,6 +52,19 @@ const TaxDetail = ({tax}) => {
         <Container>
         <Form >
             <Form.Group className="mb-3">
+                <Row>
+                    <Col>            
+                        {admin ? <Button onClick={update}>Update</Button> : null }
+                    </Col>
+                    <Col>
+                        <Link to={'/taxes'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                    </Col>
+                    <Col>
+                        {admin ? <Button className="btn-danger" onClick={destroy}>Delete</Button> : null }
+                    </Col>
+                </Row>
+            </Form.Group>
+            <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>
                 <Form.Control defaultValue={name} onChange={(e) => { setName(e.target.value)}}/>
             </Form.Group>
@@ -57,16 +72,6 @@ const TaxDetail = ({tax}) => {
                 <Form.Label>Percentage</Form.Label>
                 <Form.Control type="number" placeholder="Please enter a number between 0 and 1" defaultValue={percentage} onChange={(e) => { setPercentage(e.target.value)}}/>
             </Form.Group>    
-            <Form.Group className="mb-3">
-            <Row>
-                <Col>            
-                    {admin ? <Button onClick={update}>Update</Button> : null }
-                </Col>
-                <Col>
-                    {admin ? <Button onClick={destroy}>Delete</Button> : null }
-                </Col>
-            </Row>
-            </Form.Group>
         </Form>
         </Container>
         </>

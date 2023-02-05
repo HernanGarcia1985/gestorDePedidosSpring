@@ -5,7 +5,8 @@ import { useState } from 'react';
 import updateAsset from '../utils/updateAsset';
 import deleteAsset from '../utils/deleteAsset';
 import { useParams } from 'react-router-dom';
-import { PlusSquare, DashSquare } from "react-bootstrap-icons";
+import { PlusSquare, DashSquare, ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const AssetDetail = ({asset, allTaxes}) => {
 
@@ -116,6 +117,19 @@ const AssetDetail = ({asset, allTaxes}) => {
             <>
             <Container>
             <Form >
+                <Form.Group className="mb-3">
+                    <Row>
+                        <Col>            
+                            {admin ? <Button onClick={update}>Update</Button> : null }
+                        </Col>
+                        <Col>
+                            <Link to={'/assets'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                        </Col>
+                        <Col>
+                            {admin ? <Button className="btn-danger" onClick={destroy}>Delete</Button> : null }
+                        </Col>
+                    </Row>
+                </Form.Group>
                 <Form.Group className="mb-3 " >
                     <Form.Label>Asset Type</Form.Label>
                     <Form.Control type='text' defaultValue={assetType.toUpperCase()} disabled onLoad={(e) => { setAssetType(e.target.value)}}></Form.Control>
@@ -157,16 +171,6 @@ const AssetDetail = ({asset, allTaxes}) => {
                             {admin ? <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button> : null }
                         </Col>
                     </Row>
-                </Form.Group>    
-                <Form.Group className="mb-3">
-                <Row>
-                    <Col>            
-                        {admin ? <Button onClick={update}>Update</Button> : null }
-                    </Col>
-                    <Col>
-                        {admin ? <Button onClick={destroy}>Delete</Button> : null }
-                    </Col>
-                </Row>
                 </Form.Group>
             </Form>
             </Container>
@@ -178,6 +182,19 @@ const AssetDetail = ({asset, allTaxes}) => {
     <>
     <Container>
     <Form >
+        <Form.Group className="mb-3">
+            <Row>
+                <Col>            
+                    {admin ? <Button onClick={update}>Update</Button> : null }
+                </Col>
+                <Col>
+                    <Link to={'/assets'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                </Col>
+                <Col>
+                    {admin ? <Button className="btn-danger" onClick={destroy}>Delete</Button> : null }
+                </Col>
+            </Row>
+        </Form.Group>
         <Form.Group className="mb-3 " >
             <Form.Label>Asset Type</Form.Label>
             <Form.Control type='text' defaultValue={assetType.toUpperCase()} disabled onLoad={(e) => { setAssetType(e.target.value)}}></Form.Control>
@@ -229,16 +246,6 @@ const AssetDetail = ({asset, allTaxes}) => {
                         </Col>
                     </Row>
                 </Form.Group>
-        <Form.Group className="mb-3">
-        <Row>
-            <Col>            
-                {admin ? <Button onClick={update}>Update</Button> : null }
-            </Col>
-            <Col>
-                {admin ? <Button onClick={destroy}>Delete</Button> : null }
-            </Col>
-        </Row>
-        </Form.Group>
     </Form>
     </Container>
     </>
