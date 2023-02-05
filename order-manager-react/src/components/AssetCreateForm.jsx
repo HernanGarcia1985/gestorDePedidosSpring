@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import createAsset from '../utils/createAsset';
-import { PlusSquare, DashSquare } from "react-bootstrap-icons";
+import { PlusSquare, DashSquare, ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const AssetCreateForm = ({allTaxes}) => {
 
@@ -152,8 +153,19 @@ const AssetCreateForm = ({allTaxes}) => {
                     <Button onClick={removeTax}>Remove  <DashSquare></DashSquare></Button>
                 </Col>
             </Row>
-        </Form.Group> : null }        
-        {assetType !== "" ? <Button onClick={create}>Create</Button> : null }
+        </Form.Group> : null }
+        <Form.Group className="mb-3">
+            {assetType !== "" ?
+                <Row>
+                    <Col>
+                        <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                    </Col>
+                    <Col>
+                        <Button onClick={create}>Create</Button>
+                    </Col>
+                </Row>
+            : <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link> }
+        </Form.Group>
     </Form>
     </Container>
     </>

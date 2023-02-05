@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import createTax from '../utils/createTax';
+import { ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const TaxCreateForm = () => {
 
@@ -38,11 +40,14 @@ const TaxCreateForm = () => {
                     <Form.Control type="number" placeholder="Please enter a number between 0 and 1" onChange={(e) => { setPercentage(e.target.value)}}/>
                 </Form.Group>    
                 <Form.Group className="mb-3">
-                <Row>
-                    <Col>            
-                        <Button onClick={create}>Create</Button>
-                    </Col>
-                </Row>
+                    <Row>
+                        <Col>
+                            <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                        </Col>
+                        <Col>            
+                            <Button onClick={create}>Create</Button>
+                        </Col>
+                    </Row>
                 </Form.Group>
             </Form>
             </Container>

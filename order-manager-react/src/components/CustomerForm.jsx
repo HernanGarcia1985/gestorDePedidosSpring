@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import createCustomer from '../utils/createCustomer';
+import { ArrowLeftSquare } from "react-bootstrap-icons";
+import { Link } from 'react-router-dom';
 
 const CustomerForm = () => {
 
@@ -132,8 +134,19 @@ const CustomerForm = () => {
                 <Form.Label>Address</Form.Label>
                 <Form.Control placeholder="Address" onChange={(e) => { setAddress(e.target.value)}}/>
             </Form.Group> : null }
+            <Form.Group className="mb-3">
+            {customerType !== "" ?
+                <Row>
+                    <Col>
+                        <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                    </Col>
+                    <Col>
+                        <Button onClick={create}>Create</Button>
+                    </Col>
+                </Row>
+            : <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link> }
+            </Form.Group>
         
-        {customerType !== "" ?<Button onClick={create}>Create</Button> : null }
     </Form>
     </Container>
     </>

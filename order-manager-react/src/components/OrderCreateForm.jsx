@@ -2,8 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-import { PlusSquare, DashSquare } from "react-bootstrap-icons";
-import { useNavigate } from 'react-router-dom';
+import { PlusSquare, DashSquare, ArrowLeftSquare } from "react-bootstrap-icons";
+import { useNavigate, Link } from 'react-router-dom';
 
 const OrderCreateForm = ({allCustomers, allAssets}) => {
 
@@ -215,8 +215,17 @@ const OrderCreateForm = ({allCustomers, allAssets}) => {
                     <Button onClick={removeAsset}>Remove  <DashSquare></DashSquare></Button>
                 </Col>
             </Row>
-            </Form.Group>        
-        <Button onClick={validateOrder}>Validate</Button>
+        </Form.Group>
+        <Form.Group className="mb-3">
+                <Row>
+                    <Col>
+                        <Link to={'/home'}><Button className="btn-info">Home <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
+                    </Col>
+                    <Col>
+                        <Button onClick={validateOrder}>Validate</Button>
+                    </Col>
+                </Row>
+        </Form.Group>            
     </Form>
     </Container>
     </>
