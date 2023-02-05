@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3} from "react-bootstrap-icons";
+import { Pencil, Trash3, PlusSquare} from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteCustomer from '../utils/deleteCustomer'
 
@@ -19,10 +19,27 @@ function CustomerAll({allCustomers}) {
     }
   }
 
+  const border = {
+    borderStyle: "none",
+    //color: "indigo",
+    paddingBottom: "1.5rem"
+  }
+
     console.log(allCustomers)
   return (
     <Table responsive>
       <thead>
+        <tr>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          {admin ? <th style={border}></th> : null }
+          <th style={border}></th>
+          <th style={border}>Create</th>
+          <th style={border}><Link to={'/customers/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>
+        </tr>
         <tr>
           <th>#</th>  
             <th>Customer Type</th>

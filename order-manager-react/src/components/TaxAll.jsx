@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3, Eye } from "react-bootstrap-icons";
+import { Pencil, Trash3, Eye, PlusSquare } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteTax from '../utils/deleteTax';
 
@@ -23,10 +23,23 @@ function TaxAll({allTaxes}) {
     // textAlign: "left",
   }
 
+  const border = {
+    borderStyle: "none",
+    //color: "indigo",
+    paddingBottom: "1.5rem"
+  }
 
   return (
     <Table responsive>
       <thead>
+      {admin ? 
+        <tr>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}>Create</th>
+          <th style={border}><Link to={'/taxes/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>
+        </tr> : null }
         <tr>
           <th>#</th>  
             <th>Name</th>

@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { XSquare, Eye } from "react-bootstrap-icons";
+import { XSquare, Eye, PlusSquare } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import annulmentAnOrder from '../utils/annulmentAnOrder';
 
@@ -19,10 +19,26 @@ function OrderAll({allOrders}) {
     }
   }
 
+  const border = {
+    borderStyle: "none",
+    //color: "indigo",
+    paddingBottom: "1.5rem"
+  }
 
   return (
     <Table responsive>
       <thead>
+        <tr>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          <th style={border}></th>
+          {admin ? <th style={border}></th> : null }
+          <th style={border}>Create</th>
+          <th style={border}><Link to={'/orders/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>
+        </tr>
         <tr>
           <th>#</th>  
             <th>Order number</th>
@@ -43,8 +59,8 @@ function OrderAll({allOrders}) {
                     <td>{order.company ? order.company.businessName : order.person.name+' '+order.person.lastName}</td>
                     <td>{order.dateCreated}</td>
                     <td>{order.status ? 'ACTIVE': 'CANCELLED'}</td>
-                    <td>{order.totalDiscount>0 ? order.totalDiscount: '-'}</td>
-                    <td>{order.totalPrice ? order.totalPrice : '0'}</td>
+                    <td>{order.totalDiscount>0 ? order.totalDiscount.toFixed(2) : '-'}</td>
+                    <td>{order.totalPrice ? order.totalPrice.toFixed(2) : '-'}</td>
                     <td><Link to={`/orders/${order.id}`}><Button className="btn-light"><Eye></Eye></Button></Link></td>
                     {admin ? <td ><Button key={order.id} className="btn-danger" onClick={() => cancelOrder(order.id)}><XSquare></XSquare></Button></td> : null }
                 </tr>
