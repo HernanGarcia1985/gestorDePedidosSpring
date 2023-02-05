@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3, Eye, PlusSquare } from "react-bootstrap-icons";
+import { Pencil, Trash3, Eye, PlusSquare, ArrowLeftSquare } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteTax from '../utils/deleteTax';
 
@@ -31,17 +31,18 @@ function TaxAll({allTaxes}) {
 
   return (
     <Table responsive>
-      <thead>
-      {admin ? 
+      <thead> 
         <tr>
+          <th style={border}>Back</th>
+          <th style={border}><Link to={'/home'}><Button className="btn-light"><ArrowLeftSquare></ArrowLeftSquare></Button></Link></th>
           <th style={border}></th>
           <th style={border}></th>
-          <th style={border}></th>
-          <th style={border}>Create</th>
-          <th style={border}><Link to={'/taxes/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>
-        </tr> : null }
+          {admin ? <th style={border}>Create</th> : null }
+          {admin ? <th style={border}><Link to={'/taxes/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th> : null }
+        </tr>
         <tr>
-          <th>#</th>  
+          <th>#</th>
+            <th></th>  
             <th>Name</th>
             <th>Percentage</th>
             {admin ? <th>Edit</th> : <th>View</th> }
@@ -52,6 +53,7 @@ function TaxAll({allTaxes}) {
             {allTaxes.map((tax, index) => (
                 <tr key={index}>
                     <td>{index+1}</td>
+                    <td></td>
                     <td style={alignTax}>{tax.name}</td>
                     <td>{tax.percentage>0? (100*tax.percentage.toFixed(4)).toFixed(2): ''}</td>
                     <td><Link to={`/taxes/${tax.id}`}><Button className="btn-light">{admin ? <Pencil></Pencil> : <Eye></Eye> }</Button></Link></td>

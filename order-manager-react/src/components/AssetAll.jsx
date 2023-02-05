@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3, Eye, PlusSquare } from "react-bootstrap-icons";
+import { Pencil, Trash3, Eye, PlusSquare, ArrowLeftSquare } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteAsset from '../utils/deleteAsset'
 
@@ -28,18 +28,17 @@ function AssetAll({allAssets}) {
   return (
     <Table responsive>
       <thead>
-        {admin ? 
         <tr>
+          <th style={border}>Back</th>
+          <th style={border}><Link to={'/home'}><Button className="btn-light"><ArrowLeftSquare></ArrowLeftSquare></Button></Link></th>
           <th style={border}></th>
           <th style={border}></th>
           <th style={border}></th>
           <th style={border}></th>
           <th style={border}></th>
-          <th style={border}></th>
-          <th style={border}></th>
-          <th style={border}>Create</th>
-          <th style={border}><Link to={'/assets/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>
-        </tr> : null }
+          {admin ? <th style={border}>Create</th> : null }
+          {admin ? <th style={border}><Link to={'/assets/create'}><Button className="btn-light"><PlusSquare></PlusSquare></Button></Link></th>: null }
+        </tr>
         <tr>
           <th>#</th>  
             <th>Asset Type</th>

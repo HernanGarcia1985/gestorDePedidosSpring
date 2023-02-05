@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { XSquare, Eye, PlusSquare } from "react-bootstrap-icons";
+import { XSquare, Eye, PlusSquare, ArrowLeftSquare } from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import annulmentAnOrder from '../utils/annulmentAnOrder';
 
@@ -29,8 +29,8 @@ function OrderAll({allOrders}) {
     <Table responsive>
       <thead>
         <tr>
-          <th style={border}></th>
-          <th style={border}></th>
+          <th style={border}>Back</th>
+          <th style={border}><Link to={'/home'}><Button className="btn-light"><ArrowLeftSquare></ArrowLeftSquare></Button></Link></th>
           <th style={border}></th>
           <th style={border}></th>
           <th style={border}></th>

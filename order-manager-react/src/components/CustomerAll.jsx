@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap'
-import { Pencil, Trash3, PlusSquare} from "react-bootstrap-icons";
+import { Pencil, Trash3, PlusSquare, ArrowLeftSquare} from "react-bootstrap-icons";
 import { Link } from 'react-router-dom';
 import deleteCustomer from '../utils/deleteCustomer'
 
@@ -30,8 +30,8 @@ function CustomerAll({allCustomers}) {
     <Table responsive>
       <thead>
         <tr>
-          <th style={border}></th>
-          <th style={border}></th>
+          <th style={border}>Back</th>
+          <th style={border}><Link to={'/home'}><Button className="btn-light"><ArrowLeftSquare></ArrowLeftSquare></Button></Link></th>
           <th style={border}></th>
           <th style={border}></th>
           <th style={border}></th>
