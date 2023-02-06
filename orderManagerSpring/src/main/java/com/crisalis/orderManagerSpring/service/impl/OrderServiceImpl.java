@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         if(newOrder.getServiceOriginateDiscount() != null) {
             newOrder.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
         }
-        newOrder.setDiscountPercentage(newOrder.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null);
+        newOrder.setDiscountPercentage(newOrder.getTotalDiscount() != null ? newOrder.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null : null);
         newOrder.setTotalPrice(calculateTotalPrice(newOrder, null));
         orderRepository.save(newOrder);
         return orderMapper.orderDetailToDto(newOrder,orderAssetDetailList);
@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
         if(order.getServiceOriginateDiscount() != null) {
             order.setTotalDiscount(calculateTotalDiscount(orderAssetDetailList));
         }
-        order.setDiscountPercentage(order.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null);
+        order.setDiscountPercentage(order.getTotalDiscount() != null ? order.getTotalDiscount().compareTo(BigDecimal.ZERO)>0 ? BigDecimal.valueOf(0.10) : null : null);
         order.setTotalPrice(calculateTotalPrice(order, orderAssetDetailList));
         return orderMapper.orderDetailToDto(order,orderAssetDetailList);
     }
