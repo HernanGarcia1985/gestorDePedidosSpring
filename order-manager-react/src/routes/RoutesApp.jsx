@@ -11,7 +11,7 @@ import CustomerSearch from '../components/CustomerSearch';
 import AssetCreate from '../views/AssetCreate';
 import AssetShow from '../views/AssetShow';
 import AssetViewAll from '../views/AssetViewAll';
-import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRouteAdmin from '../components/ProtectedRouteAdmin';
 import TaxViewAll from '../views/TaxViewAll';
 import TaxShow from '../views/TaxShow';
 import TaxCreate from '../components/TaxCreateForm';
@@ -20,6 +20,7 @@ import OrderViewAll from '../views/OrderViewAll';
 import OrderDetailTableShow from '../views/OrderDetailTableShow';
 import OrderDetailValidate from '../views/OrderDetailValidate';
 import HomeImageCloud from '../components/HomeImageCloud';
+import ProtectedRouteUser from '../components/ProtectedRouteUser';
 
 const RoutesApp = () => {
     return (
@@ -28,38 +29,115 @@ const RoutesApp = () => {
             <Route path="/home" element={<HomeImageCloud />} />
             <Route path="/auth/signup" element={<Register />} />
             <Route path="/auth/signin" element={<Login />} />
-            <Route path='/customers/' element={<CustomerViewAll />} />
-            <Route path='/customers/create' element={<CustomerCreate />} />
+            <Route path='/customers/'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <CustomerViewAll />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/customers/create'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <CustomerCreate />
+                        </ProtectedRouteUser>
+                    } />
             <Route path='/customers/show' element={<CustomerSearch />} />
-            <Route path='/customers/:id' element={<CustomerShow />} />
-            <Route path='/assets/' element={<AssetViewAll />} />
+            <Route path='/customers/:id'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <CustomerShow />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/assets/' 
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <AssetViewAll />
+                        </ProtectedRouteUser>
+                    } />
             <Route
                 path='/assets/create'
                 element= {
-                    <ProtectedRoute 
+                    <ProtectedRouteAdmin 
                         user={localStorage.getItem('userLogged')}
                         redictPath="/auth/signin" >
                         <AssetCreate />
-                    </ProtectedRoute>
+                    </ProtectedRouteAdmin>
                 } />
-            <Route path='/assets/:id' element={<AssetShow />} />   
+            <Route path='/assets/:id'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <AssetShow />
+                        </ProtectedRouteUser>
+                    } />   
             <Route path='/reports' element={<ReportCreate />} />
             <Route path='/reports/historicalOrders' element={<Report />} />
             <Route
                 path='/taxes/create'
                 element= {
-                    <ProtectedRoute 
+                    <ProtectedRouteAdmin 
                         user={localStorage.getItem('userLogged')}
                         redictPath="/auth/signin" >
                         <TaxCreate />
-                    </ProtectedRoute>
+                    </ProtectedRouteAdmin>
                 } />
-            <Route path='/taxes/:id' element={<TaxShow />} /> 
-            <Route path='/taxes/' element={<TaxViewAll />} />
-            <Route path='/orders/create' element={<OrderCreate />} />
-            <Route path='/orders/' element={<OrderViewAll />} />
-            <Route path='/orders/validate'element={<OrderDetailValidate/>} />
-            <Route path='/orders/:id' element={<OrderDetailTableShow />} /> 
+            <Route path='/taxes/:id'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <TaxShow />
+                        </ProtectedRouteUser>
+                    } /> 
+            <Route path='/taxes/'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <TaxViewAll />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/orders/create'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <OrderCreate />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/orders/'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <OrderViewAll />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/orders/validate'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <OrderDetailValidate />
+                        </ProtectedRouteUser>
+                    } />
+            <Route path='/orders/:id'
+                    element= {
+                        <ProtectedRouteUser 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <OrderDetailTableShow />
+                        </ProtectedRouteUser>
+                    } /> 
         </Routes>    
     )
 }
