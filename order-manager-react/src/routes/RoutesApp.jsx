@@ -21,6 +21,7 @@ import OrderDetailTableShow from '../views/OrderDetailTableShow';
 import OrderDetailValidate from '../views/OrderDetailValidate';
 import HomeImageCloud from '../components/HomeImageCloud';
 import ProtectedRouteUser from '../components/ProtectedRouteUser';
+import UnderConstruction from '../components/UnderConstruction'
 
 const RoutesApp = () => {
     return (
@@ -80,7 +81,30 @@ const RoutesApp = () => {
                         </ProtectedRouteUser>
                     } />   
             <Route path='/reports' element={<ReportCreate />} />
-            <Route path='/reports/historicalOrders' element={<Report />} />
+            <Route path='/reports/historicalOrders'
+                    element= {
+                        <ProtectedRouteAdmin 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <UnderConstruction />
+                        </ProtectedRouteAdmin>
+                    } />
+            <Route path='/reports/biggestDiscount'
+                    element= {
+                        <ProtectedRouteAdmin 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <UnderConstruction />
+                        </ProtectedRouteAdmin>
+                    } />
+            <Route path='/reports/totalDiscount'
+                    element= {
+                        <ProtectedRouteAdmin 
+                            user={localStorage.getItem('userLogged')}
+                            redictPath="/auth/signin" >
+                            <UnderConstruction />
+                        </ProtectedRouteAdmin>
+                    } />
             <Route
                 path='/taxes/create'
                 element= {
