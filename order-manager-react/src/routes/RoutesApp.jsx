@@ -21,7 +21,7 @@ import OrderDetailTableShow from '../views/OrderDetailTableShow';
 import OrderDetailValidate from '../views/OrderDetailValidate';
 import HomeImageCloud from '../components/HomeImageCloud';
 import ProtectedRouteUser from '../components/ProtectedRouteUser';
-import UnderConstruction from '../components/UnderConstruction'
+import UnderConstruction from '../components/UnderConstruction';
 
 const RoutesApp = () => {
     return (
@@ -33,7 +33,7 @@ const RoutesApp = () => {
             <Route path='/customers/'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <CustomerViewAll />
                         </ProtectedRouteUser>
@@ -41,7 +41,7 @@ const RoutesApp = () => {
             <Route path='/customers/create'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <CustomerCreate />
                         </ProtectedRouteUser>
@@ -50,7 +50,7 @@ const RoutesApp = () => {
             <Route path='/customers/:id'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <CustomerShow />
                         </ProtectedRouteUser>
@@ -58,7 +58,7 @@ const RoutesApp = () => {
             <Route path='/assets/' 
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <AssetViewAll />
                         </ProtectedRouteUser>
@@ -67,7 +67,7 @@ const RoutesApp = () => {
                 path='/assets/create'
                 element= {
                     <ProtectedRouteAdmin 
-                        user={localStorage.getItem('userLogged')}
+                        user={sessionStorage.getItem('userLogged')}
                         redictPath="/auth/signin" >
                         <AssetCreate />
                     </ProtectedRouteAdmin>
@@ -75,7 +75,7 @@ const RoutesApp = () => {
             <Route path='/assets/:id'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <AssetShow />
                         </ProtectedRouteUser>
@@ -84,7 +84,7 @@ const RoutesApp = () => {
             <Route path='/reports/historicalOrders'
                     element= {
                         <ProtectedRouteAdmin 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <UnderConstruction />
                         </ProtectedRouteAdmin>
@@ -92,7 +92,7 @@ const RoutesApp = () => {
             <Route path='/reports/biggestDiscount'
                     element= {
                         <ProtectedRouteAdmin 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <UnderConstruction />
                         </ProtectedRouteAdmin>
@@ -100,7 +100,7 @@ const RoutesApp = () => {
             <Route path='/reports/totalDiscount'
                     element= {
                         <ProtectedRouteAdmin 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <UnderConstruction />
                         </ProtectedRouteAdmin>
@@ -109,7 +109,7 @@ const RoutesApp = () => {
                 path='/taxes/create'
                 element= {
                     <ProtectedRouteAdmin 
-                        user={localStorage.getItem('userLogged')}
+                        user={sessionStorage.getItem('userLogged')}
                         redictPath="/auth/signin" >
                         <TaxCreate />
                     </ProtectedRouteAdmin>
@@ -117,7 +117,7 @@ const RoutesApp = () => {
             <Route path='/taxes/:id'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <TaxShow />
                         </ProtectedRouteUser>
@@ -125,7 +125,7 @@ const RoutesApp = () => {
             <Route path='/taxes/'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <TaxViewAll />
                         </ProtectedRouteUser>
@@ -133,7 +133,7 @@ const RoutesApp = () => {
             <Route path='/orders/create'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <OrderCreate />
                         </ProtectedRouteUser>
@@ -141,7 +141,7 @@ const RoutesApp = () => {
             <Route path='/orders/'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <OrderViewAll />
                         </ProtectedRouteUser>
@@ -149,7 +149,7 @@ const RoutesApp = () => {
             <Route path='/orders/validate'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <OrderDetailValidate />
                         </ProtectedRouteUser>
@@ -157,7 +157,7 @@ const RoutesApp = () => {
             <Route path='/orders/:id'
                     element= {
                         <ProtectedRouteUser 
-                            user={localStorage.getItem('userLogged')}
+                            user={sessionStorage.getItem('userLogged')}
                             redictPath="/auth/signin" >
                             <OrderDetailTableShow />
                         </ProtectedRouteUser>

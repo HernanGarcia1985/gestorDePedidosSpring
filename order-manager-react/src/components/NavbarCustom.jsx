@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const NavbarCustom = () => {
 
-    const [user, setUser] = useState(localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '');
+    const [user, setUser] = useState(sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '');
 
     let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 
@@ -18,7 +18,7 @@ const NavbarCustom = () => {
 
     const signoff = () => {
         if(user){
-            localStorage.removeItem('userLogged')
+            sessionStorage.removeItem('userLogged')
             setUser('')
             alert('Logged out successfully.')
         }    

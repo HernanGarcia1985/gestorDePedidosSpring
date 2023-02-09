@@ -6,7 +6,7 @@ import deleteCustomer from '../utils/deleteCustomer'
 
 function CustomerAll({allCustomers}) {
 
-  let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+  let user = sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '';
 
   let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
   

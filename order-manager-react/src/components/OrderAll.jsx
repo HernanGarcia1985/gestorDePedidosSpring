@@ -6,7 +6,7 @@ import annulmentAnOrder from '../utils/annulmentAnOrder';
 
 function OrderAll({allOrders}) {
 
-  let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+  let user = sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '';
 
   let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 

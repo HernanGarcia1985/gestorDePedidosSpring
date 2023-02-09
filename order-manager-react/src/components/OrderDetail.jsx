@@ -17,7 +17,7 @@ const OrderDetail = ({order, allAssets}) => {
     const [orderDetailList, setOrderDetailList] = useState(order.orderDetailList && order.orderDetailList.length ? order.orderDetailList : null)
     const [prueba, setPrueba] = useState(true) //Para que actualice los assets asociados automaticamente!
 
-    let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+    let user = sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '';
 
     let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 

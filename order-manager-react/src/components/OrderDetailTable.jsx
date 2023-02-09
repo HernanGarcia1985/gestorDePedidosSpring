@@ -14,7 +14,7 @@ const OrderDetailTable = ({order}) => {
     const [status, setStatus] = useState(order.status ? 'ACTIVE': 'CANCELLED');
     const orderDetailList = order.orderDetailList && order.orderDetailList.length ? order.orderDetailList : null;
 
-    let user = localStorage.getItem('userLogged') ? localStorage.getItem('userLogged') : '';
+    let user = sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '';
 
     let admin = (!user || !(JSON.parse(user).roles[0]==="ADMIN")) ? false : true;
 

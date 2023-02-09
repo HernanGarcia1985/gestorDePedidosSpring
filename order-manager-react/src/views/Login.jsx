@@ -28,8 +28,8 @@ const Login = () => {
     }
 
     let userLogged = () => {
-        if(localStorage.getItem('userLogged')){
-            return JSON.parse(localStorage.getItem('userLogged')).username +" with role: "+ JSON.parse(localStorage.getItem('userLogged')).roles
+        if(sessionStorage.getItem('userLogged')){
+            return JSON.parse(sessionStorage.getItem('userLogged')).username +" with role: "+ JSON.parse(sessionStorage.getItem('userLogged')).roles
         } else {
             return "usuario"
         }

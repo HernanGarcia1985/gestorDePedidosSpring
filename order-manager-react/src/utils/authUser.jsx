@@ -21,7 +21,7 @@ const loginUser = async (loginUsername, loginPassword, setShowModal) => {
             .then(response => response.json())
             .then(data => {
                 if(data.token){
-                    localStorage.setItem('userLogged',JSON.stringify({
+                    sessionStorage.setItem('userLogged',JSON.stringify({
                         id: data.id,
                         username: data.username,
                         roles: data.roles,
