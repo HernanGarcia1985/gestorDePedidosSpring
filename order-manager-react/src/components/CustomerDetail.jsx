@@ -101,7 +101,7 @@ const CustomerDetail = ({customer}) => {
                     <Col>
                         <Form.Group className="mb-3">
                             <Form.Label>DNI</Form.Label>
-                            <Form.Control type="number" defaultValue={dni} onChange={(e) => { setDni(e.target.value)}}/>
+                            <Form.Control defaultValue={dni} onChange={(e) => { setDni(e.target.value)}}/>
                         </Form.Group>
                     </Col>
                 </Row>
