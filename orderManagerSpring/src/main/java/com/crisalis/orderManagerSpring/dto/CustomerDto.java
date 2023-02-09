@@ -1,9 +1,11 @@
 package com.crisalis.orderManagerSpring.dto;
 
+import com.crisalis.orderManagerSpring.model.CustomerAssetService;
 import lombok.*;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Getter
@@ -35,5 +37,7 @@ public class CustomerDto {
     private String lastName;
 
     private String dni;
+
+    private List<CustomerAssetService> customerAssetServiceList;
 
 }

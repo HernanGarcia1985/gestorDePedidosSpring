@@ -45,12 +45,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto getCustomerById(Integer id) {
         Optional<Company> company = companyRepository.findById(id);
+        List<CustomerAssetService> customerAssetServiceList;
         if(company.isPresent()){
-            return customerMapper.companyToDto(company.get());
+            customerAssetServiceList = customerAssetServiceRepository.findByCompanyId(company.get().getId());
+            return customerMapper.companyToDto(company.get(), customerAssetServiceList);
         }
         Optional<Person> person = personRepository.findById(id);
         if(person.isPresent()){
-            return customerMapper.personToDto(person.get());
+            customerAssetServiceList = customerAssetServiceRepository.findByPersonId(person.get().getId());
+            return customerMapper.personToDto(person.get(), customerAssetServiceList);
         }
         throw new NotFoundException("Customer not found");
     }
@@ -63,11 +66,11 @@ public class CustomerServiceImpl implements CustomerService {
             Person newPersonInCharge = personRepository.save(personInCharge);
             Company company = customerMapper.companyDtoToEntity(customerDto, newPersonInCharge);
             Company newCompany = companyRepository.save(company);
-            return customerMapper.companyToDto(newCompany);
+            return customerMapper.companyToDto(newCompany, new ArrayList<>());
         } else if (customerType.equals("person")) {
             Person person = customerMapper.personDtoToEntity(customerDto);
             Person newPerson = personRepository.save(person);
-            return customerMapper.personToDto(newPerson);
+            return customerMapper.personToDto(newPerson, new ArrayList<>());
         }
         throw new EmptyElementException("Customer type is not specified");
     }
@@ -76,12 +79,12 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDto> getAllCustomers() {
         List<CustomerDto> allCompanies = companyRepository.findAll()
                 .stream()
-                .map(customerMapper::companyToDto)
+                .map(company -> customerMapper.companyToDto(company, null))
                 .collect(Collectors.toList());
 
         List<CustomerDto> allPersons = personRepository.findAll()
                 .stream()
-                .map(customerMapper::personToDto)
+                .map(person -> customerMapper.personToDto(person, null))
                 .collect(Collectors.toList());
 
         List<CustomerDto> allCustomers = new ArrayList<>();
@@ -117,17 +120,18 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .filter(company -> company.getPerson().getId().equals(id))
                 .collect(Collectors.toList());
-        List<Integer> companiesIds = companies.stream()
-                .map(company -> company.getId())
-                .collect(Collectors.toList());
 
-        return companiesIds;
+        return companies.stream()
+                .map(Customer::getId)
+                .collect(Collectors.toList());
     }
 
     @Override
     public CustomerDto updateCustomerById(Integer id, CustomerDto customerModified) {
-        if(customerModified.getCustomerType().toLowerCase().equals("company")){
+        List<CustomerAssetService> customerAssetServiceList;
+        if(customerModified.getCustomerType().equalsIgnoreCase("company")){
             if(companyRepository.existsById(id)){
+                customerAssetServiceList = customerAssetServiceRepository.findByCompanyId(id);
                 Person personInCharge = null;
                 if(customerModified.getUpdatePersonInCharge()){
                     Person personModified = new Person(customerModified.getName(), customerModified.getLastName(), customerModified.getDni());
@@ -144,9 +148,9 @@ public class CustomerServiceImpl implements CustomerService {
                 Company customerUpdated = customerMapper.companyDtoToEntity(customerModified, personInCharge);
                 customerUpdated.setId(id);
                 companyRepository.save(customerUpdated);
-                return customerMapper.companyToDto(customerUpdated);
+                return customerMapper.companyToDto(customerUpdated, customerAssetServiceList);
             }
-        } else if (customerModified.getCustomerType().toLowerCase().equals("person")){
+        } else if (customerModified.getCustomerType().equalsIgnoreCase("person")){
             return updatePerson(id, customerModified);
         }
         throw new NotFoundException("Customer with id "+id+" does not exist");
@@ -154,11 +158,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto updatePerson(Integer id, CustomerDto personModified) {
+        List<CustomerAssetService> customerAssetServiceList;
         if (personRepository.existsById(id)) {
+            customerAssetServiceList = customerAssetServiceRepository.findByPersonId(id);
             Person customerUpdated = customerMapper.personDtoToEntity(personModified);
             customerUpdated.setId(id);
             personRepository.save(customerUpdated);
-            return customerMapper.personToDto(customerUpdated);
+            return customerMapper.personToDto(customerUpdated, customerAssetServiceList);
         }
         throw new NotFoundException("Person with id "+id+" does not exist");
     }
@@ -203,8 +209,8 @@ public class CustomerServiceImpl implements CustomerService {
                     LocalDate.now(),
                     true,
                     order.orElse(null),
-                    company.isPresent() ? company.get() : null,
-                    person.isPresent() ? person.get() : null,
+                    company.orElse(null),
+                    person.orElse(null),
                     orderServiceList.get(i).getOwnService()
             );
             customerAssetServiceList.add(i, customerAssetServiceRepository.save(customerAssetService));
