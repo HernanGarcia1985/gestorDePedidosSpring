@@ -156,7 +156,7 @@ const OrderDetailTable = ({order}) => {
             <Col>
                 {order.id ? 
                 <Link to={'/orders'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link>
-                 : <Link to={'/orders/create'}><Button className="btn-light">Back <ArrowLeftSquare></ArrowLeftSquare></Button></Link> }
+                 : <Link to={'/orders/create'}><Button className="btn-light">New Order <ArrowLeftSquare></ArrowLeftSquare></Button></Link> }
             </Col>
             <Col>
                 {order.id ? null : <Button onClick={save}>Save</Button> }    
