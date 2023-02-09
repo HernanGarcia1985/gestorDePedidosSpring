@@ -21,6 +21,8 @@ const CustomerDetail = ({customer}) => {
     const [phone, setPhone] = useState(customer.phone)
     const [address, setAddress] = useState(customer.address)
     const [updatePersonInCharge, setUpdatePersonInCharge] = useState()
+    
+    let associatedService = customer.customerAssetServiceList.length>0 ? customer.customerAssetServiceList : [];
 
     let user = sessionStorage.getItem('userLogged') ? sessionStorage.getItem('userLogged') : '';
 
@@ -123,6 +125,14 @@ const CustomerDetail = ({customer}) => {
                         <Form.Label>Address</Form.Label>
                         <Form.Control defaultValue={address} onChange={(e) => { setAddress(e.target.value)}}/>
                     </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Associated Services</Form.Label>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        {associatedService && associatedService.length ? associatedService.map((customerAssetList,index) => (
+                        <Form.Control disabled key={index} defaultValue={customerAssetList.ownService.name}/>
+                    )) : <Form.Label>There are no services associated with this customer yet</Form.Label>}
+                    </Form.Group>
             </Form>
             </Container>
             </>
@@ -215,6 +225,14 @@ const CustomerDetail = ({customer}) => {
                 <Form.Label>Address</Form.Label>
                 <Form.Control defaultValue={address} onChange={(e) => { setAddress(e.target.value)}}/>
             </Form.Group>
+        <Form.Group className="mb-3">
+                    <Form.Label>Associated Services</Form.Label>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    {associatedService && associatedService.length ? associatedService.map((customerAssetList,index) => (
+                    <Form.Control disabled key={index} defaultValue={customerAssetList.ownService.name}/>
+                )) : <Form.Label>There are no services associated with this customer yet</Form.Label>}
+        </Form.Group>
     </Form>
     </Container>
     </>
