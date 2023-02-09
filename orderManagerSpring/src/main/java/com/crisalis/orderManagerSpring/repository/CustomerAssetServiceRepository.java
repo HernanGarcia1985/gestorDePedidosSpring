@@ -12,4 +12,6 @@ public interface CustomerAssetServiceRepository extends JpaRepository<CustomerAs
     List<CustomerAssetService> findByCompanyId (Integer id_company);
 
     List<CustomerAssetService> findByPersonId (Integer id_person);
+
+    Boolean existsByOrderId (Integer id_order);
 }
