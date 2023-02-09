@@ -173,11 +173,13 @@ public class CustomerServiceImpl implements CustomerService {
         if(company.isEmpty() && person.isEmpty()) throw new NotFoundException("Customer with id: "+ idCustomer + " does not exists");
 
         if(company.isPresent()) {
-            if(!idCustomer.equals(company.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +"does not belong to the customer with id "+ idCustomer);
+            if(orderDetailDto.getCompany() == null) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +" does not belong to the customer with id "+ idCustomer);
+            if(!orderDetailDto.getCompany().getId().equals(company.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +" does not belong to the customer with id "+ idCustomer);
         }
 
         if(person.isPresent()) {
-            if(!idCustomer.equals(person.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +"does not belong to the customer with id "+ idCustomer);
+            if(orderDetailDto.getPerson() == null) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +" does not belong to the customer with id "+ idCustomer);
+            if(!orderDetailDto.getPerson().getId().equals(person.get().getId())) throw new NotFoundException("The order with id "+ orderDetailDto.getId() +" does not belong to the customer with id "+ idCustomer);
         }
 
         if(!orderDetailDto.getStatus()) throw new NotFoundException("Order with id: "+ orderDetailDto.getId() + " is annuled");
