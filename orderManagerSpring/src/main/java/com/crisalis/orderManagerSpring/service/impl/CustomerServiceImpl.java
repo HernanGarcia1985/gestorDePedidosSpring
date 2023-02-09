@@ -97,13 +97,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void destroyCustomer(Integer id) {
+        List<CustomerAssetService> customerAssetServiceList;
         if(companyRepository.existsById(id)){
+            customerAssetServiceList = customerAssetServiceRepository.findByCompanyId(id);
+            if (!customerAssetServiceList.isEmpty()) throw new NotPosibleDeleteException("It is not possible to delete Company with id "+id+" because it has active services.");
             companyRepository.deleteById(id);
             //delete personInCharge if Person does not have service active or address empty
             //because it not a customer itself
         } else if (personRepository.existsById(id)) {
             List<Integer> companiesIds = findCompaniesWithPersonInCharge(id);
+            customerAssetServiceList = customerAssetServiceRepository.findByPersonId(id);
             if(companiesIds.isEmpty()){
+                if(!customerAssetServiceList.isEmpty()) throw new NotPosibleDeleteException("It is not possible to delete Person with id "+id+" because it has active services.");
                 personRepository.deleteById(id);
             } else {
                 throw new NotPosibleDeleteException("It is not possible to delete Person with id "+id+" because it is the person responsible for the companies with ids: "+companiesIds);
