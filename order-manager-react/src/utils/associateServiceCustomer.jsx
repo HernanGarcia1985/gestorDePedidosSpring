@@ -1,6 +1,6 @@
 const associateServiceCustomer = async (orderDetail) => {
 
-    const id = orderDetail ? orderDetail.company ? orderDetail.company.id : orderDetail.ownService.id : 1;
+    const id = orderDetail ? orderDetail.company ? orderDetail.company.id : orderDetail.person.id : 1;
     
     let url = 'http://localhost:8080/customers/activateServices/'+id;
 
