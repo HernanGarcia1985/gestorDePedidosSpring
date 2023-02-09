@@ -4,9 +4,10 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import annulOrder from '../utils/annulOrder';
 import { useParams } from 'react-router-dom';
-import { XSquare, CheckSquare, ArrowLeftSquare } from "react-bootstrap-icons";
+import { XSquare, CheckSquare, ArrowLeftSquare, FileEarmarkPlus } from "react-bootstrap-icons";
 import createOrder from '../utils/createOrder';
 import { Link } from 'react-router-dom';
+import associateServiceCustomer from '../utils/associateServiceCustomer';
 
 const OrderDetailTable = ({order}) => {
 
@@ -38,6 +39,10 @@ const OrderDetailTable = ({order}) => {
 
     const activate = () => {
         setStatus(true)
+    }
+
+    const associateServiceClient = () => {
+        associateServiceCustomer(order);
     }
 
     const borderFont = {
@@ -146,9 +151,15 @@ const OrderDetailTable = ({order}) => {
         </Form.Group>    
         <Form.Group className="mb-3">
         <Row>
-            <Col>    
-            </Col>
             <Col>            
+                { order.id && order.status ? 
+                <Form.Label style={bold}>Associate services with the customer?</Form.Label>
+                 : null }
+            </Col>
+            <Col>
+                { order.id && order.status ? 
+                <Button className="btn-success" onClick={associateServiceClient}>Associate  <FileEarmarkPlus></FileEarmarkPlus></Button>
+                 : null }
             </Col>
             <Col>
                 
