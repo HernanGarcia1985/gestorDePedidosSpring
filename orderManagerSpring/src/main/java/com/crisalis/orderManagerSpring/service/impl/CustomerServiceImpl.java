@@ -184,6 +184,8 @@ public class CustomerServiceImpl implements CustomerService {
 
         if(!orderDetailDto.getStatus()) throw new NotFoundException("Order with id: "+ orderDetailDto.getId() + " is annuled");
 
+        if(customerAssetServiceRepository.existsByOrderId(orderDetailDto.getId())) throw new NotFoundException("The services of the order with id: "+ orderDetailDto.getId() + " have already been associated before.");
+
         Optional<Order> order = orderRepository.findById(orderDetailDto.getId());
         List<OrderAssetDetail> orderAssetDetailList = orderAssetDetailServiceImpl.getAllOrderAssetDetailByOrderId(orderDetailDto.getId());
         if (orderAssetDetailList.isEmpty() || orderAssetDetailList == null){
