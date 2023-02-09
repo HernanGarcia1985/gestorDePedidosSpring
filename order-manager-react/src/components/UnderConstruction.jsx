@@ -4,7 +4,9 @@ const UnderConstruction = () => {
 
     return(
         <>
-            <Image src="../assets/img/under_construction.png"></Image>
+            <br></br>
+            <br></br>
+            <Image src="../assets/img/under_construction_worker_2.png"></Image>
         </> 
     )
     
