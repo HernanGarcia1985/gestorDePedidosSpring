@@ -11,8 +11,8 @@ const AssetCreateForm = ({allTaxes}) => {
     const [assetType, setAssetType] = useState('')
     const [name, setName] = useState('')
     const [basePrice, setBasePrice] = useState('')
-    const [special, setSpecial] = useState('')
-    const [supportCharge, setSupportCharge] = useState('')
+    const [special, setSpecial] = useState(false)
+    const [supportCharge, setSupportCharge] = useState('0')
     const [warrantyPercentage, setWarrantyPercentage] = useState('')
     const [assetTaxes, setAssetTaxes] = useState()
     const [prueba, setPrueba] = useState(true) //Para que actualice los tax asociados automaticamente!
@@ -70,7 +70,8 @@ const AssetCreateForm = ({allTaxes}) => {
 
     const noValidate = () =>{
         if (assetType.toLowerCase() ==='service'){
-            return !(name.length && basePrice.length && special.length && supportCharge.length)   
+            let boolean = special === true || special === false ? true : false;
+            return !(name.length && basePrice.length && boolean && supportCharge.length)   
         } else if (assetType.toLowerCase() ==='product') {
             return !(name.length && basePrice.length && warrantyPercentage.length)    
         } else {
@@ -108,7 +109,7 @@ const AssetCreateForm = ({allTaxes}) => {
             <Col className="md-auto">
                 <Form.Group className="mb-3">
                     <Form.Label>If this SPECIAL service?</Form.Label>
-                    <Form.Select placeholder="If this special service?" onChange={(e) => { setSpecial(e.target.value)}}>
+                    <Form.Select placeholder="If this special service?" defaultValue={special} onChange={(e) => { setSpecial(e.target.value); e.target.value==='false' ? setSupportCharge(0) : setSupportCharge(supportCharge)}}>
                         <option value={true} >YES</option>
                         <option value={false} >NO</option>
                     </Form.Select>
@@ -117,7 +118,7 @@ const AssetCreateForm = ({allTaxes}) => {
             <Col>
                 <Form.Group className="mb-3">
                     <Form.Label>Support Charge</Form.Label>
-                    <Form.Control type="number" min="0" placeholder="Support Charge" onChange={(e) => { setSupportCharge(e.target.value)}}/>
+                    <Form.Control key={special} type="number" min="0" placeholder="Support Charge" defaultValue={supportCharge} onChange={(e) => { setSupportCharge(e.target.value)}}/>
                 </Form.Group>
             </Col>
         </Row> : null }
